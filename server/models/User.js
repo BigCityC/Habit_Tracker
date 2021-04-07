@@ -1,5 +1,15 @@
 import mongoose from 'mongoose'
 
+
+const habitSchema = new mongoose.Schema({
+  name: String,
+  type: String,
+  days: {
+    type: Number,
+    Default: 0
+  }
+})
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -18,14 +28,9 @@ const userSchema = new mongoose.Schema({
     max: 1024,
     min: 8,
   },
-  habits: [{
-    name: String,
-    type: String,
-    days: {
-      type: Number,
-      Default: 0
-    }
-  }]
+  habits: [habitSchema]
 })
+
+
 
 export default mongoose.model('User', userSchema)

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import ListItem from '../components/ListItem'
+import {ListItem} from '../components/ListItem'
 import Modal from '../components/HabitModal'
-// import {habit}
+import { getHabitList, validate } from '../components/API'
 
 const TopSection = styled.div`
   position: relative;
@@ -85,43 +85,10 @@ let initMenu = [{
   active: false,
 }]
 
-const habitData = [
-  {
-    name: 'yoga',
-    type: 'good',
-    days: 54
-  },
-  {
-    name: 'Watching entertainment youtube',
-    type: 'bad',
-    days: 18
-  },
-  {
-    name: 'Meditating',
-    type: 'good',
-    days: 10
-  },
-  {
-    name: 'Wake up',
-    type: 'neutral',
-    days: 54
-  },
-  {
-    name: 'Work out',
-    type: 'good',
-    days: 90
-  },
-  {
-    name: 'Eating sweets',
-    type: 'bad',
-    days: 53
-  }
-]
-
 function Scorecard () {
 
   const [menu, setMenu,] = useState(initMenu)
-  const [habits, setHabits] = useState(habitData)
+  const [habits, setHabits] = useState([])
   const [inputValue, setInputValue] = useState('')
 
   const activeMenu = menu.find((item) => item.active)
@@ -129,6 +96,21 @@ function Scorecard () {
   useEffect(() => {
     filterHabits()
   }, [inputValue])
+
+  //get habits list
+  useEffect(() => {
+    async function getList(){
+      try {
+        const res = await getHabitList()
+        setHabits(res.data)
+        console.log(res.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    getList()
+  }, [])
 
   //updates the active property for the menu option that is clicked
   const handleClick = (target) => {
@@ -154,9 +136,9 @@ function Scorecard () {
   //filters the habit list to only have the type based on the menu option
   function updateHabitListByType (type) {
     if (type === 'all') {
-      setHabits(habitData)
+      setHabits(habits)
     } else {
-      const updatedList = habitData.filter((item) => item.type === type && item)
+      const updatedList = habits.filter((item) => item.type === type && item)
       setHabits(updatedList)
     }
   }
@@ -164,7 +146,7 @@ function Scorecard () {
   //update the habit list based on input value
   function filterHabits () {
     if (inputValue === '') {updateHabitListByType(activeMenu.name)} else {
-      const updated = habitData
+      const updated = habits
         //filters out any item that does not have the correct type
         .filter((item) => {
           if (activeMenu.name === 'all') {
@@ -206,7 +188,6 @@ function Scorecard () {
       <Main>
 
         <Modal
-          habits={habits}
           setHabits={setHabits}
         />
 

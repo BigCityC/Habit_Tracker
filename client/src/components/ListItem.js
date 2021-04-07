@@ -45,4 +45,4 @@ const ListItem = ({ habit, type, days }) => {
   </HabitLi>
 }
 
-export default ListItem
+export {ListItem, handleColor}

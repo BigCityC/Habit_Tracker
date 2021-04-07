@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
 import styled from 'styled-components'
 import { MdAddCircle } from 'react-icons/md'
 import { IconContext } from 'react-icons'
 import { addHabit } from './API'
+import FadeOut from './FadeOut';
+import {handleColor} from './ListItem'
 
 const customStyles = {
   overlay: {
@@ -38,11 +40,7 @@ const Container = styled.div`
   display: flex;
   flex-flow: column wrap;
   align-items: center;
-  height: 90%;
-  width: 100%;
-  min-width: 300px;
-
-  border: 1px solid red;
+  min-width: 250px;
 
 `
 
@@ -61,21 +59,42 @@ const Input = styled.input`
   :focus {
     outline: none;
   }
-
 `
 
 const Buttons = styled.div`
   display: flex;
   justify-content: center;
-  margin: 10px auto;
+  margin: 20px auto;
+  padding: 20px 0 10px 0;
 `
 
 const TypeBtn = styled.input.attrs({ type: 'button' })`
   margin: 0 auto;
   background: transparent;
-  border: 1px solid gray;
+  border: 2px solid ${({ value }) => handleColor(value)};
   color: white;
   padding: 8px;
+`
+
+const Response = styled.p`
+  color: white;
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+`
+
+const Submit = styled.button.attrs({ type: 'submit' })`
+  background-color: #CB6A6A;
+  color: white;
+  padding: 10px ;
+  border: none;
+  outline: none;
+  border-radius: 2px;
+  
+  :hover {
+    background-color: #AC5252;
+  }
+
 `
 
 const initHabitForm = {
@@ -84,11 +103,11 @@ const initHabitForm = {
   days: 0,
 }
 
-function HabitModal ({setHabits}) {
+function HabitModal ({}) {
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [habitForm, setHabitForm] = useState(initHabitForm)
-
+  const [response, setResponse] = useState('')
 
   function openModal () {
     setIsOpen(true)
@@ -107,12 +126,10 @@ function HabitModal ({setHabits}) {
     event.preventDefault();
     addHabit({...habitForm})
       .then(res => {
-        // setHabits(res.data)
-        console.log(res)
+        setResponse(res.data.message)
       })
       .catch(error => {
-        alert(error.response.data)
-        // setLoading(false)
+        alert(error)
       })
   }
 
@@ -121,7 +138,6 @@ function HabitModal ({setHabits}) {
     const name = event.target.name
     setHabitForm({...habitForm, [name]: value})
   }
-
 
   return (
     <div>
@@ -149,9 +165,16 @@ function HabitModal ({setHabits}) {
               <TypeBtn type="button" name="type" value='bad' onClick={handleFormUpdate}/>
               <TypeBtn type="button" name="type" value='neutral' onClick={handleFormUpdate} />
             </Buttons>
+            <div style={{textAlign: 'center'}}>
+              <Submit type="submit">Submit</Submit>
+            </div>
 
-            <button type="submit">Submit</button>
           </form>
+          {response !== '' &&  <FadeOut>
+            <Response >{response}</Response>
+          </FadeOut >}
+
+
         </Container>
 
       </Modal>
