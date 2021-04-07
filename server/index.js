@@ -4,6 +4,9 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 //import routes
 import { authRoute } from './routes/auth.js'
+import { habitRoute } from './routes/habits.js'
+
+
 
 //setup
 const app = express()
@@ -14,6 +17,7 @@ dotenv.config();
 app.use(express.json())
 app.use(cors())
 app.use('/api/user', authRoute)
+app.use('/api/user/habits', habitRoute)
 
 //routes
 app.get('/', (req, res) => {

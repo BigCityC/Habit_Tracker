@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 import styled from 'styled-components'
 import { MdAddCircle } from 'react-icons/md'
 import { IconContext } from 'react-icons'
+import { addHabit } from './API'
 
 const customStyles = {
   overlay: {
@@ -78,11 +79,12 @@ const TypeBtn = styled.input.attrs({ type: 'button' })`
 `
 
 const initHabitForm = {
-  habit: '',
-  type: ''
+  name: '',
+  type: '',
+  days: 0,
 }
 
-function HabitModal () {
+function HabitModal ({setHabits}) {
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [habitForm, setHabitForm] = useState(initHabitForm)
@@ -102,16 +104,25 @@ function HabitModal () {
   }
 
   function handleSubmit(event) {
-    // event.preventDefault
-    console.log(event.target)
+    event.preventDefault();
+    addHabit({...habitForm})
+      .then(res => {
+        // setHabits(res.data)
+        console.log(res)
+      })
+      .catch(error => {
+        alert(error.response.data)
+        // setLoading(false)
+      })
   }
 
-  function handleChange(event) {
+  function handleFormUpdate(event) {
     const value = event.target.value
-    setHabitForm({...habitForm, habit: value})
+    const name = event.target.name
+    setHabitForm({...habitForm, [name]: value})
   }
 
-  console.log(habitForm)
+
   return (
     <div>
       <AddHabit onClick={openModal}>
@@ -132,11 +143,11 @@ function HabitModal () {
           <H2>Habit</H2>
 
           <form onSubmit={handleSubmit}>
-            <Input name="habitName" value={habitForm.value} onChange={handleChange}/>
+            <Input name="name" value={habitForm.value} onChange={handleFormUpdate}/>
             <Buttons>
-              <TypeBtn type="button" name="good" value='good' />
-              <TypeBtn type="button" name="bad" value='bad' />
-              <TypeBtn type="button" name="neutral" value='neutral' />
+              <TypeBtn type="button" name="type" value='good' onClick={handleFormUpdate}/>
+              <TypeBtn type="button" name="type" value='bad' onClick={handleFormUpdate}/>
+              <TypeBtn type="button" name="type" value='neutral' onClick={handleFormUpdate} />
             </Buttons>
 
             <button type="submit">Submit</button>

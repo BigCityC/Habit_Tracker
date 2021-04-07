@@ -22,13 +22,13 @@ function validate(){
   })
 }
 
-function habit(){
-  return api.get('/habits',)
+function addHabit(newHabit){
+  return api.post('/habits/add-habit', {newHabit})
     .then((res) => {
       console.log(res.data)
     })
 }
 
-export {login,signUp, validate, habit}
+export {login,signUp, validate, addHabit}
 
 //signup

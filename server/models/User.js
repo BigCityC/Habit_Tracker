@@ -18,6 +18,14 @@ const userSchema = new mongoose.Schema({
     max: 1024,
     min: 8,
   },
+  habits: [{
+    name: String,
+    type: String,
+    days: {
+      type: Number,
+      Default: 0
+    }
+  }]
 })
 
 export default mongoose.model('User', userSchema)

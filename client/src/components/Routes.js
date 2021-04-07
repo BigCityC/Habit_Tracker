@@ -10,7 +10,7 @@ import {validate} from './API'
 const privatePages = [
   {
     path: '/scorecard',
-    component: <Scorecard/>
+    component: <Scorecard />
   }, {
     path: '/plan',
     component: <Plan/>

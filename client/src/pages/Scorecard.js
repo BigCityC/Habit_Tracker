@@ -194,6 +194,7 @@ function Scorecard () {
     }
   }
 
+
   return (
     <>
       <TopSection>
@@ -204,7 +205,11 @@ function Scorecard () {
 
       <Main>
 
-        <Modal/>
+        <Modal
+          habits={habits}
+          setHabits={setHabits}
+        />
+
         <MenuUl>
           {menu.map((item, index) => (
             <MenuLi
