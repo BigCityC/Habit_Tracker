@@ -1,14 +1,14 @@
-import express from 'express'
-import User from '../models/User.js'
-import { registerValidation, loginValidation } from '../validation.js'
 import bcrypt from 'bcrypt'
+import express from 'express'
 import jwt from 'jsonwebtoken';
+import { registerValidation, loginValidation } from '../validation.js'
+import User from '../models/User.js'
 import validate from './verifyToken.js';
 
 
 const router = express.Router()
 
-//register
+//register a new user
 router.post('/register', async (req, res) => {
   //validate before creating a user
   const { error } = registerValidation(req.body.newUser)
@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
   }
 })
 
-//login url: http://localhost:5000/api/user
+//login as an authenticated user
 router.post('/login',  async (req, res) => {
   //validate before using the user data
   const { error } = loginValidation(req.body.currentUser)
@@ -66,10 +66,9 @@ router.get('/validate',validate, async (req, res) => {
 
   // Get user from email stored in the JWT
   const user = await User.findById(req.user._id)
-  console.log(user)
-  res.json(user)
 
   // response with user data
+  res.json(user)
 })
 
 export { router as authRoute }

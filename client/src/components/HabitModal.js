@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import Modal from 'react-modal'
-import styled from 'styled-components'
-import { MdAddCircle } from 'react-icons/md'
-import { IconContext } from 'react-icons'
+import React, { useState } from 'react'
 import { addHabit } from './API'
-import FadeOut from './FadeOut';
-import {handleColor} from './ListItem'
+import FadeOut from './FadeOut'
+import { handleColor } from './ListItem'
+import { IconContext } from 'react-icons'
+import Modal from 'react-modal'
+import { MdAddCircle } from 'react-icons/md'
+import styled from 'styled-components'
 
 const customStyles = {
   overlay: {
@@ -27,9 +27,6 @@ const AddHabit = styled.button`
   background: none;
   outline: none;
   border: none;
-  position: absolute;
-  top: 20%;
-  right: 15%;
 
   :hover {
     cursor: pointer;
@@ -41,7 +38,6 @@ const Container = styled.div`
   flex-flow: column wrap;
   align-items: center;
   min-width: 250px;
-
 `
 
 const H2 = styled.h2`
@@ -86,11 +82,11 @@ const Response = styled.p`
 const Submit = styled.button.attrs({ type: 'submit' })`
   background-color: #CB6A6A;
   color: white;
-  padding: 10px ;
+  padding: 10px;
   border: none;
   outline: none;
   border-radius: 2px;
-  
+
   :hover {
     background-color: #AC5252;
   }
@@ -103,40 +99,52 @@ const initHabitForm = {
   days: 0,
 }
 
-function HabitModal ({}) {
+function HabitModal ({setHabits}) {
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [habitForm, setHabitForm] = useState(initHabitForm)
-  const [response, setResponse] = useState('')
+  const [response, setResponse] = useState(false)
 
   function openModal () {
     setIsOpen(true)
   }
 
   function afterOpenModal () {
-    // references are now sync'd and can be accessed.
-    // subtitle.style.color = '#f00';
+    // this function must remain for the modal to work
   }
 
   function closeModal () {
     setIsOpen(false)
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    addHabit({...habitForm})
-      .then(res => {
-        setResponse(res.data.message)
-      })
-      .catch(error => {
-        alert(error)
-      })
+  //API call when the form is submitted to add a new habit to the list
+  function handleSubmit (event) {
+    event.preventDefault()
+    //habit form cant be empty
+    if (habitForm.name === '') {
+      alert('No habit seen')
+    }
+    else {
+      addHabit({ ...habitForm })
+        .then(res => {
+          setResponse(res.data.success)
+          setHabits(habits => habits)
+        })
+        .catch(error => {
+          alert(error.response.data)
+        })
+        .finally(()=>
+        {
+          setHabitForm(initHabitForm)
+        })
+    }
+
   }
 
-  function handleFormUpdate(event) {
+  function handleFormUpdate (event) {
     const value = event.target.value
     const name = event.target.name
-    setHabitForm({...habitForm, [name]: value})
+    setHabitForm({ ...habitForm, [name]: value })
   }
 
   return (
@@ -153,27 +161,26 @@ function HabitModal ({}) {
         contentLabel="Add a Habit"
         appElement={document.getElementById('root')}
       >
-        <Container>
 
+        <Container>
 
           <H2>Habit</H2>
 
           <form onSubmit={handleSubmit}>
-            <Input name="name" value={habitForm.value} onChange={handleFormUpdate}/>
+            <Input name="name" value={habitForm.name} onChange={handleFormUpdate}/>
             <Buttons>
               <TypeBtn type="button" name="type" value='good' onClick={handleFormUpdate}/>
               <TypeBtn type="button" name="type" value='bad' onClick={handleFormUpdate}/>
-              <TypeBtn type="button" name="type" value='neutral' onClick={handleFormUpdate} />
+              <TypeBtn type="button" name="type" value='neutral' onClick={handleFormUpdate}/>
             </Buttons>
-            <div style={{textAlign: 'center'}}>
+            <div style={{ textAlign: 'center' }}>
               <Submit type="submit">Submit</Submit>
             </div>
-
           </form>
-          {response !== '' &&  <FadeOut>
-            <Response >{response}</Response>
-          </FadeOut >}
 
+          {response && <FadeOut>
+            <Response>Habit Added...</Response>
+          </FadeOut>}
 
         </Container>
 

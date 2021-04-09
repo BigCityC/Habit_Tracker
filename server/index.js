@@ -1,12 +1,10 @@
-import express from 'express'
 import cors from 'cors'
-import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import express from 'express'
+import mongoose from 'mongoose'
 //import routes
 import { authRoute } from './routes/auth.js'
 import { habitRoute } from './routes/habits.js'
-
-
 
 //setup
 const app = express()
@@ -19,11 +17,6 @@ app.use(cors())
 app.use('/api/user', authRoute)
 app.use('/api/user/habits', habitRoute)
 
-//routes
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
 //connect to DB
 mongoose.connect(
   process.env.DB_CONNECTION,
@@ -32,5 +25,5 @@ mongoose.connect(
 
 //listen to server
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`)
+  console.log(`Express app listening on port ${PORT}!`)
 })

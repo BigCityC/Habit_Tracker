@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import {ListItem} from '../components/ListItem'
+import HabitList from '../components/HabitList'
 import Modal from '../components/HabitModal'
-import { getHabitList, validate } from '../components/API'
+import { getHabitList } from '../components/API'
 
 const TopSection = styled.div`
+  display: flex;
   position: relative;
+
+`
+const Section1 = styled.div`
+  flex: 10;
+`
+
+const Section2 = styled.div`
+  flex: 1;
+  align-self: center;
 `
 
 const SearchBar = styled.input`
@@ -23,7 +33,6 @@ const SearchBar = styled.input`
 `
 
 const Main = styled.div`
-  //border: 1px solid;
   display: flex;
   flex-flow: column wrap;
 
@@ -91,26 +100,20 @@ function Scorecard () {
   const [habits, setHabits] = useState([])
   const [inputValue, setInputValue] = useState('')
 
-  const activeMenu = menu.find((item) => item.active)
-
   useEffect(() => {
-    filterHabits()
-  }, [inputValue])
-
-  //get habits list
-  useEffect(() => {
-    async function getList(){
+    async function getHabits(){
       try {
+        console.log('useEffect runs')
         const res = await getHabitList()
         setHabits(res.data)
-        console.log(res.data)
       } catch (error) {
         console.log(error)
       }
     }
 
-    getList()
-  }, [])
+    getHabits()
+  },[])
+
 
   //updates the active property for the menu option that is clicked
   const handleClick = (target) => {
@@ -130,66 +133,29 @@ function Scorecard () {
     })
     //update menu state
     setMenu(updatedMenu)
-    updateHabitListByType(target.name)
   }
 
-  //filters the habit list to only have the type based on the menu option
-  function updateHabitListByType (type) {
-    if (type === 'all') {
-      setHabits(habits)
-    } else {
-      const updatedList = habits.filter((item) => item.type === type && item)
-      setHabits(updatedList)
-    }
-  }
-
-  //update the habit list based on input value
-  function filterHabits () {
-    if (inputValue === '') {updateHabitListByType(activeMenu.name)} else {
-      const updated = habits
-        //filters out any item that does not have the correct type
-        .filter((item) => {
-          if (activeMenu.name === 'all') {
-            return true
-          } else {
-            return item.type === activeMenu.name && item
-          }
-        })
-        //filters out any item that does not contain characters in the inputValue state
-        .filter((habit) => habit.name.toLowerCase().includes(inputValue.toLowerCase()))
-
-      //updates habits with this new list
-      setHabits(updated)
-    }
-
-  }
 
   function handleChange (event) {
     const value = event.target.value
     setInputValue(value)
   }
 
-  function handleSubmit (e) {
-    if (e.keyCode === 8) {
-      // updateHabitListByType(activeMenu.name)
-      console.log('back')
-    }
-  }
-
-
   return (
     <>
       <TopSection>
-        <h3>Habit Scorecard</h3>
-        <SearchBar type="text" placeholder="Search" value={inputValue} onChange={handleChange}
-                   onKeyDown={handleSubmit}/>
+        <Section1>
+          <h3>Habit Scorecard</h3>
+          <SearchBar type="text" placeholder="Search" value={inputValue} onChange={handleChange} />
+        </Section1>
+
+        <Section2><Modal setHabits={setHabits}/></Section2>
+
       </TopSection>
 
       <Main>
 
-        <Modal
-          setHabits={setHabits}
-        />
+
 
         <MenuUl>
           {menu.map((item, index) => (
@@ -207,15 +173,9 @@ function Scorecard () {
             <Type>Type</Type>
             <Type>Days(Total)</Type>
           </Menu>
-          {
-            habits.map((item, index) => (
-              <ListItem
-                key={index}
-                habit={item.name}
-                type={item.type}
-                days={item.days}/>
-            ))
-          }
+
+          <HabitList habits={habits} inputValue={inputValue} menu={menu}/>
+
         </HabitUl>
       </Main>
     </>

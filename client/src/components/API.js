@@ -12,6 +12,8 @@ const config = {
   }
 }
 
+
+//user validation routes
 function login (currentUser) {
   return api.post('/login', { currentUser })
 }
@@ -24,6 +26,7 @@ function validate(){
   return api.get('/validate', config)
 }
 
+//user's habit routes
 function addHabit(newHabit){
   return api.post('/habits/add-habit', {newHabit}, config)
 }
@@ -31,6 +34,6 @@ function addHabit(newHabit){
 function getHabitList(){
   return api.get('/habits', config)
 }
-export {login,signUp, validate, addHabit, getHabitList}
 
-//signup
+
+export {login,signUp, validate, addHabit, getHabitList}
