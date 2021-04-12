@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { addHabit } from './API'
-import FadeOut from './FadeOut'
+import Message from './Message'
 import { handleColor } from './ListItem'
 import { IconContext } from 'react-icons'
 import Modal from 'react-modal'
@@ -18,7 +18,7 @@ const customStyles = {
     bottom: '5%',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    background: '#3C4C80',
+    background: '#182b66',
     border: 'none',
   }
 }
@@ -72,12 +72,7 @@ const TypeBtn = styled.input.attrs({ type: 'button' })`
   padding: 8px;
 `
 
-const Response = styled.p`
-  color: white;
-  position: absolute;
-  bottom: 0;
-  right: 10px;
-`
+
 
 const Submit = styled.button.attrs({ type: 'submit' })`
   background-color: #CB6A6A;
@@ -103,7 +98,7 @@ function HabitModal ({setHabits}) {
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [habitForm, setHabitForm] = useState(initHabitForm)
-  const [response, setResponse] = useState(false)
+  const [confirmation, setConfirmation] = useState(false)
 
   function openModal () {
     setIsOpen(true)
@@ -126,9 +121,9 @@ function HabitModal ({setHabits}) {
     }
     else {
       addHabit({ ...habitForm })
-        .then(res => {
-          setResponse(res.data.success)
-          setHabits(habits => habits)
+        .then(() => {
+          setConfirmation(true)
+          setHabits(habits => [...habits, habitForm])
         })
         .catch(error => {
           alert(error.response.data)
@@ -178,9 +173,7 @@ function HabitModal ({setHabits}) {
             </div>
           </form>
 
-          {response && <FadeOut>
-            <Response>Habit Added...</Response>
-          </FadeOut>}
+          {confirmation && <Message setConfirmation={setConfirmation} />}
 
         </Container>
 

@@ -9,6 +9,7 @@ const BaseAnimation = styled.div`
   animation-play-state:  ${props => props.playState};  
   display: ${props => props.display};
 `;
+
 BaseAnimation.defaultProps = {
   duration: '1s',
   timingFunction: 'ease',

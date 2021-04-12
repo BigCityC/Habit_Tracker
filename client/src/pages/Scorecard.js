@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import HabitList from '../components/HabitList'
 import Modal from '../components/HabitModal'
 import { getHabitList } from '../components/API'
+import { ListItem } from '../components/ListItem'
 
 const TopSection = styled.div`
   display: flex;
@@ -62,24 +63,6 @@ const HabitUl = styled.ul`
   padding: 0;
 `
 
-const Habit = styled.p`
-  flex: 2;
-`
-const Type = styled.p`
-  flex: 1;
-  text-align: center;
-`
-
-const Menu = styled.li`
-  border-bottom: 1px solid lightgrey;
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 10px;
-  color: black;
-
-`
-
 let initMenu = [{
   name: 'all',
   active: true,
@@ -101,9 +84,8 @@ function Scorecard () {
   const [inputValue, setInputValue] = useState('')
 
   useEffect(() => {
-    async function getHabits(){
+    async function getHabits () {
       try {
-        console.log('useEffect runs')
         const res = await getHabitList()
         setHabits(res.data)
       } catch (error) {
@@ -112,8 +94,7 @@ function Scorecard () {
     }
 
     getHabits()
-  },[])
-
+  }, [])
 
   //updates the active property for the menu option that is clicked
   const handleClick = (target) => {
@@ -135,7 +116,6 @@ function Scorecard () {
     setMenu(updatedMenu)
   }
 
-
   function handleChange (event) {
     const value = event.target.value
     setInputValue(value)
@@ -146,7 +126,7 @@ function Scorecard () {
       <TopSection>
         <Section1>
           <h3>Habit Scorecard</h3>
-          <SearchBar type="text" placeholder="Search" value={inputValue} onChange={handleChange} />
+          <SearchBar type="text" placeholder="Search" value={inputValue} onChange={handleChange}/>
         </Section1>
 
         <Section2><Modal setHabits={setHabits}/></Section2>
@@ -154,7 +134,6 @@ function Scorecard () {
       </TopSection>
 
       <Main>
-
 
 
         <MenuUl>
@@ -168,14 +147,15 @@ function Scorecard () {
         </MenuUl>
 
         <HabitUl>
-          <Menu>
-            <Habit>Habit</Habit>
-            <Type>Type</Type>
-            <Type>Days(Total)</Type>
-          </Menu>
+          <ListItem
+            habit={'Habit'}
+            type={'Type'}
+            days={'Days(Total)'}/>
 
-          <HabitList habits={habits} inputValue={inputValue} menu={menu}/>
-
+          <HabitList
+            habits={habits}
+            inputValue={inputValue}
+            menu={menu}/>
         </HabitUl>
       </Main>
     </>
