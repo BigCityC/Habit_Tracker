@@ -48,6 +48,7 @@ const CheckboxContainer = styled.div`
 
 function Checkbox({ className, checked, ...props }) {
 
+
   return (
     <CheckboxContainer className={className}>
       <HiddenCheckbox checked={checked} {...props} />
@@ -59,5 +60,4 @@ function Checkbox({ className, checked, ...props }) {
     </CheckboxContainer>
   )
 }
-
 export default Checkbox;

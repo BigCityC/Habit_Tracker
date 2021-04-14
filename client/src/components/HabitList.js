@@ -51,4 +51,5 @@ const HabitList = ({ habits, inputValue, menu }) => {
     ))
   )
 }
+
 export default HabitList

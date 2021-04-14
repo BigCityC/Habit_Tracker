@@ -129,7 +129,9 @@ function Scorecard () {
           <SearchBar type="text" placeholder="Search" value={inputValue} onChange={handleChange}/>
         </Section1>
 
-        <Section2><Modal setHabits={setHabits}/></Section2>
+        <Section2>
+          <Modal setHabits={setHabits}/>
+        </Section2>
 
       </TopSection>
 
@@ -150,7 +152,9 @@ function Scorecard () {
           <ListItem
             habit={'Habit'}
             type={'Type'}
-            days={'Days(Total)'}/>
+            days={'Days(Total)'}
+            header
+          />
 
           <HabitList
             habits={habits}
