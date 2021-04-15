@@ -35,5 +35,9 @@ function getHabitList(){
   return api.get('/habits', config)
 }
 
+function deleteHabit(){
+  return api.delete('/habits/delete', config)
+}
 
-export {login,signUp, validate, addHabit, getHabitList}
+
+export {login,signUp, validate, addHabit, getHabitList, deleteHabit}

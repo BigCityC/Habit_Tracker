@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import HabitList from '../components/HabitList'
+import {HabitList }from '../components/HabitList'
 import Modal from '../components/HabitModal'
 import { getHabitList } from '../components/API'
-import { ListItem } from '../components/ListItem'
 
 const TopSection = styled.div`
   display: flex;
   position: relative;
-
 `
 const Section1 = styled.div`
   flex: 10;
@@ -149,13 +147,6 @@ function Scorecard () {
         </MenuUl>
 
         <HabitUl>
-          <ListItem
-            habit={'Habit'}
-            type={'Type'}
-            days={'Days(Total)'}
-            header
-          />
-
           <HabitList
             habits={habits}
             inputValue={inputValue}

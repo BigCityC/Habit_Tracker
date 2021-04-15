@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ListItem } from './ListItem'
 
+
 const HabitList = ({ habits, inputValue, menu }) => {
 
   //keeps track of the active menu
@@ -19,8 +20,7 @@ const HabitList = ({ habits, inputValue, menu }) => {
     //filters out any item that does not have the correct type
     const updated = habits
       .filter((item) => {
-        if (activeMenu.name === 'all') {return true}
-        else {return item.type === activeMenu.name && item}
+        if (activeMenu.name === 'all') {return true} else {return item.type === activeMenu.name && item}
       })
       //filters out any item that does not contain characters in the inputValue state
       .filter((habit) => habit.name.toLowerCase().includes(inputValue.toLowerCase()))
@@ -40,16 +40,27 @@ const HabitList = ({ habits, inputValue, menu }) => {
     }
   }, [menu])
 
-
   return (
-    filteredHabits.map((item, index) => (
+    <>
+      <Header />
+
+      {filteredHabits.map((item, index) => (
       <ListItem
         key={index}
-        habit={item.name}
-        type={item.type}
-        days={item.days}/>
-    ))
+        item={item}
+        habits={filteredHabits}
+      />
+    ))}
+    </>
   )
 }
 
-export default HabitList
+const Header = () => {
+  const props = {name: 'Habits', type: 'Type', days:'Days(Total)'};
+
+  return (
+    <ListItem  item={{...props}} header />
+  )
+};
+
+export {HabitList, Header}

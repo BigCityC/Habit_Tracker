@@ -36,4 +36,9 @@ router.post('/add-habit', validate, async (req, res) => {
   }
 })
 
+router.delete('/delete', validate, async (req, res) =>{
+  const user = await User.findById(req.user._id)
+  console.log(user)
+})
+
 export { router as habitRoute};

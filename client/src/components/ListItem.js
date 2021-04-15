@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Checkbox from './Checkbox'
 import { HiTrash, HiPencilAlt } from 'react-icons/hi'
+import { deleteHabit } from './API'
 
 const Icon = styled.span`
   position: absolute;
@@ -18,6 +19,20 @@ const Icon = styled.span`
   }
 `
 
+const IconComponent = ({ icon, action, id }) => {
+  async function handleClick(e) {
+    console.log(e.target)
+    if (action === 'delete') {
+      deleteHabit().then(res => console.log(res.data))
+    }
+  }
+  return (
+   <Icon onClick={handleClick} >
+     {icon}
+   </Icon>
+  )
+}
+
 const HabitLi = styled.li`
   position: relative;
   border-bottom: 2px solid lightgrey;
@@ -28,7 +43,8 @@ const HabitLi = styled.li`
   align-items: center;
 
   :hover {
-    background-color: #d9d8d8;
+    background-color: ${({header}) => header ? 'white' : '#eeecec'};
+
     ${Icon} {
       display: flex;
     }
@@ -37,7 +53,7 @@ const HabitLi = styled.li`
 `
 const Habit = styled.label`
   flex: 1;
-  color: ${({ text }) => (text === 'Habit') ? 'black' : '#3C4C80'};
+  color: ${({ header }) => header ? 'black' : '#3C4C80'};
 `
 
 const Type = styled.p`
@@ -66,36 +82,40 @@ function handleColor (type) {
   }
 }
 
-const ListItem = ({ habit, type, days, header }) => {
 
+const ListItem = ({ header, item, habits }) => {
   const [checked, setChecked] = useState(false)
-  const [menuCheckbox, setMenuCheckbox] = useState(false)
+  const [checkedItems, setCheckedItems] = useState([])
 
   function handleCheckboxChange (event) {
-    setChecked(event.target.checked)
+    if (event.target.checked) {
+      habits.reduce()
+    }
+        // setCheckedItems(prevState => [...prevState, item])
+
   }
 
-  function toggleMenuCheckBox () {
-    habit === 'Habit' && setMenuCheckbox(!menuCheckbox)
-  }
+  console.log(checkedItems)
 
+  function toggleChecked(){
+    setChecked(!checked)
+  }
 
   return (
-    <HabitLi>
-      <Habit text={habit}>
+    <HabitLi header={header}>
+      <Habit header={header}>
         <Checkbox
-          onClick={toggleMenuCheckBox}
           checked={checked}
           onChange={handleCheckboxChange}
+          onClick={toggleChecked}
+          //without the arrow syntax, i was creating an infinite loop.
         />
-        {habit}
+        {item.name}
       </Habit>
-      <Type type={type}>{type}</Type>
-      <Days>{days}</Days>
+      <Type type={item.type}>{item.type}</Type>
+      <Days>{item.days}</Days>
 
-      <Icon >
-        <HiTrash size={20}/>
-      </Icon>
+      {!header && <IconComponent id={item.id} icon={<HiTrash size={20}/>}  action={'delete'}/>}
 
     </HabitLi>
   )
