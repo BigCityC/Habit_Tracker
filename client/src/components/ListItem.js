@@ -83,31 +83,45 @@ function handleColor (type) {
 }
 
 
-const ListItem = ({ header, item, habits }) => {
-  const [checked, setChecked] = useState(false)
-  const [checkedItems, setCheckedItems] = useState([])
+const ListItem = ({ header, item, setChecked, checked}) => {
+
+  const [itemChecked, setItemChecked] = useState(checked)
+
+  useEffect(() => {
+    if (checked) {
+      setItemChecked(true)
+    }
+  },[])
+
+
 
   function handleCheckboxChange (event) {
-    if (event.target.checked) {
-      habits.reduce()
+    setItemChecked(!itemChecked)
+
     }
         // setCheckedItems(prevState => [...prevState, item])
 
-  }
-
-  console.log(checkedItems)
-
-  function toggleChecked(){
-    setChecked(!checked)
-  }
+  // function toggleChecked(){
+  //   setChecked(!checked)
+  // }
+  // function handleClick(event) {
+  //   if (checked && itemChecked === false) {
+  //     console.log(event.target.checked);
+  //   }
+  //   else {
+  //     console.log(event.target.checked)
+  //   }
+  // }
 
   return (
     <HabitLi header={header}>
       <Habit header={header}>
         <Checkbox
           checked={checked}
+          itemChecked={itemChecked}
           onChange={handleCheckboxChange}
-          onClick={toggleChecked}
+
+          // onClick={toggleChecked}
           //without the arrow syntax, i was creating an infinite loop.
         />
         {item.name}

@@ -26,17 +26,19 @@ const StyledCheckbox = styled.div`
   display: inline-block;
   width: 16px;
   height: 16px;
-  background: ${props => props.checked ? 'salmon' : '#d9d8d8'};
+  background: ${props => props.checked && !props.itemChecked ? 'salmon' : '#d9d8d8'};
   border-radius: 3px;
   transition: all 150ms;
+  
+  //if checked is true and itemchecked is false,
 
   ${HiddenCheckbox}:focus + & {
     box-shadow: 0 0 0 3px #efc8cf;
   }
 
-  ${Icon} {
-    visibility: ${props => props.checked ? 'visible' : 'hidden'}
-  }
+   ${Icon} {
+    visibility: ${props => props.checked && !props.itemChecked   ? 'visible' : 'hidden'}
+   }
 `
 
 
@@ -54,7 +56,7 @@ function Checkbox({ className, checked, ...props }) {
   return (
     <CheckboxContainer className={className}>
       <HiddenCheckbox checked={checked} {...props} />
-      <StyledCheckbox checked={checked} >
+      <StyledCheckbox checked={checked} {...props} >
         <Icon viewBox="-3 1 22 22">
           <HiCheck color={'white'} />
         </Icon>

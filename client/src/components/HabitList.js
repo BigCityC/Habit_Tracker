@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { ListItem } from './ListItem'
+import { handleColor, ListItem } from './ListItem'
+import Checkbox from './Checkbox'
+import { HiTrash } from 'react-icons/hi'
+import styled from 'styled-components'
 
 
 const HabitList = ({ habits, inputValue, menu }) => {
 
   //keeps track of the active menu
   const activeMenu = menu.find((item) => item.active)
+  const [checked, setChecked] = useState(false)
 
   const [filteredHabits, setFilteredHabits] = useState([])
 
@@ -42,25 +46,76 @@ const HabitList = ({ habits, inputValue, menu }) => {
 
   return (
     <>
-      <Header />
+      <Header checked={checked}
+              setChecked={setChecked}/>
 
       {filteredHabits.map((item, index) => (
       <ListItem
         key={index}
         item={item}
         habits={filteredHabits}
+        checked={checked}
+        setChecked={setChecked}
       />
     ))}
     </>
   )
 }
+const HabitLi = styled.li`
+  position: relative;
+  border-bottom: 2px solid lightgrey;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  align-items: center;
 
-const Header = () => {
+ 
+  }
+
+`
+const Habit = styled.label`
+  flex: 1;
+  color: ${({ header }) => header ? 'black' : '#3C4C80'};
+`
+
+const Type = styled.p`
+  /* Adapt the colors based on primary prop */
+  color: ${({ type }) => handleColor(type)};
+  flex: 1;
+  text-align: center;
+`
+
+const Days = styled.p`
+  flex: 1;
+  text-align: center;
+`
+
+const Header = ({checked, setChecked}) => {
   const props = {name: 'Habits', type: 'Type', days:'Days(Total)'};
 
+
+  function handleCheckboxChange(event) {
+    setChecked(true)
+  }
+
   return (
-    <ListItem  item={{...props}} header />
+    <HabitLi>
+      <Habit>
+        <Checkbox
+          checked={checked}
+          onChange={handleCheckboxChange}
+          // onClick={toggleChecked}
+          //without the arrow syntax, i was creating an infinite loop.
+        />
+        {props.name}
+      </Habit>
+      <Type type={props.type}>{props.type}</Type>
+      <Days>{props.days}</Days>
+
+    </HabitLi>
   )
+
 };
 
 export {HabitList, Header}
