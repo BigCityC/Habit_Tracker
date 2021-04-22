@@ -9,27 +9,28 @@ const Icon = styled.span`
   right: 10px;
   display: none;
   color: #182b66;
-  
+
 
   :hover {
     cursor: pointer;
     color: #2F50B7;
-    
-    
+
+
   }
 `
 
 const IconComponent = ({ icon, action, id }) => {
-  async function handleClick(e) {
+  async function handleClick (e) {
     console.log(e.target)
     if (action === 'delete') {
       deleteHabit().then(res => console.log(res.data))
     }
   }
+
   return (
-   <Icon onClick={handleClick} >
-     {icon}
-   </Icon>
+    <Icon onClick={handleClick}>
+      {icon}
+    </Icon>
   )
 }
 
@@ -43,7 +44,7 @@ const HabitLi = styled.li`
   align-items: center;
 
   :hover {
-    background-color: ${({header}) => header ? 'white' : '#eeecec'};
+    background-color: ${({ header }) => header ? 'white' : '#eeecec'};
 
     ${Icon} {
       display: flex;
@@ -68,7 +69,6 @@ const Days = styled.p`
   text-align: center;
 `
 
-
 function handleColor (type) {
   switch (type) {
     case ('good'):
@@ -82,45 +82,31 @@ function handleColor (type) {
   }
 }
 
+const ListItem = ({ header, item, checked, setCheckedItems }) => {
 
-const ListItem = ({ header, item, setChecked, checked}) => {
-
-  const [itemChecked, setItemChecked] = useState(checked)
+  const [itemChecked, setItemChecked] = useState(false)
 
   useEffect(() => {
-    if (checked) {
-      setItemChecked(true)
+    if (!checked) {
+      itemChecked ? setCheckedItems(habits => [...habits, item._id]) : setCheckedItems(habits => habits.filter((id) => (id !== item._id)));
+    } else {
+      !itemChecked ? setCheckedItems(habits => [...habits, item._id]) : setCheckedItems(habits => habits.filter((id) => (id !== item._id)))
     }
-  },[])
+
+  }, [itemChecked])
 
 
-
-  function handleCheckboxChange (event) {
+  function toggleCheckboxChange () {
     setItemChecked(!itemChecked)
-
-    }
-        // setCheckedItems(prevState => [...prevState, item])
-
-  // function toggleChecked(){
-  //   setChecked(!checked)
-  // }
-  // function handleClick(event) {
-  //   if (checked && itemChecked === false) {
-  //     console.log(event.target.checked);
-  //   }
-  //   else {
-  //     console.log(event.target.checked)
-  //   }
-  // }
+  }
 
   return (
-    <HabitLi header={header}>
-      <Habit header={header}>
+    <HabitLi>
+      <Habit>
         <Checkbox
           checked={checked}
           itemChecked={itemChecked}
-          onChange={handleCheckboxChange}
-
+          onChange={toggleCheckboxChange}
           // onClick={toggleChecked}
           //without the arrow syntax, i was creating an infinite loop.
         />
@@ -129,7 +115,7 @@ const ListItem = ({ header, item, setChecked, checked}) => {
       <Type type={item.type}>{item.type}</Type>
       <Days>{item.days}</Days>
 
-      {!header && <IconComponent id={item.id} icon={<HiTrash size={20}/>}  action={'delete'}/>}
+      <IconComponent id={item.id} icon={<HiTrash size={20}/>} action={'delete'}/>
 
     </HabitLi>
   )

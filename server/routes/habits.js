@@ -36,9 +36,13 @@ router.post('/add-habit', validate, async (req, res) => {
   }
 })
 
-router.delete('/delete', validate, async (req, res) =>{
+//delete habits by ids sent
+router.post('/delete', validate, async (req, res) =>{
   const user = await User.findById(req.user._id)
-  console.log(user)
+  const idList = req.body.ids
+  // await user.deleteMany({habits:{$in:idList}})
+  
+
 })
 
 export { router as habitRoute};

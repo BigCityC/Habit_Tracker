@@ -35,8 +35,8 @@ function getHabitList(){
   return api.get('/habits', config)
 }
 
-function deleteHabit(){
-  return api.delete('/habits/delete', config)
+function deleteHabit(ids){
+  return api.post('/habits/delete', {ids}, config)
 }
 
 
