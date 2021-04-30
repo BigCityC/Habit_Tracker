@@ -72,6 +72,8 @@ const Header = ({checked, setChecked, checkedItems, setCheckedItems, setFiltered
 
   }
 
+  console.log(`header checked: ${checked}`)
+
   return (
     <>
 

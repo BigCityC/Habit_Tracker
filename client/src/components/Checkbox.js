@@ -28,18 +28,18 @@ const StyledCheckbox = styled.div`
   height: 16px;
   //if checked is true and itemChecked is false: set salmon
   //if checked is false and itemchecked is true: set salmon
-  background: ${props => (props.checked && !props.itemChecked) || (!props.checked && props.itemChecked) ? 'salmon' : '#d9d8d8'};
+  background: ${props =>(props.checked && !props.itemChecked) || (props.checked && props.itemChecked)  ? 'salmon' : '#d9d8d8'};
   border-radius: 3px;
   transition: all 150ms;
   
   
-
+  
   ${HiddenCheckbox}:focus + & {
     box-shadow: 0 0 0 3px #efc8cf;
   }
 
    ${Icon} {
-    visibility: ${props => (props.checked && !props.itemChecked) || (!props.checked && props.itemChecked) ? 'visible' : 'hidden'}
+    visibility: ${props => (props.checked) || (props.itemChecked) ? 'visible' : 'hidden'}
    }
 `
 

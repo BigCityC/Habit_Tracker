@@ -11,6 +11,7 @@ const HabitList = ({ habits, inputValue, menu }) => {
   const [checked, setChecked] = useState(false)
   const [checkedItems, setCheckedItems] = useState([])
   const [filteredHabits, setFilteredHabits] = useState([])
+  console.log(checkedItems)
 
   //adds all items IDs to the checkedItems state
   useEffect(() => {
@@ -67,6 +68,7 @@ const HabitList = ({ habits, inputValue, menu }) => {
         item={item}
         habits={filteredHabits}
         checked={checked}
+        checkedItems={checkedItems}
         setCheckedItems={setCheckedItems}
       />
     ))}

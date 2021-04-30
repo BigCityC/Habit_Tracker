@@ -82,23 +82,29 @@ function handleColor (type) {
   }
 }
 
-const ListItem = ({item, checked, setCheckedItems }) => {
+const ListItem = ({item, checked, checkedItems, setCheckedItems }) => {
 
   const [itemChecked, setItemChecked] = useState(false)
+  console.log(`list item ${item.name} itemChecked: ${itemChecked}`)
 
   useEffect(() => {
+    //header is NOT checked and single listItem checked = item goes into checkedItems array
     if (!checked) {
       itemChecked ? setCheckedItems(habits => [...habits, item._id]) : setCheckedItems(habits => habits.filter((id) => (id !== item._id)));
-    } else {
-      !itemChecked ? setCheckedItems(habits => [...habits, item._id]) : setCheckedItems(habits => habits.filter((id) => (id !== item._id)))
+      //if header is checked but a item is unchecked, remove that single item from checkedItems array
+    } else if (checked && !itemChecked) {
+      setCheckedItems(habits => habits.filter((id) => (id !== item._id)))
     }
+
 
   }, [itemChecked])
 
-  //this clears the listItem's itemChecked state from continuing to be checked after top trash can is clicked
+  // this clears the listItem's itemChecked state from continuing to be checked after top trash can is clicked
   useEffect(()=>{
-    setItemChecked(false)
+    checked ? setItemChecked(true) : setItemChecked(false)
+    console.log(checked)
   },[checked])
+
 
 
   function toggleCheckboxChange () {
@@ -109,6 +115,8 @@ const ListItem = ({item, checked, setCheckedItems }) => {
   //   deleteOneHabit({id})
   //     .then(res => console.log(res.data))
   // }
+
+
 
   return (
     <HabitLi>
