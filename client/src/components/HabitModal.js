@@ -118,6 +118,8 @@ function HabitModal ({setHabits}) {
     //habit form cant be empty
     if (habitForm.name === '') {
       alert('No habit seen')
+    } if (habitForm.type === '') {
+      alert('You must enter a type')
     }
     else {
       addHabit({ ...habitForm })

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ListItem } from './ListItem'
 import Header from './Header'
+import { getHabitList } from './API'
 
 
 const HabitList = ({ habits, inputValue, menu }) => {
@@ -19,8 +20,6 @@ const HabitList = ({ habits, inputValue, menu }) => {
       setCheckedItems([])
     }
   }, [checked])
-
-  useEffect(() => {console.log(checkedItems)}, [checkedItems])
 
 
   //copy the original habit list to filteredHabits
@@ -57,8 +56,10 @@ const HabitList = ({ habits, inputValue, menu }) => {
   return (
     <>
       <Header checked={checked}
+              setCheckedItems={setCheckedItems}
               checkedItems={checkedItems}
-              setChecked={setChecked}/>
+              setChecked={setChecked}
+              setFilteredHabits={setFilteredHabits}/>
 
       {filteredHabits.map((item, index) => (
       <ListItem

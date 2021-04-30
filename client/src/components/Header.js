@@ -49,17 +49,27 @@ const Span = styled.span`
 `
 
 
-const Header = ({checked, setChecked, checkedItems}) => {
+const Header = ({checked, setChecked, checkedItems, setCheckedItems, setFilteredHabits}) => {
   const props = {name: 'Habits', type: 'Type', days:'Days(Total)'};
 
 
-  function handleCheckboxChange() {
+  function toggleCheckbox() {
     setChecked(!checked)
   }
 
   async function deleteCheckedItems(){
     deleteHabit({checkedItems})
-      .then(res => console.log(res.data))
+      //after habits are deleted...
+      .then((res)=> {
+        //toggle header checkbox to false
+        toggleCheckbox()
+        //empty the checkedItems array
+        setCheckedItems([])
+        //refresh the UI after deletion
+        setFilteredHabits(res.data)
+      }
+    )
+
   }
 
   return (
@@ -67,15 +77,13 @@ const Header = ({checked, setChecked, checkedItems}) => {
 
     <HabitLi>
       <Span>
-        {checked &&  <Icon onClick={deleteCheckedItems}><HiTrash size={20}/></Icon>}
+        {checkedItems.length > 0 &&  <Icon onClick={deleteCheckedItems}><HiTrash size={20}/></Icon>}
       </Span>
 
       <Habit>
         <Checkbox
           checked={checked}
-          onChange={handleCheckboxChange}
-          // onClick={toggleChecked}
-          //without the arrow syntax, i was creating an infinite loop.
+          onChange={toggleCheckbox}
         />
         {props.name}
       </Habit>

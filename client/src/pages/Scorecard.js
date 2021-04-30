@@ -93,6 +93,7 @@ function Scorecard () {
 
     getHabits()
   }, [])
+//putting habits as the dependency turns off my menu functionality...
 
   //updates the active property for the menu option that is clicked
   const handleClick = (target) => {

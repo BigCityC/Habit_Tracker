@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Checkbox from './Checkbox'
 import { HiTrash, HiPencilAlt } from 'react-icons/hi'
-import { deleteHabit } from './API'
+import { deleteHabit, deleteOneHabit } from './API'
 
 const Icon = styled.span`
   position: absolute;
@@ -82,7 +82,7 @@ function handleColor (type) {
   }
 }
 
-const ListItem = ({ header, item, checked, setCheckedItems }) => {
+const ListItem = ({item, checked, setCheckedItems }) => {
 
   const [itemChecked, setItemChecked] = useState(false)
 
@@ -95,10 +95,20 @@ const ListItem = ({ header, item, checked, setCheckedItems }) => {
 
   }, [itemChecked])
 
+  //this clears the listItem's itemChecked state from continuing to be checked after top trash can is clicked
+  useEffect(()=>{
+    setItemChecked(false)
+  },[checked])
+
 
   function toggleCheckboxChange () {
     setItemChecked(!itemChecked)
   }
+
+  // async function deleteHabit(id){
+  //   deleteOneHabit({id})
+  //     .then(res => console.log(res.data))
+  // }
 
   return (
     <HabitLi>
@@ -114,8 +124,8 @@ const ListItem = ({ header, item, checked, setCheckedItems }) => {
       </Habit>
       <Type type={item.type}>{item.type}</Type>
       <Days>{item.days}</Days>
-
-      <IconComponent id={item.id} icon={<HiTrash size={20}/>} action={'delete'}/>
+      {/*hides the side trash cans when they are selected.*/}
+      {checked || !itemChecked && <IconComponent id={item.id} icon={<HiTrash size={20}/>} action={'delete'}/>}
 
     </HabitLi>
   )

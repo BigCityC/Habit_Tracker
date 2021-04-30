@@ -39,10 +39,41 @@ router.post('/add-habit', validate, async (req, res) => {
 //delete habits by ids sent
 router.post('/delete', validate, async (req, res) =>{
   const user = await User.findById(req.user._id)
-  const idList = req.body.ids
-  // await user.deleteMany({habits:{$in:idList}})
-  
+  const idList = req.body.ids.checkedItems
 
-})
+  const updatedList = user['habits'].filter(habit=> {
+    return !idList.includes(`${habit._id}`)
+  })
+  user['habits'] = updatedList;
+
+    try {
+      await user.save()
+      res.send(updatedList)
+
+    } catch (err) {
+      res.status(400).send(err)
+    }
+  })
+
+
+
+  //iterate through IDs
+  // console.log(idList)
+  // const query = {"_id":"req.user._id"};
+  // const updateDocument = {
+  //   $pull: {"habits.$[]._id":idList}
+  // }
+  // const result = await user.updateOne(query, updateDocument)
+
+  // deleteOneHabit {
+  //   updatedList.filter((item)=> item._id !== id)
+  // }
+  // console.log(user.habits.isMongooseArray)
+  // console.log(User)
+
+//delete by single ID
+// router.delete('/delete/:itemId', validate, async (req, res)=>{
+//   console.log(req.params)
+// })
 
 export { router as habitRoute};

@@ -39,5 +39,9 @@ function deleteHabit(ids){
   return api.post('/habits/delete', {ids}, config)
 }
 
+// function deleteOneHabit(Id){
+//   return api.delete(`/habits/delete/${Id}`, { params: { itemId: Id } })
+// }
 
-export {login,signUp, validate, addHabit, getHabitList, deleteHabit}
+
+export {login,signUp, validate, addHabit, getHabitList, deleteHabit, }
