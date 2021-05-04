@@ -3,7 +3,6 @@ import { ListItem } from './ListItem'
 import Header from './Header'
 import { getHabitList } from './API'
 
-
 const HabitList = ({ habits, inputValue, menu }) => {
 
   //keeps track of the active menu
@@ -16,12 +15,11 @@ const HabitList = ({ habits, inputValue, menu }) => {
   //adds all items IDs to the checkedItems state
   useEffect(() => {
     if (checked) {
-      setCheckedItems(filteredHabits.map((item)=> item._id))
+      setCheckedItems(filteredHabits.map((item) => item._id))
     } else {
       setCheckedItems([])
     }
   }, [checked])
-
 
   //copy the original habit list to filteredHabits
   useEffect(() => {
@@ -56,25 +54,26 @@ const HabitList = ({ habits, inputValue, menu }) => {
 
   return (
     <>
-      <Header checked={checked}
-              setCheckedItems={setCheckedItems}
-              checkedItems={checkedItems}
-              setChecked={setChecked}
-              setFilteredHabits={setFilteredHabits}/>
+      <Header
+        checked={checked}
+        setCheckedItems={setCheckedItems}
+        checkedItems={checkedItems}
+        setChecked={setChecked}
+        setFilteredHabits={setFilteredHabits}
+      />
 
       {filteredHabits.map((item, index) => (
-      <ListItem
-        key={index}
-        item={item}
-        habits={filteredHabits}
-        checked={checked}
-        checkedItems={checkedItems}
-        setCheckedItems={setCheckedItems}
-      />
-    ))}
+        <ListItem
+          key={index}
+          item={item}
+          habits={filteredHabits}
+          checked={checked}
+          checkedItems={checkedItems}
+          setCheckedItems={setCheckedItems}
+        />
+      ))}
     </>
   )
 }
 
-
-export default HabitList;
+export default HabitList

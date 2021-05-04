@@ -5,7 +5,6 @@ import React from 'react'
 import { HiTrash } from 'react-icons/hi'
 import { deleteHabit } from './API'
 
-
 const HabitLi = styled.li`
   position: relative;
   border-bottom: 2px solid lightgrey;
@@ -33,42 +32,40 @@ const Days = styled.p`
   text-align: center;
 `
 const Icon = styled.span`
- color: #182b66;
+  color: #182b66;
 `
 
 const Span = styled.span`
   position: absolute;
   top: -10px;
   left: 8px;
-  
+
   :hover {
     cursor: pointer;
   }
-  
-  
+
+
 `
 
+const Header = ({ checked, setChecked, checkedItems, setCheckedItems, setFilteredHabits }) => {
+  const props = { name: 'Habits', type: 'Type', days: 'Days(Total)' }
 
-const Header = ({checked, setChecked, checkedItems, setCheckedItems, setFilteredHabits}) => {
-  const props = {name: 'Habits', type: 'Type', days:'Days(Total)'};
-
-
-  function toggleCheckbox() {
+  function toggleCheckbox () {
     setChecked(!checked)
   }
 
-  async function deleteCheckedItems(){
-    deleteHabit({checkedItems})
+  async function deleteCheckedItems () {
+    deleteHabit({ checkedItems })
       //after habits are deleted...
-      .then((res)=> {
-        //toggle header checkbox to false
-        toggleCheckbox()
-        //empty the checkedItems array
-        setCheckedItems([])
-        //refresh the UI after deletion
-        setFilteredHabits(res.data)
-      }
-    )
+      .then((res) => {
+          //toggle header checkbox to false
+          toggleCheckbox()
+          //empty the checkedItems array
+          setCheckedItems([])
+          //refresh the UI after deletion
+          setFilteredHabits(res.data)
+        }
+      )
 
   }
 
@@ -77,25 +74,25 @@ const Header = ({checked, setChecked, checkedItems, setCheckedItems, setFiltered
   return (
     <>
 
-    <HabitLi>
-      <Span>
-        {checkedItems.length > 0 &&  <Icon onClick={deleteCheckedItems}><HiTrash size={20}/></Icon>}
-      </Span>
+      <HabitLi>
+        <Span>
+          {checkedItems.length > 0 && <Icon onClick={deleteCheckedItems}><HiTrash size={20}/></Icon>}
+        </Span>
 
-      <Habit>
-        <Checkbox
-          checked={checked}
-          onChange={toggleCheckbox}
-        />
-        {props.name}
-      </Habit>
-      <Type type={props.type}>{props.type}</Type>
-      <Days>{props.days}</Days>
+        <Habit>
+          <Checkbox
+            checked={checked}
+            toggleCheckbox={toggleCheckbox}
+          />
+          {props.name}
+        </Habit>
+        <Type type={props.type}>{props.type}</Type>
+        <Days>{props.days}</Days>
 
-    </HabitLi>
-      </>
+      </HabitLi>
+    </>
   )
 
-};
+}
 
-export default Header;
+export default Header

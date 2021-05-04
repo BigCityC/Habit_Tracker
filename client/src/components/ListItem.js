@@ -124,7 +124,7 @@ const ListItem = ({item, checked, checkedItems, setCheckedItems }) => {
         <Checkbox
           checked={checked}
           itemChecked={itemChecked}
-          onChange={toggleCheckboxChange}
+          toggleCheckbox={toggleCheckboxChange}
           // onClick={toggleChecked}
           //without the arrow syntax, i was creating an infinite loop.
         />

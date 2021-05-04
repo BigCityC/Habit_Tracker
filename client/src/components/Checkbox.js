@@ -28,7 +28,7 @@ const StyledCheckbox = styled.div`
   height: 16px;
   //if checked is true and itemChecked is false: set salmon
   //if checked is false and itemchecked is true: set salmon
-  background: ${props =>(props.checked && !props.itemChecked) || (props.checked && props.itemChecked)  ? 'salmon' : '#d9d8d8'};
+  background: ${({checked}) =>(checked)  ? 'salmon' : '#d9d8d8'};
   border-radius: 3px;
   transition: all 150ms;
   
@@ -39,7 +39,7 @@ const StyledCheckbox = styled.div`
   }
 
    ${Icon} {
-    visibility: ${props => (props.checked) || (props.itemChecked) ? 'visible' : 'hidden'}
+    visibility: ${({checked}) =>(checked)  ? 'visible' : 'hidden'}
    }
 `
 
@@ -50,15 +50,14 @@ const CheckboxContainer = styled.div`
   padding-right: 7px;
 `
 
-function Checkbox({ className, checked, ...props }) {
+function Checkbox({ className, checked, itemChecked, toggleCheckbox }) {
 //without the ...props you get this warning " You provided a `checked` prop to a form field without an `onChange`
 // handler. This will render a read-only field. If the field should be mutable use `defaultChecked`.
 // Otherwise, set either `onChange` or `readOnly`."
 
   return (
     <CheckboxContainer className={className}>
-      <HiddenCheckbox checked={checked} {...props} />
-      <StyledCheckbox checked={checked} {...props} >
+      <StyledCheckbox checked={(checked || itemChecked)} onClick={toggleCheckbox} >
         <Icon viewBox="-3 1 22 22">
           <HiCheck color={'white'} />
         </Icon>

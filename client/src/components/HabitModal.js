@@ -123,9 +123,9 @@ function HabitModal ({setHabits}) {
     }
     else {
       addHabit({ ...habitForm })
-        .then(() => {
+        .then((res) => {
           setConfirmation(true)
-          setHabits(habits => [...habits, habitForm])
+          setHabits(res.data)
         })
         .catch(error => {
           alert(error.response.data)

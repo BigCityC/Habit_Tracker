@@ -22,14 +22,14 @@ router.post('/add-habit', validate, async (req, res) => {
   //get user information through token validation
   const user = await User.findById(req.user._id)
   if (!user) return res.status(400).send('User is null')
-
+  console.log(req.body.newHabit)
   //add to their habits list
   user['habits'].push(req.body.newHabit)
 
 
   try {
     await user.save()
-    res.send({success: true})
+    res.send(user['habits'])
 
   } catch (err) {
     res.status(400).send(err)
