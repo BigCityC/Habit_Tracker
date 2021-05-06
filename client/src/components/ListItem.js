@@ -82,13 +82,15 @@ function handleColor (type) {
   }
 }
 
-const ListItem = ({item, checked, checkedItems, setCheckedItems }) => {
+const ListItem = ({item, checked, setCheckedItems, checkedItems}) => {
 
   const [itemChecked, setItemChecked] = useState(false)
   console.log(`list item ${item.name} itemChecked: ${itemChecked}`)
 
+
+
   useEffect(() => {
-    //header is NOT checked and single listItem checked = item goes into checkedItems array
+    //header is NOT checked and single listItem checked = item's id goes into checkedItems array
     if (!checked) {
       itemChecked ? setCheckedItems(habits => [...habits, item._id]) : setCheckedItems(habits => habits.filter((id) => (id !== item._id)));
       //if header is checked but a item is unchecked, remove that single item from checkedItems array
@@ -100,7 +102,6 @@ const ListItem = ({item, checked, checkedItems, setCheckedItems }) => {
   // this clears the listItem's itemChecked state from continuing to be checked after top trash can is clicked
   useEffect(()=>{
     checked ? setItemChecked(true) : setItemChecked(false)
-    console.log(checked)
   },[checked])
 
 
@@ -120,18 +121,16 @@ const ListItem = ({item, checked, checkedItems, setCheckedItems }) => {
     <HabitLi>
       <Habit>
         <Checkbox
-          checked={checked}
+          // checked={checked}
           itemChecked={itemChecked}
           toggleCheckbox={toggleCheckboxChange}
-          // onClick={toggleChecked}
-          //without the arrow syntax, i was creating an infinite loop.
         />
         {item.name}
       </Habit>
       <Type type={item.type}>{item.type}</Type>
       <Days>{item.days}</Days>
       {/*hides the side trash cans when they are selected.*/}
-      {checked || !itemChecked && <IconComponent id={item.id} icon={<HiTrash size={20}/>} action={'delete'}/>}
+      {!itemChecked && <IconComponent id={item.id} icon={<HiTrash size={20}/>} action={'delete'}/>}
 
     </HabitLi>
   )

@@ -54,11 +54,8 @@ const Header = ({ checked, setChecked, checkedItems, setCheckedItems, setFiltere
   const props = { name: 'Habits', type: 'Type', days: 'Days(Total)' }
 
   useEffect(() => {
-    if (checkedItems.length < filteredHabits.length) {
-      setHeader(false)
-    } else {
-      setHeader(true)
-    }
+    //if all of the listItems are not checked, the header's UI checkbox should be blank
+    checkedItems.length < filteredHabits.length || checkedItems.length === 0 ? setHeader(false) : setHeader(true);
   }, [checkedItems])
 
 
@@ -72,8 +69,6 @@ const Header = ({ checked, setChecked, checkedItems, setCheckedItems, setFiltere
     deleteHabit({ checkedItems })
       //after habits are deleted...
       .then((res) => {
-          //toggle header checkbox to false
-          toggleCheckbox()
           //empty the checkedItems array
           setCheckedItems([])
           //refresh the UI after deletion
@@ -95,7 +90,7 @@ const Header = ({ checked, setChecked, checkedItems, setCheckedItems, setFiltere
 
         <Habit>
           <Checkbox
-            checked={checked}
+            // checked={checked}
             toggleCheckbox={toggleCheckbox}
             header={header}
           />

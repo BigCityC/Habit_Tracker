@@ -52,6 +52,7 @@ const HabitList = ({ habits, inputValue, menu }) => {
     }
   }, [menu])
 
+
   return (
     <>
       <Header
@@ -67,7 +68,6 @@ const HabitList = ({ habits, inputValue, menu }) => {
         <ListItem
           key={index}
           item={item}
-          habits={filteredHabits}
           checked={checked}
           checkedItems={checkedItems}
           setCheckedItems={setCheckedItems}
