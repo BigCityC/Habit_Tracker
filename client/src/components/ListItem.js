@@ -95,8 +95,6 @@ const ListItem = ({item, checked, checkedItems, setCheckedItems }) => {
     } else if (checked && !itemChecked) {
       setCheckedItems(habits => habits.filter((id) => (id !== item._id)))
     }
-
-
   }, [itemChecked])
 
   // this clears the listItem's itemChecked state from continuing to be checked after top trash can is clicked

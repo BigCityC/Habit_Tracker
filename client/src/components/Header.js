@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { handleColor } from './ListItem'
 import Checkbox from './Checkbox'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { HiTrash } from 'react-icons/hi'
 import { deleteHabit } from './API'
 
@@ -47,11 +47,25 @@ const Span = styled.span`
 
 `
 
-const Header = ({ checked, setChecked, checkedItems, setCheckedItems, setFilteredHabits }) => {
+const Header = ({ checked, setChecked, checkedItems, setCheckedItems, setFilteredHabits, filteredHabits }) => {
+  const [header, setHeader] = useState(false)
+  console.log(header)
+
   const props = { name: 'Habits', type: 'Type', days: 'Days(Total)' }
+
+  useEffect(() => {
+    if (checkedItems.length < filteredHabits.length) {
+      setHeader(false)
+    } else {
+      setHeader(true)
+    }
+  }, [checkedItems])
+
+
 
   function toggleCheckbox () {
     setChecked(!checked)
+    setHeader(!header)
   }
 
   async function deleteCheckedItems () {
@@ -83,6 +97,7 @@ const Header = ({ checked, setChecked, checkedItems, setCheckedItems, setFiltere
           <Checkbox
             checked={checked}
             toggleCheckbox={toggleCheckbox}
+            header={header}
           />
           {props.name}
         </Habit>

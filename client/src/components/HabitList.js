@@ -59,6 +59,7 @@ const HabitList = ({ habits, inputValue, menu }) => {
         setCheckedItems={setCheckedItems}
         checkedItems={checkedItems}
         setChecked={setChecked}
+        filteredHabits={filteredHabits}
         setFilteredHabits={setFilteredHabits}
       />
 

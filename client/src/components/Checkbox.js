@@ -50,14 +50,14 @@ const CheckboxContainer = styled.div`
   padding-right: 7px;
 `
 
-function Checkbox({ className, checked, itemChecked, toggleCheckbox }) {
+function Checkbox({ className, header, itemChecked, toggleCheckbox }) {
 //without the ...props you get this warning " You provided a `checked` prop to a form field without an `onChange`
 // handler. This will render a read-only field. If the field should be mutable use `defaultChecked`.
 // Otherwise, set either `onChange` or `readOnly`."
 
   return (
     <CheckboxContainer className={className}>
-      <StyledCheckbox checked={(checked || itemChecked)} onClick={toggleCheckbox} >
+      <StyledCheckbox checked={(header || itemChecked)} onClick={toggleCheckbox} >
         <Icon viewBox="-3 1 22 22">
           <HiCheck color={'white'} />
         </Icon>
