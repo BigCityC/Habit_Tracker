@@ -116,6 +116,7 @@ let initCredentials = {
 function Auth ({ newUser, setUser }) {
 
   const [credentials, setCredentials] = useState(initCredentials)
+  const inHalfDay = 0.5;
 
   function handleFormInput (event) {
     const value = event.target.value
@@ -135,7 +136,7 @@ function Auth ({ newUser, setUser }) {
       })
         .then(res => {
           setUser(res.data)
-          Cookies.set('token', res.data.token)
+          Cookies.set('token',  res.data.token, {expires: inHalfDay})
         })
         .catch(error => {
           alert(error.response.data)
@@ -149,7 +150,7 @@ function Auth ({ newUser, setUser }) {
         .then(res => {
           //user is set and cookie is set
           setUser(res.data)
-          Cookies.set('token', res.data.token)
+          Cookies.set('token', res.data.token, {expires: inHalfDay})
         })
         .catch(error => {alert(error.response.data)})
     }

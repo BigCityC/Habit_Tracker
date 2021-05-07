@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Navigation, NavigationLink } from './navigation'
 import { Link } from 'react-router-dom'
+import Cookies from 'js-cookie'
 
 const Nav = styled.nav`
   background: #CB6A6A;
@@ -52,7 +53,10 @@ const StyledUl = styled.ul`
 
 function Wrapper ({ setUser, children }) {
 
-  function handleClick () { setUser(false) }
+  function handleClick () {
+    setUser(false)
+    Cookies.remove('token')
+  }
 
   return (
     <div>

@@ -59,6 +59,9 @@ export default function Routes () {
             }
           </Route>
         ))}
+        <Route exact path="/">
+          {user ? <Redirect to="/tracker"/> : <Auth setUser={setUser} /> }
+        </Route>
         <Route path="/login">
           {user ? <Redirect to="/tracker"/> : <Auth setUser={setUser} /> }
         </Route>
