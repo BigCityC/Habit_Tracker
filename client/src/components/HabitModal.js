@@ -4,7 +4,7 @@ import Message from './Message'
 import { handleColor } from './ListItem'
 import { IconContext } from 'react-icons'
 import Modal from 'react-modal'
-import { MdAddCircle } from 'react-icons/md'
+import { MdAddCircle, MdCheck } from 'react-icons/md'
 import styled from 'styled-components'
 
 const customStyles = {
@@ -15,7 +15,7 @@ const customStyles = {
     top: '50%',
     left: '50%',
     right: 'auto',
-    bottom: '5%',
+    bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
     background: '#182b66',
@@ -38,6 +38,7 @@ const Container = styled.div`
   flex-flow: column wrap;
   align-items: center;
   min-width: 250px;
+  min-height: min-content;
 `
 
 const H2 = styled.h2`
@@ -59,28 +60,30 @@ const Input = styled.input`
 
 const Buttons = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   margin: 20px auto;
-  padding: 20px 0 10px 0;
+  padding: 2px ;
 `
 
 const TypeBtn = styled.input.attrs({ type: 'button' })`
-  margin: 0 auto;
+  border-radius: 10px;
   background: transparent;
+  padding: 5px;
   border: 2px solid ${({ value }) => handleColor(value)};
   color: white;
-  padding: 8px;
 `
-
-
-
+const SubmitDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`
 const Submit = styled.button.attrs({ type: 'submit' })`
   background-color: #CB6A6A;
   color: white;
-  padding: 10px;
+  padding: 5px 7px;
+  text-align: center;
   border: none;
-  outline: none;
-  border-radius: 2px;
+  border-radius: 50%;
 
   :hover {
     background-color: #AC5252;
@@ -118,12 +121,14 @@ function HabitModal ({setHabits}) {
     //habit form cant be empty
     if (habitForm.name === '') {
       alert('No habit seen')
+    } if (habitForm.type === '') {
+      alert('You must enter a type')
     }
     else {
       addHabit({ ...habitForm })
-        .then(() => {
+        .then((res) => {
           setConfirmation(true)
-          setHabits(habits => [...habits, habitForm])
+          setHabits(res.data)
         })
         .catch(error => {
           alert(error.response.data)
@@ -168,9 +173,9 @@ function HabitModal ({setHabits}) {
               <TypeBtn type="button" name="type" value='bad' onClick={handleFormUpdate}/>
               <TypeBtn type="button" name="type" value='neutral' onClick={handleFormUpdate}/>
             </Buttons>
-            <div style={{ textAlign: 'center' }}>
-              <Submit type="submit">Submit</Submit>
-            </div>
+            <SubmitDiv >
+              <Submit type="submit"><MdCheck size={20}/></Submit>
+            </SubmitDiv>
           </form>
 
           {confirmation && <Message setConfirmation={setConfirmation} />}
@@ -183,4 +188,3 @@ function HabitModal ({setHabits}) {
 }
 
 export default HabitModal
-
