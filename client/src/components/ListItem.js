@@ -4,6 +4,7 @@ import Checkbox from './Checkbox'
 import { HiTrash, HiPencilAlt } from 'react-icons/hi'
 import { deleteHabit, deleteOneHabit } from './API'
 
+
 const Icon = styled.span`
   position: absolute;
   right: 10px;
@@ -82,32 +83,21 @@ function handleColor (type) {
   }
 }
 
-const ListItem = ({item, checked, setCheckedItems, checkedItems}) => {
+const ListItem = ({ item, allChecked, displayAllChecked, checkItem }) => {
 
   const [itemChecked, setItemChecked] = useState(false)
-  console.log(`list item ${item.name} itemChecked: ${itemChecked}`)
-
-
+  // this clears the listItem's itemChecked state from continuing to be checked after top trash can is clicked
+  console.log({allChecked, displayAllChecked})
 
   useEffect(() => {
-    //header is NOT checked and single listItem checked = item's id goes into checkedItems array
-    if (!checked) {
-      itemChecked ? setCheckedItems(habits => [...habits, item._id]) : setCheckedItems(habits => habits.filter((id) => (id !== item._id)));
-      //if header is checked but a item is unchecked, remove that single item from checkedItems array
-    } else if (checked && !itemChecked) {
-      setCheckedItems(habits => habits.filter((id) => (id !== item._id)))
-    }
-  }, [itemChecked])
-
-  // this clears the listItem's itemChecked state from continuing to be checked after top trash can is clicked
-  useEffect(()=>{
-    checked ? setItemChecked(true) : setItemChecked(false)
-  },[checked])
-
+    displayAllChecked ? setItemChecked(true) : setItemChecked(false)
+  }, [displayAllChecked])
 
 
   function toggleCheckboxChange () {
-    setItemChecked(!itemChecked)
+    const _itemChecked = !itemChecked
+    checkItem(item._id, _itemChecked)
+    setItemChecked(_itemChecked)
   }
 
   // async function deleteHabit(id){
@@ -116,13 +106,11 @@ const ListItem = ({item, checked, setCheckedItems, checkedItems}) => {
   // }
 
 
-
   return (
     <HabitLi>
       <Habit>
         <Checkbox
-          // checked={checked}
-          itemChecked={itemChecked}
+          checked={itemChecked}
           toggleCheckbox={toggleCheckboxChange}
         />
         {item.name}

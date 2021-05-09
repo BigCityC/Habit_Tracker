@@ -5,12 +5,13 @@ import Tracker from '../pages/Tracker'
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import Wrapper from './Wrapper'
 import Auth from './auth/Auth'
-import {validate} from './API'
+import { validate } from './API'
+
 
 const privatePages = [
   {
     path: '/scorecard',
-    component: <Scorecard />
+    component: <Scorecard/>
   }, {
     path: '/plan',
     component: <Plan/>
@@ -28,16 +29,16 @@ export default function Routes () {
   const [authenticating, setAuthenticating] = useState(true)
 
   useEffect(() => {
-      async function auth(){
-        try {
-          const res = await validate()
-          setUser(res.data)
-        } catch (error) {
-          console.log(error)
-        } finally {
-          setAuthenticating(false)
-        }
+    async function auth () {
+      try {
+        const res = await validate()
+        setUser(res.data)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setAuthenticating(false)
       }
+    }
 
     auth()
   }, [])
@@ -46,10 +47,8 @@ export default function Routes () {
 
   return (
     <Router>
-
       <Switch>
         {privatePages.map((page, index) => (
-
           <Route key={index} path={page.path}>
             {user ?
               <Wrapper user={user} setUser={setUser}>
@@ -60,12 +59,14 @@ export default function Routes () {
           </Route>
         ))}
         <Route path="/login">
-          {user ? <Redirect to="/tracker"/> : <Auth setUser={setUser} /> }
+          {user ? <Redirect to="/tracker"/> : <Auth setUser={setUser}/>}
         </Route>
         <Route path="/register">
-          {user ? <Redirect to="/tracker"/> : <Auth setUser={setUser} newUser /> }
+          {user ? <Redirect to="/tracker"/> : <Auth setUser={setUser} newUser/>}
         </Route>
-
+        <Route path="/">
+          {user ? <Redirect to="/tracker"/> : <Redirect to="/login"/>}
+        </Route>
       </Switch>
     </Router>
   )

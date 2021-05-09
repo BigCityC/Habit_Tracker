@@ -1,38 +1,48 @@
 import React, { useState, useEffect } from 'react'
 import { ListItem } from './ListItem'
 import Header from './Header'
-import { getHabitList } from './API'
+import { deleteHabit, getHabitList } from './API'
 
 const HabitList = ({ habits, inputValue, menu }) => {
 
   //keeps track of the active menu
   const activeMenu = menu.find((item) => item.active)
-  const [checked, setChecked] = useState(false)
+  const [allChecked, setAllChecked] = useState(false)
+  const [displayAllChecked, setDisplayAllChecked] = useState(false)
   const [checkedItems, setCheckedItems] = useState([])
   const [filteredHabits, setFilteredHabits] = useState([])
   console.log(checkedItems)
 
-  //adds all items IDs to the checkedItems state
+
   useEffect(() => {
-    if (checked) {
+    if (allChecked) {
+      setDisplayAllChecked(true)
       setCheckedItems(filteredHabits.map((item) => item._id))
-    } else {
+    }
+
+    else if (!allChecked && ((checkedItems.length > 0) && (checkedItems.length === habits.length))) {
+      setDisplayAllChecked(false)
       setCheckedItems([])
     }
-  }, [checked])
+  }, [allChecked])
 
-  //copy the original habit list to filteredHabits
+
+    //copy the original habit list to filteredHabits
   useEffect(() => {
     if (habits.length) {setFilteredHabits(habits)}
-
   }, [habits])
+
 
   //filters list when searching
   useEffect(() => {
     //filters out any item that does not have the correct type
     const updated = habits
       .filter((item) => {
-        if (activeMenu.name === 'all') {return true} else {return item.type === activeMenu.name && item}
+        if (activeMenu.name === 'all') {
+          return true
+        } else {
+          return item.type === activeMenu.name && item
+        }
       })
       //filters out any item that does not contain characters in the inputValue state
       .filter((habit) => habit.name.toLowerCase().includes(inputValue.toLowerCase()))
@@ -41,6 +51,7 @@ const HabitList = ({ habits, inputValue, menu }) => {
     setFilteredHabits(updated)
 
   }, [inputValue])
+
 
   //filters the habit list to only show habits based on the menu (good,bad,neutral)
   useEffect(() => {
@@ -53,24 +64,48 @@ const HabitList = ({ habits, inputValue, menu }) => {
   }, [menu])
 
 
+  function addItem(itemId) {
+    setCheckedItems([...checkedItems, itemId])
+  }
+
+  function removeItem(itemId){
+    setCheckedItems(checkedItems.filter(id => id !== itemId))
+    setAllChecked(false)
+  }
+
+  function checkItem(itemId, checked){
+    if (checked) addItem(itemId)
+    else removeItem(itemId)
+  }
+
+  async function deleteCheckedItems () {
+    deleteHabit({ checkedItems })
+      //after habits are deleted...
+      .then((res) => {
+          //empty the checkedItems array
+          setCheckedItems([])
+          //refresh the UI after deletion
+          setFilteredHabits(res.data)
+        }
+      )
+  }
+
+
   return (
     <>
       <Header
-        checked={checked}
-        setCheckedItems={setCheckedItems}
+        allChecked={allChecked}
+        setAllChecked={setAllChecked}
         checkedItems={checkedItems}
-        setChecked={setChecked}
-        filteredHabits={filteredHabits}
-        setFilteredHabits={setFilteredHabits}
+        deleteCheckedItems={deleteCheckedItems}
       />
-
       {filteredHabits.map((item, index) => (
         <ListItem
           key={index}
           item={item}
-          checked={checked}
-          checkedItems={checkedItems}
-          setCheckedItems={setCheckedItems}
+          allChecked={allChecked}
+          displayAllChecked={displayAllChecked}
+          checkItem={checkItem}
         />
       ))}
     </>

@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 import { handleColor } from './ListItem'
 import Checkbox from './Checkbox'
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { HiTrash } from 'react-icons/hi'
 import { deleteHabit } from './API'
+
 
 const HabitLi = styled.li`
   position: relative;
@@ -43,62 +44,29 @@ const Span = styled.span`
   :hover {
     cursor: pointer;
   }
-
-
 `
 
-const Header = ({ checked, setChecked, checkedItems, setCheckedItems, setFilteredHabits, filteredHabits }) => {
-  const [header, setHeader] = useState(false)
-  console.log(header)
-
+const Header = ({ allChecked, setAllChecked, checkedItems, deleteCheckedItems }) => {
   const props = { name: 'Habits', type: 'Type', days: 'Days(Total)' }
-
-  useEffect(() => {
-    //if all of the listItems are not checked, the header's UI checkbox should be blank
-    checkedItems.length < filteredHabits.length || checkedItems.length === 0 ? setHeader(false) : setHeader(true);
-  }, [checkedItems])
-
-
-
-  function toggleCheckbox () {
-    setChecked(!checked)
-    setHeader(!header)
-  }
-
-  async function deleteCheckedItems () {
-    deleteHabit({ checkedItems })
-      //after habits are deleted...
-      .then((res) => {
-          //empty the checkedItems array
-          setCheckedItems([])
-          //refresh the UI after deletion
-          setFilteredHabits(res.data)
-        }
-      )
-
-  }
-
-  console.log(`header checked: ${checked}`)
 
   return (
     <>
-
       <HabitLi>
         <Span>
-          {checkedItems.length > 0 && <Icon onClick={deleteCheckedItems}><HiTrash size={20}/></Icon>}
+          {(checkedItems.length > 0) && <Icon onClick={deleteCheckedItems}>
+            <HiTrash size={20}/>
+          </Icon>}
         </Span>
 
         <Habit>
           <Checkbox
-            // checked={checked}
-            toggleCheckbox={toggleCheckbox}
-            header={header}
+            toggleCheckbox={() => {setAllChecked(!allChecked)}}
+            checked={allChecked}
           />
           {props.name}
         </Habit>
         <Type type={props.type}>{props.type}</Type>
         <Days>{props.days}</Days>
-
       </HabitLi>
     </>
   )
