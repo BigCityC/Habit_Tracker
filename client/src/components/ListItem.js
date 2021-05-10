@@ -95,7 +95,6 @@ const ListItem = ({ header, item, habits }) => {
 
   }
 
-  console.log(checkedItems)
 
   function toggleChecked(){
     setChecked(!checked)

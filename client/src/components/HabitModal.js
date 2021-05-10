@@ -71,7 +71,13 @@ const TypeBtn = styled.input.attrs({ type: 'button' })`
   padding: 5px;
   border: 2px solid ${({ value }) => handleColor(value)};
   color: white;
+
+  :focus {
+    background: #DEDEDE;
+    color: black;
+  }
 `
+
 const SubmitDiv = styled.div`
   display: flex;
   align-items: center;
@@ -102,6 +108,7 @@ function HabitModal ({setHabits}) {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [habitForm, setHabitForm] = useState(initHabitForm)
   const [confirmation, setConfirmation] = useState(false)
+  
 
   function openModal () {
     setIsOpen(true)

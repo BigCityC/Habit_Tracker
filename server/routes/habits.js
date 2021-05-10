@@ -29,7 +29,7 @@ router.post('/add-habit', validate, async (req, res) => {
 
   try {
     await user.save()
-    res.send({success: true})
+    res.send(user['habits'])
 
   } catch (err) {
     res.status(400).send(err)
