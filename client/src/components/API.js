@@ -6,9 +6,12 @@ const api = axios.create({
   baseURL: 'http://localhost:5000/api/user'
 })
 
-const config = {
-  headers: {
-    'auth': Cookies.get('token')
+
+function getConfig(){
+  return {
+    headers: {
+      'auth': Cookies.get('token')
+    }
   }
 }
 
@@ -23,20 +26,20 @@ function signUp (newUser) {
 }
 
 function validate(){
-  return api.get('/validate', config)
+  return api.get('/validate', getConfig())
 }
 
 //user's habit routes
 function addHabit(newHabit){
-  return api.post('/habits/add-habit', {newHabit}, config)
+  return api.post('/habits/add-habit', {newHabit}, getConfig())
 }
 
 function getHabitList(){
-  return api.get('/habits', config)
+  return api.get('/habits', getConfig())
 }
 
 function deleteHabit(){
-  return api.delete('/habits/delete', config)
+  return api.delete('/habits/delete', getConfig())
 }
 
 
