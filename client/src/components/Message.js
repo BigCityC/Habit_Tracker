@@ -19,7 +19,7 @@ const Response = styled.p`
   color: white;
   position: absolute;
   bottom: 0;
-  right: 10px;
+  left: 10px;
 `
 
 function Message ({ setConfirmation }) {

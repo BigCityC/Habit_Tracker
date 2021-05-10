@@ -42,8 +42,6 @@ const MenuUl = styled.ul`
   flex-wrap: wrap;
   width: 100%;
   padding-left: 0;
-  padding-bottom: -1px;
-  border-bottom: 2px solid lightgray;
 `
 
 const MenuLi = styled.li`
@@ -56,6 +54,8 @@ const MenuLi = styled.li`
 
 const HabitUl = styled.ul`
   display: flex;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 18px;
   flex-direction: column;
   flex-wrap: nowrap;
   padding: 0;

@@ -15,9 +15,8 @@ const Nav = styled.nav`
 `
 
 const Main = styled.div`
-  max-width: 900px;
-  //background-color: lightgray;
-  margin: 20px 5%;
+  max-width: 1000px;
+  margin: 0 auto;
 `
 
 const MainNavigationLogoLink = styled.div`
