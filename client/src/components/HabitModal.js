@@ -135,7 +135,13 @@ function HabitModal ({setHabits}) {
       addHabit({ ...habitForm })
         .then((res) => {
           setConfirmation(true)
-          setHabits(res.data)
+          //adds habit with added checked property
+          const _habits = res.data.map(habit => {
+            habit.checked = false
+            return habit
+          })
+
+          setHabits(_habits)
         })
         .catch(error => {
           alert(error.response.data)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import {HabitList }from '../components/HabitList'
+import HabitList  from '../components/HabitList'
 import Modal from '../components/HabitModal'
 import { getHabitList } from '../components/API'
 
@@ -84,6 +84,7 @@ function Scorecard () {
   useEffect(() => {
     async function getHabits () {
       try {
+        //get habit list from server
         const res = await getHabitList()
         setHabits(res.data)
       } catch (error) {

@@ -83,31 +83,14 @@ function handleColor (type) {
 }
 
 
-const ListItem = ({ header, item, habits }) => {
-  const [checked, setChecked] = useState(false)
-  const [checkedItems, setCheckedItems] = useState([])
-
-  function handleCheckboxChange (event) {
-    if (event.target.checked) {
-      habits.reduce()
-    }
-        // setCheckedItems(prevState => [...prevState, item])
-
-  }
-
-
-  function toggleChecked(){
-    setChecked(!checked)
-  }
+const ListItem = ({header, item, toggleChecked}) => {
 
   return (
-    <HabitLi header={header}>
-      <Habit header={header}>
+    <HabitLi>
+      <Habit>
         <Checkbox
-          checked={checked}
-          onChange={handleCheckboxChange}
-          onClick={toggleChecked}
-          //without the arrow syntax, i was creating an infinite loop.
+          checked={item.checked}
+          toggleCheckbox={()=>{toggleChecked(item)}}
         />
         {item.name}
       </Habit>
