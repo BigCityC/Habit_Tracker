@@ -7,6 +7,7 @@ const HabitList = ({ habits, inputValue, menu }) => {
   //keeps track of the active menu
   const activeMenu = menu.find((item) => item.active)
   const [filteredHabits, setFilteredHabits] = useState([])
+  const [headerChecked, setHeaderChecked] = useState(false)
 
   //copy the original habit list to filteredHabits and add checked property
   useEffect(() => {
@@ -20,7 +21,6 @@ const HabitList = ({ habits, inputValue, menu }) => {
     }
 
   }, [habits])
-  console.log(filteredHabits)
 
   //filters list when searching
   useEffect(() => {
@@ -47,8 +47,29 @@ const HabitList = ({ habits, inputValue, menu }) => {
     }
   }, [menu])
 
-  //updates habit and UI for if an item is checked
-  function toggleChecked (item) {
+  function handleChecked (boolean, func) {
+    //make array of checked property
+    const arrayOfChecked = filteredHabits.map((item) => item.checked)
+    if (func === 'some') {
+      return arrayOfChecked.some(item => item === boolean)
+    } else {
+      return arrayOfChecked.every(item => item === boolean)
+    }
+  }
+
+  function updateHeader () {
+    if (filteredHabits.length === 0) return
+    //if any are false, uncheck the header
+    if (handleChecked(false, 'some')) {
+      setHeaderChecked(false)
+      //if they are all true, header should be checked
+    } else if (handleChecked(true,)) {
+      setHeaderChecked(true)
+    }
+  }
+
+  function itemChecked (item) {
+    //updates habit list and UI for if an item is checked
     const updateChecked = filteredHabits.map(habit => {
       if (item._id === habit._id) {
         habit.checked = !habit.checked
@@ -56,27 +77,33 @@ const HabitList = ({ habits, inputValue, menu }) => {
       return habit
     })
     setFilteredHabits(updateChecked)
+
+    updateHeader()
   }
 
   //updates all list items to be checked: true or false
-  function toggleHeader () {
-    //is every checked property
-    const allChecked = filteredHabits.every(habit => !habit.checked)
+  function toggleHeader (headerChecked) {
+    //toggle header UI
+    setHeaderChecked(!headerChecked)
 
     const updateCheckedAll = filteredHabits.map(habit => {
-      habit.checked = allChecked
+      habit.checked = !headerChecked
       return habit
     })
     setFilteredHabits(updateCheckedAll)
+
   }
 
   return (
     <>
-      <Header toggleHeader={toggleHeader}/>
+      <Header
+        headerChecked={headerChecked}
+        toggleHeader={toggleHeader}
+      />
 
       {filteredHabits.map((item, index) => (
         <ListItem
-          toggleChecked={toggleChecked}
+          toggleChecked={itemChecked}
           key={index}
           item={item}
         />

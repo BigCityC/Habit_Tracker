@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { handleColor } from './ListItem'
+
 import Checkbox from './Checkbox'
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import { HiTrash } from 'react-icons/hi'
 import { deleteHabit } from './API'
 
@@ -16,12 +16,9 @@ const HabitLi = styled.li`
 `
 const Habit = styled.label`
   flex: 1;
-  color: ${({ header }) => header ? 'black' : '#3C4C80'};
 `
 
 const Type = styled.p`
-  /* Adapt the colors based on primary prop */
-  color: ${({ type }) => handleColor(type)};
   flex: 1;
   text-align: center;
 `
@@ -38,15 +35,13 @@ const Span = styled.span`
   position: absolute;
   top: -10px;
   left: 8px;
+
   :hover {
     cursor: pointer;
   }
 `
 
-const Header = ({toggleHeader}) => {
-  const [checked, setChecked] = useState(false)
-
-  const header = { name: 'Habits', type: 'Type', days: 'Days(Total)' }
+const Header = ({ headerChecked, toggleHeader }) => {
 
   // async function deleteCheckedItems () {
   //   deleteHabit({ checkedItems })
@@ -63,25 +58,22 @@ const Header = ({toggleHeader}) => {
 
   return (
     <>
-
       <HabitLi>
         <Span>
-          {/*{checkedItems.length > 0 && <Icon onClick={deleteCheckedItems}><HiTrash size={20}/></Icon>}*/}
+          {/*if header is checked or checked is true for any of the items, show the trash can*/}
+          {(headerChecked) && <Icon><HiTrash size={20}/></Icon>}
         </Span>
 
         <Habit>
           <Checkbox
-            checked={checked}
-            toggleCheckbox={()=>{
-              toggleHeader()
-              setChecked(!checked)
-            }}
-            header
-          />
-          {header.name}
+            checked={headerChecked}
+            toggleCheckbox={() => {
+              toggleHeader(headerChecked)
+            }}/>
+          Habits
         </Habit>
-        <Type type={header.type}>{header.type}</Type>
-        <Days>{header.days}</Days>
+        <Type>Type</Type>
+        <Days>Days(Total)</Days>
 
       </HabitLi>
     </>

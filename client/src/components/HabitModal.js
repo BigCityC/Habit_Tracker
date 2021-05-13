@@ -62,7 +62,7 @@ const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 20px auto;
-  padding: 2px ;
+  padding: 2px;
 `
 
 const TypeBtn = styled.input.attrs({ type: 'button' })`
@@ -103,12 +103,11 @@ const initHabitForm = {
   days: 0,
 }
 
-function HabitModal ({setHabits}) {
+function HabitModal ({ setHabits }) {
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [habitForm, setHabitForm] = useState(initHabitForm)
   const [confirmation, setConfirmation] = useState(false)
-  
 
   function openModal () {
     setIsOpen(true)
@@ -128,10 +127,10 @@ function HabitModal ({setHabits}) {
     //habit form cant be empty
     if (habitForm.name === '') {
       alert('No habit seen')
-    } if (habitForm.type === '') {
-      alert('You must enter a type')
     }
-    else {
+    if (habitForm.type === '') {
+      alert('You must enter a type')
+    } else {
       addHabit({ ...habitForm })
         .then((res) => {
           setConfirmation(true)
@@ -146,8 +145,7 @@ function HabitModal ({setHabits}) {
         .catch(error => {
           alert(error.response.data)
         })
-        .finally(()=>
-        {
+        .finally(() => {
           setHabitForm(initHabitForm)
         })
     }
@@ -186,12 +184,12 @@ function HabitModal ({setHabits}) {
               <TypeBtn type="button" name="type" value='bad' onClick={handleFormUpdate}/>
               <TypeBtn type="button" name="type" value='neutral' onClick={handleFormUpdate}/>
             </Buttons>
-            <SubmitDiv >
+            <SubmitDiv>
               <Submit type="submit"><MdCheck size={20}/></Submit>
             </SubmitDiv>
           </form>
 
-          {confirmation && <Message setConfirmation={setConfirmation} />}
+          {confirmation && <Message setConfirmation={setConfirmation}/>}
 
         </Container>
 

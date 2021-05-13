@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Checkbox from './Checkbox'
-import { HiTrash, HiPencilAlt } from 'react-icons/hi'
+import { HiTrash } from 'react-icons/hi'
 import { deleteHabit } from './API'
 
 const Icon = styled.span`
@@ -9,27 +9,28 @@ const Icon = styled.span`
   right: 10px;
   display: none;
   color: #182b66;
-  
+
 
   :hover {
     cursor: pointer;
     color: #2F50B7;
-    
-    
+
+
   }
 `
 
 const IconComponent = ({ icon, action, id }) => {
-  async function handleClick(e) {
+  async function handleClick (e) {
     console.log(e.target)
     if (action === 'delete') {
       deleteHabit().then(res => console.log(res.data))
     }
   }
+
   return (
-   <Icon onClick={handleClick} >
-     {icon}
-   </Icon>
+    <Icon onClick={handleClick}>
+      {icon}
+    </Icon>
   )
 }
 
@@ -43,7 +44,7 @@ const HabitLi = styled.li`
   align-items: center;
 
   :hover {
-    background-color: ${({header}) => header ? 'white' : '#eeecec'};
+    background-color: ${({ header }) => header ? 'white' : '#eeecec'};
 
     ${Icon} {
       display: flex;
@@ -68,7 +69,6 @@ const Days = styled.p`
   text-align: center;
 `
 
-
 function handleColor (type) {
   switch (type) {
     case ('good'):
@@ -82,22 +82,21 @@ function handleColor (type) {
   }
 }
 
-
-const ListItem = ({header, item, toggleChecked}) => {
+const ListItem = ({ header, item, toggleChecked }) => {
 
   return (
     <HabitLi>
       <Habit>
         <Checkbox
           checked={item.checked}
-          toggleCheckbox={()=>{toggleChecked(item)}}
+          toggleCheckbox={() => {toggleChecked(item)}}
         />
         {item.name}
       </Habit>
       <Type type={item.type}>{item.type}</Type>
       <Days>{item.days}</Days>
 
-      {!header && <IconComponent id={item.id} icon={<HiTrash size={20}/>}  action={'delete'}/>}
+      {!header && <IconComponent id={item.id} icon={<HiTrash size={20}/>} action={'delete'}/>}
 
     </HabitLi>
   )

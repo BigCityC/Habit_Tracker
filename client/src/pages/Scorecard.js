@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import HabitList  from '../components/HabitList'
+import HabitList from '../components/HabitList'
 import Modal from '../components/HabitModal'
 import { getHabitList } from '../components/API'
 
