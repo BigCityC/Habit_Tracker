@@ -41,27 +41,33 @@ const Span = styled.span`
   }
 `
 
-const Header = ({ headerChecked, toggleHeader }) => {
+const Header = ({ headerChecked, toggleHeader, filteredHabits }) => {
 
-  // async function deleteCheckedItems () {
-  //   deleteHabit({ checkedItems })
-  //     //after habits are deleted...
-  //     .then((res) => {
-  //         //empty the checkedItems array
-  //         setCheckedItems([])
-  //         //refresh the UI after deletion
-  //         setFilteredHabits(res.data)
-  //       }
-  //     )
-  //
-  // }
+  async function deleteCheckedItems () {
+    const itemsToDelete = filteredHabits
+      .filter(item => item.checked)
+      .map(item =>item._id
+    )
+    console.log(itemsToDelete)
+
+    deleteHabit( itemsToDelete )
+      //after habits are deleted...
+      .then((res) => {
+          //empty the checkedItems array
+          // setCheckedItems([])
+          //refresh the UI after deletion
+          // setFilteredHabits(res.data)
+        }
+      )
+
+  }
 
   return (
     <>
       <HabitLi>
         <Span>
           {/*if header is checked or checked is true for any of the items, show the trash can*/}
-          {(headerChecked) && <Icon><HiTrash size={20}/></Icon>}
+          {<Icon onClick={deleteCheckedItems}><HiTrash size={20}/></Icon>}
         </Span>
 
         <Habit>

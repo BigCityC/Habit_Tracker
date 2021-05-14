@@ -19,11 +19,11 @@ router.get('/',validate, async (req, res) => {
 //add a habit to the user's habit list
 router.post('/add-habit', validate, async (req, res) => {
 
-  //get user information through token validation
+  // get user information through token validation
   const user = await User.findById(req.user._id)
   if (!user) return res.status(400).send('User is null')
-
-  //add to their habits list
+  console.log(req.body.newHabit)
+  // add to their habits list
   user['habits'].push(req.body.newHabit)
 
 
@@ -36,9 +36,11 @@ router.post('/add-habit', validate, async (req, res) => {
   }
 })
 
-router.delete('/delete', validate, async (req, res) =>{
+router.delete('/', validate, async (req, res) =>{
   const user = await User.findById(req.user._id)
-  console.log(user)
+  const itemsToDelete = req.body.itemsToDelete
+  console.log(itemsToDelete)
+  // await User.findOneAndDelete()
 })
 
 export { router as habitRoute};

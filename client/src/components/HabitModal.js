@@ -131,7 +131,7 @@ function HabitModal ({ setHabits }) {
     if (habitForm.type === '') {
       alert('You must enter a type')
     } else {
-      addHabit({ ...habitForm })
+      addHabit(habitForm)
         .then((res) => {
           setConfirmation(true)
           //adds habit with added checked property

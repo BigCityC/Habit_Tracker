@@ -99,6 +99,7 @@ const HabitList = ({ habits, inputValue, menu }) => {
       <Header
         headerChecked={headerChecked}
         toggleHeader={toggleHeader}
+        filteredHabits={filteredHabits}
       />
 
       {filteredHabits.map((item, index) => (
@@ -112,4 +113,4 @@ const HabitList = ({ habits, inputValue, menu }) => {
   )
 }
 
-export default HabitList
+export default HabitList;

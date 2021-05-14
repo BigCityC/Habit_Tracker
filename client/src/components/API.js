@@ -8,11 +8,7 @@ const api = axios.create({
 
 
 function getConfig(){
-  return {
-    headers: {
-      'auth': Cookies.get('token')
-    }
-  }
+  return {'auth': Cookies.get('token')}
 }
 
 
@@ -26,20 +22,20 @@ function signUp (newUser) {
 }
 
 function validate(){
-  return api.get('/validate', getConfig())
+  return api.get('/validate', { headers: getConfig() })
 }
 
 //user's habit routes
 function addHabit(newHabit){
-  return api.post('/habits/add-habit', {newHabit}, getConfig())
+  return api.post('/habits/add-habit', { newHabit }, { headers: getConfig() })
 }
 
 function getHabitList(){
-  return api.get('/habits', getConfig())
+  return api.get('/habits', { headers: getConfig() })
 }
 
-function deleteHabit(){
-  return api.delete('/habits/delete', getConfig())
+function deleteHabit(itemsToDelete){
+  return api.delete('/habits',{data: { itemsToDelete }, headers: getConfig() })
 }
 
 
