@@ -3,11 +3,11 @@ import mongoose from 'mongoose'
 
 const habitSchema = new mongoose.Schema({
   name: String,
-  type: String,
+  category: String,
   days: {
     type: Number,
     Default: 0
-  }
+  },
 })
 
 const userSchema = new mongoose.Schema({
@@ -32,5 +32,5 @@ const userSchema = new mongoose.Schema({
 })
 
 
-
+//{ type: mongoose.Schema.Types.ObjectId, ref: 'habitSchema' }
 export default mongoose.model('User', userSchema)

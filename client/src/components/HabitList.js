@@ -1,6 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { ListItem } from './ListItem'
 import Header from './Header'
+import { HiTrash } from 'react-icons/hi'
+import { deleteHabit } from './API'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  position: relative;
+`
+
+const Icon = styled.span`
+  color: #182b66;
+`
+
+const DeleteButton = styled.span`
+  position: absolute;
+  top: -10px;
+  left: 8px;
+
+  :hover {
+    cursor: pointer;
+  }
+`
 
 const HabitList = ({ habits, inputValue, menu }) => {
 
@@ -24,10 +45,10 @@ const HabitList = ({ habits, inputValue, menu }) => {
 
   //filters list when searching
   useEffect(() => {
-    //filters out any item that does not have the correct type
+    //filters out any item that does not have the correct category
     const updated = habits
       .filter((item) => {
-        if (activeMenu.name === 'all') {return true} else {return item.type === activeMenu.name && item}
+        if (activeMenu.name === 'all') {return true} else {return item.category === activeMenu.name && item}
       })
       //filters out any item that does not contain characters in the inputValue state
       .filter((habit) => habit.name.toLowerCase().includes(inputValue.toLowerCase()))
@@ -42,7 +63,7 @@ const HabitList = ({ habits, inputValue, menu }) => {
     if (activeMenu.name === 'all') {
       setFilteredHabits(habits)
     } else {
-      const updatedList = habits.filter((item) => item.type === activeMenu.name && item)
+      const updatedList = habits.filter((item) => item.category === activeMenu.name && item)
       setFilteredHabits(updatedList)
     }
   }, [menu])
@@ -94,12 +115,38 @@ const HabitList = ({ habits, inputValue, menu }) => {
 
   }
 
+  async function deleteCheckedItems () {
+    //returns an array of checked Ids
+    const itemsToDelete = filteredHabits
+      .filter(item => item.checked)
+      .map(item => item._id
+      )
+
+    deleteHabit(itemsToDelete)
+      //after habits are deleted...
+      .then((res) => {
+          //toggle header UI
+          headerChecked && setHeaderChecked(false)
+          //refresh the UI after deletion
+          setFilteredHabits(res.data)
+        }
+      )
+  }
+
+  //create a function that returns true if any of the list items are checked
+
   return (
-    <>
+    <Wrapper>
+      <DeleteButton>
+        {/*if header is checked or checked is true for any of the items, show the trash can*/}
+        {<Icon onClick={deleteCheckedItems}><HiTrash size={20}/></Icon>}
+      </DeleteButton>
+
       <Header
         headerChecked={headerChecked}
         toggleHeader={toggleHeader}
         filteredHabits={filteredHabits}
+        setFilteredHabits={setFilteredHabits}
       />
 
       {filteredHabits.map((item, index) => (
@@ -109,8 +156,8 @@ const HabitList = ({ habits, inputValue, menu }) => {
           item={item}
         />
       ))}
-    </>
+    </Wrapper>
   )
 }
 
-export default HabitList;
+export default HabitList

@@ -65,7 +65,7 @@ const Buttons = styled.div`
   padding: 2px;
 `
 
-const TypeBtn = styled.input.attrs({ type: 'button' })`
+const CategoryBtn = styled.input.attrs({ type: 'button' })`
   border-radius: 10px;
   background: transparent;
   padding: 5px;
@@ -99,7 +99,7 @@ const Submit = styled.button.attrs({ type: 'submit' })`
 
 const initHabitForm = {
   name: '',
-  type: '',
+  category: '',
   days: 0,
 }
 
@@ -128,8 +128,8 @@ function HabitModal ({ setHabits }) {
     if (habitForm.name === '') {
       alert('No habit seen')
     }
-    if (habitForm.type === '') {
-      alert('You must enter a type')
+    if (habitForm.category === '') {
+      alert('You must enter a category')
     } else {
       addHabit(habitForm)
         .then((res) => {
@@ -180,9 +180,9 @@ function HabitModal ({ setHabits }) {
           <form onSubmit={handleSubmit}>
             <Input name="name" value={habitForm.name} onChange={handleFormUpdate}/>
             <Buttons>
-              <TypeBtn type="button" name="type" value='good' onClick={handleFormUpdate}/>
-              <TypeBtn type="button" name="type" value='bad' onClick={handleFormUpdate}/>
-              <TypeBtn type="button" name="type" value='neutral' onClick={handleFormUpdate}/>
+              <CategoryBtn category="button" name="category" value='good' onClick={handleFormUpdate}/>
+              <CategoryBtn category="button" name="category" value='bad' onClick={handleFormUpdate}/>
+              <CategoryBtn category="button" name="category" value='neutral' onClick={handleFormUpdate}/>
             </Buttons>
             <SubmitDiv>
               <Submit type="submit"><MdCheck size={20}/></Submit>

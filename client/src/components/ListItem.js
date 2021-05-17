@@ -57,9 +57,9 @@ const Habit = styled.label`
   color: ${({ header }) => header ? 'black' : '#3C4C80'};
 `
 
-const Type = styled.p`
+const Category = styled.p`
   /* Adapt the colors based on primary prop */
-  color: ${({ type }) => handleColor(type)};
+  color: ${({ category }) => handleColor(category)};
   flex: 1;
   text-align: center;
 `
@@ -69,8 +69,8 @@ const Days = styled.p`
   text-align: center;
 `
 
-function handleColor (type) {
-  switch (type) {
+function handleColor (category) {
+  switch (category) {
     case ('good'):
       return 'green'
     case ('bad'):
@@ -93,7 +93,7 @@ const ListItem = ({ header, item, toggleChecked }) => {
         />
         {item.name}
       </Habit>
-      <Type type={item.type}>{item.type}</Type>
+      <Category category={item.category}>{item.category}</Category>
       <Days>{item.days}</Days>
 
       {!header && <IconComponent id={item.id} icon={<HiTrash size={20}/>} action={'delete'}/>}
