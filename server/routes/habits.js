@@ -15,20 +15,18 @@ router.get('/', validate, async (req, res) => {
 
 //add a habit to the user's habit list
 router.post('/add-habit', validate, async (req, res) => {
-  // get user information through token validation
-  const user = await User.findById(req.user._id)
-  if (!user) return res.status(400).send('User is null')
-  console.log(req.body.newHabit)
-  // add to their habits list
-  user['habits'].push(req.body.newHabit)
 
-  try {
-    await user.save()
-    res.send(user['habits'])
-
-  } catch (err) {
-    res.status(400).send(err)
-  }
+  User.findByIdAndUpdate(req.user._id,
+    { $push: { habits: req.body.newHabit } },
+    { new: true , useFindAndModify: false},
+    function (err, data) {
+      if (err) {
+        res.send(err)
+      } else {
+        res.send(data.habits)
+      }
+    }
+  )
 })
 
 router.delete('/', validate, async (req, res) => {
