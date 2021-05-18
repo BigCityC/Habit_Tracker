@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { addHabit } from './API'
 import Message from './Message'
 import { handleColor } from './ListItem'
-import { IconContext } from 'react-icons'
 import Modal from 'react-modal'
 import { MdAddCircle, MdCheck } from 'react-icons/md'
 import styled from 'styled-components'
@@ -27,6 +26,7 @@ const AddHabit = styled.button`
   background: none;
   outline: none;
   border: none;
+  color: #3C4C80;
 
   :hover {
     cursor: pointer;
@@ -94,7 +94,6 @@ const Submit = styled.button.attrs({ type: 'submit' })`
   :hover {
     background-color: #AC5252;
   }
-
 `
 
 const initHabitForm = {
@@ -149,7 +148,6 @@ function HabitModal ({ setHabits }) {
           setHabitForm(initHabitForm)
         })
     }
-
   }
 
   function handleFormUpdate (event) {
@@ -161,7 +159,7 @@ function HabitModal ({ setHabits }) {
   return (
     <div>
       <AddHabit onClick={openModal}>
-        <IconContext.Provider value={{ color: '#3C4C80' }}><MdAddCircle size={50}/></IconContext.Provider>
+        <MdAddCircle size={45}/>
       </AddHabit>
 
       <Modal

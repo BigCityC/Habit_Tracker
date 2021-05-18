@@ -1,38 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Checkbox from './Checkbox'
-import { HiTrash } from 'react-icons/hi'
-import { deleteHabit } from './API'
 
-const Icon = styled.span`
-  position: absolute;
-  right: 10px;
-  display: none;
-  color: #182b66;
-
-
-  :hover {
-    cursor: pointer;
-    color: #2F50B7;
-
-
-  }
-`
-
-const IconComponent = ({ icon, action, id }) => {
-  async function handleClick (e) {
-    console.log(e.target)
-    if (action === 'delete') {
-      deleteHabit().then(res => console.log(res.data))
-    }
-  }
-
-  return (
-    <Icon onClick={handleClick}>
-      {icon}
-    </Icon>
-  )
-}
 
 const HabitLi = styled.li`
   position: relative;
@@ -45,10 +14,6 @@ const HabitLi = styled.li`
 
   :hover {
     background-color: ${({ header }) => header ? 'white' : '#eeecec'};
-
-    ${Icon} {
-      display: flex;
-    }
   }
 
 `
@@ -82,7 +47,7 @@ function handleColor (category) {
   }
 }
 
-const ListItem = ({ header, item, toggleChecked }) => {
+const ListItem = ({ item, toggleChecked }) => {
 
   return (
     <HabitLi>
@@ -95,9 +60,6 @@ const ListItem = ({ header, item, toggleChecked }) => {
       </Habit>
       <Category category={item.category}>{item.category}</Category>
       <Days>{item.days}</Days>
-
-      {!header && <IconComponent id={item.id} icon={<HiTrash size={20}/>} action={'delete'}/>}
-
     </HabitLi>
   )
 }

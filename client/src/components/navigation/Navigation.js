@@ -17,6 +17,7 @@ const MainNavigationLink = styled.a`
 
 const MainNavigationDropDown = styled.div`
   display: none;
+  z-index: 1;
   position: absolute;
   right: -10px;
   top: 66px;
@@ -29,6 +30,7 @@ const MainNavigation = styled.div`
 
   :hover ${MainNavigationDropDown} {
     display: block;
+  }
 `
 
 const Navigation = ({ dropdownContent }) =>

@@ -3,6 +3,7 @@ import User from '../models/User.js'
 import validate from './verifyToken.js'
 
 const router = express.Router()
+//using route: '/api/user/habits'
 
 //get the user's habits using the validate function to get the verified user ID
 router.get('/', validate, async (req, res) => {

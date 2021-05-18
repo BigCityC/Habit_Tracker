@@ -5,25 +5,29 @@ import { HiTrash } from 'react-icons/hi'
 import { deleteHabit } from './API'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
+const HabitUl = styled.ul`
   position: relative;
+  display: flex;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 18px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  padding: 0;
 `
 
-const Icon = styled.span`
-  color: #182b66;
-`
-
-const DeleteButton = styled.span`
+const DeleteButton = styled.div`
   position: absolute;
   top: -10px;
   left: 8px;
+  color: #182b66;
+  z-index: 2;
 
   :hover {
     cursor: pointer;
   }
 `
 
-const HabitList = ({ habits, inputValue, menu }) => {
+const HabitList = ({ habits, setHabits, inputValue, menu }) => {
 
   //keeps track of the active menu
   const activeMenu = menu.find((item) => item.active)
@@ -128,35 +132,32 @@ const HabitList = ({ habits, inputValue, menu }) => {
           //toggle header UI
           headerChecked && setHeaderChecked(false)
           //refresh the UI after deletion
-          setFilteredHabits(res.data)
+          setHabits(res.data)
         }
       )
   }
 
-  //create a function that returns true if any of the list items are checked
-
   return (
-    <Wrapper>
+    <HabitUl>
       <DeleteButton>
-        {/*if header is checked or checked is true for any of the items, show the trash can*/}
-        {<Icon onClick={deleteCheckedItems}><HiTrash size={20}/></Icon>}
+        {/*if any item's checked property is true, show the trash can*/}
+        {handleChecked(true, 'some') && <HiTrash size={20} onClick={deleteCheckedItems}/>}
       </DeleteButton>
 
       <Header
         headerChecked={headerChecked}
         toggleHeader={toggleHeader}
-        filteredHabits={filteredHabits}
-        setFilteredHabits={setFilteredHabits}
       />
 
       {filteredHabits.map((item, index) => (
         <ListItem
-          toggleChecked={itemChecked}
           key={index}
+          toggleChecked={itemChecked}
           item={item}
         />
+
       ))}
-    </Wrapper>
+    </HabitUl>
   )
 }
 

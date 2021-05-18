@@ -7,6 +7,7 @@ import validate from './verifyToken.js';
 
 
 const router = express.Router()
+//using route: '/api/user'
 
 //register a new user
 router.post('/register', async (req, res) => {

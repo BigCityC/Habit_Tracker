@@ -1,30 +1,38 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import HabitList from '../components/HabitList'
-import Modal from '../components/HabitModal'
+import HabitModal from '../components/HabitModal'
 import { getHabitList } from '../components/API'
+
 
 const TopSection = styled.div`
   display: flex;
-  position: relative;
-`
-const Section1 = styled.div`
-  flex: 10;
+  flex-direction: column;
+  margin-left: 10px;
 `
 
-const Section2 = styled.div`
-  flex: 1;
+const Title = styled.h3`
+  margin-bottom: 0;
+`
+
+const SearchBarDiv = styled.div`
+  display: flex;
+`
+
+const ModalDiv = styled.div`
   align-self: center;
+  margin-left: 15px;
 `
 
 const SearchBar = styled.input`
   border-radius: 10px;
   border: none;
+  align-self: center;
   background-color: #CB6A6A;
   opacity: 30%;
   padding: 5px;
   color: white;
-  width: 40%;
+  width: 50%;
 
   ::placeholder {
     color: white;
@@ -39,9 +47,9 @@ const Main = styled.div`
 
 const MenuUl = styled.ul`
   display: flex;
-  flex-wrap: wrap;
-  width: 100%;
+  flex-wrap: nowrap;
   padding-left: 0;
+  text-align: center;
 `
 
 const MenuLi = styled.li`
@@ -50,15 +58,6 @@ const MenuLi = styled.li`
   list-style: none;
   padding: 0 2px 0 5px;
   margin-left: 10px
-`
-
-const HabitUl = styled.ul`
-  display: flex;
-  font-family: 'Work Sans', sans-serif;
-  font-size: 18px;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  padding: 0;
 `
 
 let initMenu = [{
@@ -123,19 +122,16 @@ function Scorecard () {
   return (
     <>
       <TopSection>
-        <Section1>
-          <h3>Habit Scorecard</h3>
+        <Title>Habit Scorecard</Title>
+        <SearchBarDiv>
           <SearchBar type="text" placeholder="Search" value={inputValue} onChange={handleChange}/>
-        </Section1>
-
-        <Section2>
-          <Modal setHabits={setHabits}/>
-        </Section2>
-
+          <ModalDiv>
+            <HabitModal setHabits={setHabits}/>
+          </ModalDiv>
+        </SearchBarDiv>
       </TopSection>
 
       <Main>
-
 
         <MenuUl>
           {menu.map((item, index) => (
@@ -147,12 +143,12 @@ function Scorecard () {
           ))}
         </MenuUl>
 
-        <HabitUl>
-          <HabitList
-            habits={habits}
-            inputValue={inputValue}
-            menu={menu}/>
-        </HabitUl>
+        <HabitList
+          habits={habits}
+          setHabits={setHabits}
+          inputValue={inputValue}
+          menu={menu}/>
+
       </Main>
     </>
   )
