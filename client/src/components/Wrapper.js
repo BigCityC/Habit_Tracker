@@ -15,8 +15,9 @@ const Nav = styled.nav`
 `
 
 const Main = styled.div`
-  max-width: 90%;
-  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  border: 1px solid green;
 `
 
 const MainNavigationLogoLink = styled.div`

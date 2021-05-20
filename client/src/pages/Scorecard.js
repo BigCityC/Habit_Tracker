@@ -6,7 +6,7 @@ import { getHabitList } from '../components/API'
 
 
 const Container = styled.div`
-  margin: 0 auto;
+  width: 90%
 `
 const TopSection = styled.div`
   display: flex;
