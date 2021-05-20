@@ -5,6 +5,9 @@ import HabitModal from '../components/HabitModal'
 import { getHabitList } from '../components/API'
 
 
+const Container = styled.div`
+  margin: 0 auto;
+`
 const TopSection = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,6 +36,7 @@ const SearchBar = styled.input`
   padding: 5px;
   color: white;
   width: 50%;
+  min-width: 150px;
 
   ::placeholder {
     color: white;
@@ -42,7 +46,6 @@ const SearchBar = styled.input`
 const Main = styled.div`
   display: flex;
   flex-flow: column wrap;
-
 `
 
 const MenuUl = styled.ul`
@@ -57,7 +60,7 @@ const MenuLi = styled.li`
   border-bottom: ${({ active }) => active === true && '2px solid #CB6A6A'};
   list-style: none;
   padding: 0 2px 0 5px;
-  margin-left: 10px
+  margin-left: 10px;
 `
 
 let initMenu = [{
@@ -120,7 +123,7 @@ function Scorecard () {
   }
 
   return (
-    <>
+    <Container>
       <TopSection>
         <Title>Habit Scorecard</Title>
         <SearchBarDiv>
@@ -150,7 +153,7 @@ function Scorecard () {
           menu={menu}/>
 
       </Main>
-    </>
+    </Container>
   )
 }
 

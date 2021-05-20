@@ -5,6 +5,7 @@ import { handleColor } from './ListItem'
 import Modal from 'react-modal'
 import { MdAddCircle, MdCheck } from 'react-icons/md'
 import styled from 'styled-components'
+import { format } from 'date-fns'
 
 const customStyles = {
   overlay: {
@@ -100,6 +101,8 @@ const initHabitForm = {
   name: '',
   category: '',
   days: 0,
+  date_added: format(new Date(), 'MM/dd/yyyy'),
+  completed_dates: [],
 }
 
 function HabitModal ({ setHabits }) {
@@ -127,7 +130,7 @@ function HabitModal ({ setHabits }) {
     if (habitForm.name === '') {
       alert('No habit seen')
     }
-    if (habitForm.category === '') {
+    else if (habitForm.category === '') {
       alert('You must enter a category')
     } else {
       addHabit(habitForm)

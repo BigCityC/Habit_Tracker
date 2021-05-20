@@ -8,6 +8,12 @@ const habitSchema = new mongoose.Schema({
     type: Number,
     Default: 0
   },
+  date_added: {
+    type: String,
+  },
+  completed_dates: {
+    type: Array,
+  }
 })
 
 const userSchema = new mongoose.Schema({

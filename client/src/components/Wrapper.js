@@ -15,7 +15,7 @@ const Nav = styled.nav`
 `
 
 const Main = styled.div`
-  max-width: 1000px;
+  max-width: 90%;
   margin: 0 auto;
 `
 

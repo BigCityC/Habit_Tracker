@@ -19,6 +19,7 @@ const HabitLi = styled.li`
 `
 const Habit = styled.label`
   flex: 1;
+  display: flex;
   color: ${({ header }) => header ? 'black' : '#3C4C80'};
 `
 
