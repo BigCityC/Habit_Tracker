@@ -17,7 +17,6 @@ const Nav = styled.nav`
 const Main = styled.div`
   display: flex;
   justify-content: center;
-  border: 1px solid green;
 `
 
 const MainNavigationLogoLink = styled.div`
@@ -66,13 +65,13 @@ function Wrapper ({ setUser, children }) {
             <Link to="/tracker">Habit Tracker</Link>
           </MainNavigationLogoLink>
 
-          <Navigation dropdownContent={
+          <Navigation>
             <StyledUl>
               <NavigationLink url="/plan" label="Plan"/>
               <NavigationLink url="/scorecard" label="Scorecard"/>
               <NavigationLink isButton label="logout" callback={handleClick}/>
             </StyledUl>
-          }/>
+          </Navigation>
         </Nav>
       </header>
       <Main>

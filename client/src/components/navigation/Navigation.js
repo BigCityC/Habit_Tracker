@@ -33,14 +33,14 @@ const MainNavigation = styled.div`
   }
 `
 
-const Navigation = ({ dropdownContent }) =>
+const Navigation = ({ children }) =>
 
   <MainNavigation>
     <MainNavigationLink>
       <HiMenu size={40}/>
     </MainNavigationLink>
     <MainNavigationDropDown>
-      {dropdownContent}
+      {children}
     </MainNavigationDropDown>
   </MainNavigation>
 

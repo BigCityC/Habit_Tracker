@@ -2,25 +2,15 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { getHabitList } from '../components/API'
 import Row  from '../components/Row'
-import Boxes from '../components/Boxes'
 
 const Container = styled.div`
-  display: flex;
   flex-direction: column;
+  border: 1px solid ;
 `
 
 const Header = styled.div`
-  display: flex;
   background-color: rgb(78, 96, 152);
-  margin: 1px;
-  text-align: center;
 `
-const Title = styled.div`
-  flex: 1;
-  align-self: center;
-`
-
-
 
 function Tracker () {
 
@@ -47,8 +37,7 @@ function Tracker () {
   return (
     <Container>
       <Header>
-        <Title>Habits</Title>
-        <Boxes color='white' />
+        <Row name='Habits' color='white'/>
       </Header>
 
       {names.map(name =>
