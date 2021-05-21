@@ -43,6 +43,8 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
       })
 
       setFilteredHabits(_habits)
+    } else {
+      setFilteredHabits([])
     }
 
   }, [habits])
