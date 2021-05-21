@@ -4,7 +4,6 @@ import styled from 'styled-components'
 const Card = styled.div`
   height: 80px;
   width: 90px;
-  flex: 1;
   margin: 5px;
   background-color: ${({ color }) => color  && color};
 

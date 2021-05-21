@@ -37,7 +37,7 @@ function Tracker () {
   return (
     <Container>
       <Header>
-        <Row name='Habits' color='white'/>
+        <Row name='Habits' color='white' date/>
       </Header>
 
       {names.map(name =>
