@@ -1,10 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
+
 
 const Card = styled.div`
   height: 80px;
   width: 90px;
-  flex: 1;
   margin: 5px;
   background-color: ${({ color }) => color  && color};
 
@@ -12,11 +12,21 @@ const Card = styled.div`
     cursor: pointer;
   }
 `
-const Box = ({color="lightgrey", children}) => {
+
+const Box = ({children, color}) => {
+
+  const [cardColor, setCardColor] = useState("lightgrey")
+
+  function handleClick() {
+    // console.log(color.hex)
+    setCardColor(color)
+  }
+
   return (
-    <Card color={color}>
+    <Card color={cardColor} onClick={handleClick}>
       {children}
     </Card>
+
   )
 }
 
