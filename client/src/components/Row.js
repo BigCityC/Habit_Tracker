@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Box from './Box'
-import { eachDayOfInterval } from 'date-fns'
+import { GithubPicker } from 'react-color'
 
 const Container = styled.div`
   display: flex;
   align-items: center;
+  position: relative;
 `
 const Name = styled.div`
   flex: 2;
@@ -18,45 +19,42 @@ const Boxes = styled.div`
   display: flex;
   align-items: center;
 `
-
-const Date = styled.div`
-  display: flex;
-  flex-direction:column;
-  align-items:center;
-`
-const Day = styled.p`
-  margin: 0;
-
-`
-const Num = styled.p`
-  margin: 0;
-  font-weight: bold;
-
+const ColorWrapper = styled.div`
+  position: absolute;
+  z-index: 2;
 `
 
-const result = eachDayOfInterval({
-  start: new window.Date(2021, 5, 16),
-  end: new window.Date(2021, 5, 22)
-})
+const Row = ({ name, result }) => {
+  const [color, setColor] = useState('red')
+  const [colorPicker, setColorPicker] = useState(false)
 
-console.log(result)
-const Row = ({ name, color, date }) => {
+  //displays the color picker
+  function toggleColorPicker () {
+    setColorPicker(!colorPicker)
+  }
+
+  //changes color for row
+  function handleChange (color) {
+    setColor(color.hex)
+  }
+
   return (
     <Container>
-      <Name>{name}</Name>
+      <Name onClick={toggleColorPicker}>
+        {colorPicker &&
+        <ColorWrapper>
+          <GithubPicker
+            color={color}
+            colors={['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#006B76', '#1273DE', '#004DCF', '#5300EB']}
+            onChange={handleChange}
+          />
+        </ColorWrapper>}
+        {name}
+      </Name>
+
       <Boxes>
-        {Array.from(Array(8).keys()).map(() =>
-          <Box color={color}>
-            {date &&
-
-            <Date>
-              <Day>March</Day>
-              <Num>14</Num>
-              <Day>MON</Day>
-            </Date>
-
-            }
-          </Box>
+        {result.map((index) =>
+          <Box key={index} color={color}/>
         )}
       </Boxes>
     </Container>
