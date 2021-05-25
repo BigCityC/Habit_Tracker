@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 
 
 const Card = styled.div`
   height: 80px;
   width: 90px;
-  margin: 5px;
+  margin: 0 5px;
   background-color: ${({ color }) => color  && color};
 
   :hover {
@@ -15,11 +15,20 @@ const Card = styled.div`
 
 const Box = ({children, color}) => {
 
-  const [cardColor, setCardColor] = useState("lightgrey")
+  const [cardColor, setCardColor] = useState(color)
+  const [completed, setCompleted] = useState(false)
+
+
+  useEffect(() => {
+    if (completed) {
+      setCardColor(color)
+    }
+    },
+    [color])
 
   function handleClick() {
-    // console.log(color.hex)
     setCardColor(color)
+    setCompleted(!completed)
   }
 
   return (

@@ -7,6 +7,7 @@ import { add, eachDayOfInterval, format } from 'date-fns'
 
 const Container = styled.div`
   flex-direction: column;
+  margin: 0 auto;
 `
 
 const Header = styled.div`
@@ -48,7 +49,7 @@ const result = eachDayOfInterval({
 
 function Tracker () {
 
-  const [names, setNames] = useState([])
+  const [habits, setHabits] = useState([])
 
   useEffect(() => {
     async function getHabits () {
@@ -58,8 +59,7 @@ function Tracker () {
 
         const names = res.data
           .filter(item=>item.category !== 'neutral' )
-          .map(item => item.name)
-        setNames(names)
+        setHabits(names)
       } catch (error) {
         console.log(error)
       }
@@ -85,10 +85,10 @@ function Tracker () {
         </Boxes>
       </Header>
 
-      {names.map((name, index) =>
+      {habits.map((habit, index) =>
         <Row
           key={index}
-          name={name}
+          habit={habit}
           result={result}
         />
       )}
