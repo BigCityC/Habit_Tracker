@@ -57,7 +57,7 @@ const Row = ({ habit, result }) => {
   const [color, setColor] = useState('lightgrey')
   const [colorPicker, setColorPicker] = useState(false)
 
-  const innerRef = useOuterClick(ev => {setColorPicker(false)});
+  const innerRef = useOuterClick(() => {setColorPicker(false)});
 
   useEffect(() => {
     //when color changes from color picker, re render the row with existing completed to update to the color

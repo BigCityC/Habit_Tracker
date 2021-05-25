@@ -18,7 +18,7 @@ const Box = ({children, color}) => {
   const [cardColor, setCardColor] = useState(color)
   const [completed, setCompleted] = useState(false)
 
-
+  //when color updates, update any existing boxes in the row that are already complete.
   useEffect(() => {
     if (completed) {
       setCardColor(color)
