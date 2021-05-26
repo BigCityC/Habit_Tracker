@@ -41,12 +41,14 @@ function useOuterClick(callback) {
   useEffect(() => { callbackRef.current = callback; });
   useEffect(() => {
     document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
+
     function handleClick(e) {
       if (innerRef.current && callbackRef.current &&
         !innerRef.current.contains(e.target)
       ) callbackRef.current(e);
     }
+
+    return () => document.removeEventListener("click", handleClick);
   }, []); // no dependencies -> stable click listener
 
   return innerRef; // convenience for client (doesn't need to init ref himself)

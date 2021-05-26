@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const Card = styled.div`
   height: 80px;
   width: 90px;
-  margin: 0 5px;
+  margin: 0 3px;
   background-color: ${({ color }) => color  && color};
 
   :hover {
@@ -27,7 +27,12 @@ const Box = ({children, color}) => {
     [color])
 
   function handleClick() {
-    setCardColor(color)
+    if (!completed) {
+      setCardColor(color)
+    } else {
+      setCardColor("lightgrey")
+    }
+
     setCompleted(!completed)
   }
 
