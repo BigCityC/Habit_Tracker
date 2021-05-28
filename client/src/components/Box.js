@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
+import { updateHabit } from './API'
 
 
 const Card = styled.div`
@@ -13,7 +14,7 @@ const Card = styled.div`
   }
 `
 
-const Box = ({children, color}) => {
+const Box = ({children, color, date, habit}) => {
 
   const [cardColor, setCardColor] = useState(color)
   const [completed, setCompleted] = useState(false)
@@ -29,9 +30,14 @@ const Box = ({children, color}) => {
   function handleClick() {
     if (!completed) {
       setCardColor(color)
+      updateHabit({date: date, name: habit.name})
+        .then((res)=>console.log(res.data))
     } else {
       setCardColor("lightgrey")
+      habit.completed_dates = habit.completed_dates.filter(d => d !== date)
     }
+
+    console.log(habit)
 
     setCompleted(!completed)
   }

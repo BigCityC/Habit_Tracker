@@ -99,7 +99,7 @@ const Submit = styled.button.attrs({ type: 'submit' })`
 const initHabitForm = {
   name: '',
   category: '',
-  days: 0,
+  color: "red",
   date_added: new Date(),
   completed_dates: [],
 }

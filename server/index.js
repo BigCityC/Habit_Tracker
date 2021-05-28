@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 //import routes
 import { authRoute } from './routes/auth.js'
 import { habitRoute } from './routes/habits.js'
+import { trackerRoute } from './routes/tracker.js'
 
 //setup
 const app = express()
@@ -16,6 +17,7 @@ app.use(express.json())
 app.use(cors())
 app.use('/api/user', authRoute)
 app.use('/api/user/habits', habitRoute)
+app.use('/api/user/tracker', trackerRoute)
 
 //connect to DB
 mongoose.connect(

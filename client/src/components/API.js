@@ -38,5 +38,10 @@ function deleteHabit(itemsToDelete){
   return api.delete('/habits',{data: { itemsToDelete }, headers: getConfig() })
 }
 
+//tracker routes
+function updateHabit(update){
+  return api.post('/tracker/update', { update },{ headers: getConfig() })
+}
 
-export {login,signUp, validate, addHabit, getHabitList, deleteHabit}
+
+export {login,signUp, validate, addHabit, getHabitList, deleteHabit, updateHabit}
