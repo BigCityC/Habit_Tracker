@@ -60,7 +60,7 @@ const ListItem = ({ item, toggleChecked }) => {
         {item.name}
       </Habit>
       <Category category={item.category}>{item.category}</Category>
-      <Days>{item.days}</Days>
+      <Days>{item.completed_dates.length}</Days>
     </HabitLi>
   )
 }

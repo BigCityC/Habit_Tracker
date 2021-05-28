@@ -55,6 +55,8 @@ function useOuterClick(callback) {
 }
 
 
+const preset_colors = ['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#006B76', '#1273DE', '#004DCF', '#5300EB']
+
 const Row = ({ habit, result }) => {
   const [color, setColor] = useState('lightgrey')
   const [colorPicker, setColorPicker] = useState(false)
@@ -88,7 +90,7 @@ const Row = ({ habit, result }) => {
         <ColorWrapper>
           <GithubPicker
             color={color}
-            colors={['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#006B76', '#1273DE', '#004DCF', '#5300EB']}
+            colors={preset_colors}
             onChange={handleChange}
           />
         </ColorWrapper>}
@@ -96,8 +98,8 @@ const Row = ({ habit, result }) => {
       </Name>
 
       <Boxes>
-        {result.map((index) =>
-          <Box key={index} color={color}/>
+        {result.map((date, index) =>
+          <Box key={index} date={date} color={color} habit={habit}/>
         )}
       </Boxes>
     </Container>

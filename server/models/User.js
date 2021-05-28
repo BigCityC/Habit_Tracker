@@ -4,9 +4,8 @@ import mongoose from 'mongoose'
 const habitSchema = new mongoose.Schema({
   name: String,
   category: String,
-  days: {
-    type: Number,
-    Default: 0
+  color: {
+    type: String,
   },
   date_added: {
     type: String,

@@ -42,9 +42,9 @@ const Num = styled.p`
 
 `
 
-const result = eachDayOfInterval({
-  start: new window.Date(),
-  end: add(new window.Date(),{days:7})
+let result = eachDayOfInterval({
+  start: add(new window.Date(),{days:-7}),
+  end: new window.Date()
 })
 
 function Tracker () {
