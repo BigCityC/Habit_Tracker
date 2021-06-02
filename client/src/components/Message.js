@@ -1,6 +1,6 @@
-import styled, { keyframes } from 'styled-components'
-import { useEffect } from 'react'
-import BaseAnimation from './BaseAnimation'
+import styled, { keyframes } from "styled-components"
+import { useEffect } from "react"
+import BaseAnimation from "./BaseAnimation"
 
 const FadeOutAnimation = keyframes`
   from {

@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import Scorecard from '../pages/Scorecard'
-import Plan from '../pages/Plan'
-import Tracker from '../pages/Tracker'
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
-import Wrapper from './Wrapper'
-import Auth from './auth/Auth'
-import { validate } from './API'
+import React, { useState, useEffect } from "react"
+import Scorecard from "../pages/Scorecard"
+import Plan from "../pages/Plan"
+import Tracker from "../pages/Tracker"
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom"
+import Wrapper from "./Wrapper"
+import Auth from "./auth/Auth"
+import { validate } from "./API"
 
 const privatePages = [
   {
-    path: '/scorecard',
+    path: "/scorecard",
     component: <Scorecard/>
   }, {
-    path: '/plan',
+    path: "/plan",
     component: <Plan/>
   },
   {
-    path: '/tracker',
+    path: "/tracker",
     component: <Tracker/>
   }
 ]

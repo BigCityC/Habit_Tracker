@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { HiCheck } from 'react-icons/hi'
+import styled from "styled-components"
+import { HiCheck } from "react-icons/hi"
 
 const Icon = styled.svg`
   fill: none;
@@ -11,12 +11,12 @@ const StyledCheckbox = styled.div`
   display: inline-block;
   width: 16px;
   height: 16px;
-  background: ${({ checked }) => (checked) ? 'salmon' : '#d9d8d8'};
+  background: ${({ checked }) => (checked) ? "salmon" : "#d9d8d8"};
   border-radius: 3px;
   transition: all 150ms;
 
   ${Icon} {
-    visibility: ${({ checked }) => (checked) ? 'visible' : 'hidden'}
+    visibility: ${({ checked }) => (checked) ? "visible" : "hidden"}
   }
 `
 
@@ -32,7 +32,7 @@ function Checkbox ({ checked, toggleCheckbox }) {
     <CheckboxContainer>
       <StyledCheckbox checked={checked} onClick={toggleCheckbox}>
         <Icon viewBox="-3 1 22 22">
-          <HiCheck color={'white'}/>
+          <HiCheck color={"white"}/>
         </Icon>
       </StyledCheckbox>
     </CheckboxContainer>

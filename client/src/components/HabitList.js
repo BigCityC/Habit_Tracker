@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { ListItem } from './ListItem'
-import Header from './Header'
-import { HiTrash } from 'react-icons/hi'
-import { deleteHabit } from './API'
-import styled from 'styled-components'
+import React, { useState, useEffect } from "react"
+import { ListItem } from "./ListItem"
+import Header from "./Header"
+import { HiTrash } from "react-icons/hi"
+import { deleteHabit } from "./API"
+import styled from "styled-components"
 
 const HabitUl = styled.ul`
   position: relative;
   display: flex;
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
   font-size: 18px;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -52,7 +52,7 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
     //filters out any item that does not have the correct category
     const updated = habits
       .filter((item) => {
-        if (activeMenu.name === 'all') {return true} else {return item.category === activeMenu.name && item}
+        if (activeMenu.name === "all") {return true} else {return item.category === activeMenu.name && item}
       })
       //filters out any item that does not contain characters in the inputValue state
       .filter((habit) => habit.name.toLowerCase().includes(inputValue.toLowerCase()))
@@ -64,7 +64,7 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
 
   //filters the habit list to only show habits based on the menu (good,bad,neutral)
   useEffect(() => {
-    if (activeMenu.name === 'all') {
+    if (activeMenu.name === "all") {
       setFilteredHabits(habits)
     } else {
       const updatedList = habits.filter((item) => item.category === activeMenu.name && item)
@@ -75,7 +75,7 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
   function handleChecked (boolean, func) {
     //make array of checked property
     const arrayOfChecked = filteredHabits.map((item) => item.checked)
-    if (func === 'some') {
+    if (func === "some") {
       return arrayOfChecked.some(item => item === boolean)
     } else {
       return arrayOfChecked.every(item => item === boolean)
@@ -85,7 +85,7 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
   function updateHeader () {
     if (filteredHabits.length === 0) return
     //if any are false, uncheck the header
-    if (handleChecked(false, 'some')) {
+    if (handleChecked(false, "some")) {
       setHeaderChecked(false)
       //if they are all true, header should be checked
     } else if (handleChecked(true,)) {
@@ -140,8 +140,8 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
   return (
     <HabitUl>
       <DeleteButton>
-        {/*if any item's checked property is true, show the trash can*/}
-        {handleChecked(true, 'some') && <HiTrash size={20} onClick={deleteCheckedItems}/>}
+        {/*if any item"s checked property is true, show the trash can*/}
+        {handleChecked(true, "some") && <HiTrash size={20} onClick={deleteCheckedItems}/>}
       </DeleteButton>
 
       <Header

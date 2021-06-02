@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import { HiMenu } from 'react-icons/hi'
+import React from "react"
+import styled from "styled-components"
+import { HiMenu } from "react-icons/hi"
 
 const MainNavigationLink = styled.a`
   align-items: flex-start;

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { getHabitList } from '../components/API'
-import Row  from '../components/Row'
-import Box from '../components/Box'
-import { add, eachDayOfInterval, format } from 'date-fns'
+import React, { useEffect, useState } from "react"
+import styled from "styled-components"
+import { getHabitList } from "../components/API"
+import Row  from "../components/Row"
+import Box from "../components/Box"
+import { add, eachDayOfInterval, format } from "date-fns"
 
 const Container = styled.div`
   flex-direction: column;

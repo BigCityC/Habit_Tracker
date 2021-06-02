@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-import Checkbox from './Checkbox'
-import React from 'react'
+import styled from "styled-components"
+import Checkbox from "./Checkbox"
+import React from "react"
 
 const HabitLi = styled.li`
   position: relative;

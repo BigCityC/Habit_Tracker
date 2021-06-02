@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
-import styled from 'styled-components'
-import Box from './Box'
-import { GithubPicker } from 'react-color'
+import React, { useState, useEffect, useRef } from "react"
+import styled from "styled-components"
+import Box from "./Box"
+import { GithubPicker } from "react-color"
 import { MdColorLens } from "react-icons/md"
 
 const Container = styled.div`
@@ -51,21 +51,21 @@ function useOuterClick(callback) {
     return () => document.removeEventListener("click", handleClick);
   }, []); // no dependencies -> stable click listener
 
-  return innerRef; // convenience for client (doesn't need to init ref himself)
+  return innerRef; // convenience for client (doesn"t need to init ref himself)
 }
 
 
-const preset_colors = ['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#006B76', '#1273DE', '#004DCF', '#5300EB']
+const preset_colors = ["#B80000", "#DB3E00", "#FCCB00", "#008B02", "#006B76", "#1273DE", "#004DCF", "#5300EB"]
 
 const Row = ({ habit, result }) => {
-  const [color, setColor] = useState('lightgrey')
+  const [color, setColor] = useState("lightgrey")
   const [colorPicker, setColorPicker] = useState(false)
 
   const innerRef = useOuterClick(() => {setColorPicker(false)});
 
   useEffect(() => {
     //when color changes from color picker, re render the row with existing completed to update to the color
-    if (color === 'lightgrey') {
+    if (color === "lightgrey") {
       setColor("red")
     } else {setColor(color)}
   }, [color])
@@ -79,6 +79,7 @@ const Row = ({ habit, result }) => {
   function handleChange (color) {
     setColor(color.hex)
   }
+
 
   return (
     <Container>
@@ -99,7 +100,7 @@ const Row = ({ habit, result }) => {
 
       <Boxes>
         {result.map((date, index) =>
-          <Box key={index} date={date} color={color} habit={habit}/>
+          <Box key={index} result={result} date={date} color={color} habit={habit}/>
         )}
       </Boxes>
     </Container>
