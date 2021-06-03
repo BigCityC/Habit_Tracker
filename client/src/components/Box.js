@@ -1,43 +1,44 @@
-import React, {useState, useEffect} from "react"
-import styled from "styled-components"
-import { updateHabit } from "./API"
-
+import React, { useState, useEffect } from 'react'
+import styled from 'styled-components'
+import { updateHabit } from './API'
 
 const Card = styled.div`
   height: 80px;
   width: 90px;
   margin: 0 3px;
-  background-color: ${({ color }) => color  && color};
+  background-color: ${({ color }) => color && color};
 
   :hover {
     cursor: pointer;
   }
 `
 
-const Box = ({children, color, date, habit, result }) => {
-
+const Box = ({ children, color, date, habit }) => {
   const [cardColor, setCardColor] = useState(color)
   const [completed, setCompleted] = useState(false)
 
   //when color updates, update any existing boxes in the row that are already complete.
   useEffect(() => {
-    if (completed) {
-      setCardColor(color)
-    }
+      //this runs 40 times every render
+      console.log("box useEffect runs")
+      if (habit.completed_dates.includes(date)) {
+        setCardColor(color)
+      } else {
+        setCardColor("lightgrey")
+      }
     },
     [color])
 
-  function handleClick() {
+  function handleClick () {
     if (!completed) {
-
       setCardColor(color)
-      updateHabit({date, name: habit.name, code: "add"})
-        .then((res)=>console.log(res.data))
+      updateHabit({ data: date, id: habit._id, action: 'add-date' })
+        .then((res) => console.log(res.data))
 
     } else {
-      updateHabit({date, name: habit.name, code: "remove"})
-        .then((res)=>console.log(res.data))
-      setCardColor("lightgrey")
+      updateHabit({ data: date, id: habit._id, action: 'remove-date' })
+        .then((res) => console.log(res.data))
+      setCardColor('lightgrey')
       // habit.completed_dates = habit.completed_dates.filter(d => d !== date)
     }
 
