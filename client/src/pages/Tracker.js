@@ -45,7 +45,7 @@ const Card = styled.div`
   width: 90px;
   margin: 0 3px;
   background-color: white;
-  }
+}
 `
 //initializing date array of current week
 let dateArray = eachDayOfInterval({
@@ -57,30 +57,26 @@ const formattedDateArray = dateArray.map(item => item.toISOString())
 function Tracker () {
 
   const [habits, setHabits] = useState([])
-  const [loading, setLoading] = useState(true)
-  // console.log(habits)
+
   useEffect(() => {
     const getHabits = async () => {
-      try {
-        //get habit list from server
-        const res = await getHabitList()
-        //removes neutral habits
-        const habits = res.data.filter(item => item.category !== 'neutral')
-
-        setHabits(habits)
-      } catch {
-        console.log('error')
-      } finally {
-        setLoading(false)
-      }
-
-
+      //get habit list from server
+      const res = await getHabitList()
+      //removes neutral habits
+      const habits = res.data.filter(item => item.category !== 'neutral')
+      console.log(habits)
+      setHabits(habits)
     }
 
     getHabits()
   }, [])
 
-  if (loading) return <h1>h</h1>
+//add a function here that is similar to the updateHabitAPI call that you can
+//prop drill to box so that  not only the server updates when a date is added to
+//completed_dates, but also there is a local update because we need to see the change without
+// having to re render the page.
+
+  if (habits.length <= 0) return <h5>no habits yet.</h5>
   return (
     <Container>
       <Header>

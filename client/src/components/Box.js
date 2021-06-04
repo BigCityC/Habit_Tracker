@@ -13,18 +13,20 @@ const Card = styled.div`
   }
 `
 
-const Box = ({ children, color, date, habit }) => {
+const Box = ({ children, color, date, completed_dates, id }) => {
   const [cardColor, setCardColor] = useState(color)
   const [completed, setCompleted] = useState(false)
 
   //when color updates, update any existing boxes in the row that are already complete.
   useEffect(() => {
-      //this runs 40 times every render
-      console.log("box useEffect runs")
-      if (habit.completed_dates.includes(date)) {
+
+      if (completed_dates.includes(date)) {
+        setCompleted(true)
         setCardColor(color)
-      } else {
-        setCardColor("lightgrey")
+      }
+      else {
+        console.log(completed_dates, date)
+        setCardColor('lightgrey')
       }
     },
     [color])
@@ -32,14 +34,13 @@ const Box = ({ children, color, date, habit }) => {
   function handleClick () {
     if (!completed) {
       setCardColor(color)
-      updateHabit({ data: date, id: habit._id, action: 'add-date' })
+      updateHabit({ data: date, id: id, action: 'add-date' })
         .then((res) => console.log(res.data))
 
     } else {
-      updateHabit({ data: date, id: habit._id, action: 'remove-date' })
-        .then((res) => console.log(res.data))
       setCardColor('lightgrey')
-      // habit.completed_dates = habit.completed_dates.filter(d => d !== date)
+      updateHabit({ data: date, id: id, action: 'remove-date' })
+        .then((res) => console.log(res.data))
     }
 
     setCompleted(!completed)

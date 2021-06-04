@@ -59,17 +59,28 @@ function useOuterClick (callback) {
 const preset_colors = ['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#006B76', '#1273DE', '#004DCF', '#5300EB']
 
 const Row = ({ habit, formattedDateArray }) => {
-  const [color, setColor] = useState('lightgrey')
+  const [color, setColor] = useState(habit.color)
   const [colorPicker, setColorPicker] = useState(false)
+  // const [loading, setLoading] = useState(true)
+
 
   const innerRef = useOuterClick(() => {setColorPicker(false)})
+  console.log(habit.completed_dates)
+  // useEffect(() => {
+  //   //when color changes from color picker, re render the row with existing completed to update to the color
+  //   if (color === 'red') {
+  //     setColor(habit.color)
+  //   } else {setColor(color)}
+  // }, [color])
+  // if (habit.completed_dates.length > 0) {
+  //   setLoading(false)
+  // }
 
-  useEffect(() => {
-    //when color changes from color picker, re render the row with existing completed to update to the color
-    if (color === 'lightgrey') {
-      setColor(habit.color)
-    } else {setColor(color)}
-  }, [color])
+  // useEffect(() => {
+  //   if (habit.completed_dates.length > 0) {
+  //       setLoading(false)
+  //     }
+  // },[])
 
   //displays the color picker
   function toggleColorPicker () {
@@ -79,9 +90,11 @@ const Row = ({ habit, formattedDateArray }) => {
   //changes color for row
   function handleChange (color) {
     updateHabit({ data: color.hex, id: habit._id, action: 'update-color' })
-      .then((res) => setColor(res.data.color))
+      .then((res) => console.log(res.data))
+      .catch(console.log)
+    setColor(color.hex)
   }
-
+  // if (loading) return <h1>loaaaafing</h1>
   return (
     <Container>
       <Name>
@@ -105,7 +118,9 @@ const Row = ({ habit, formattedDateArray }) => {
             key={index}
             date={date}
             color={color}
-            habit={habit}/>
+            completed_dates={habit.completed_dates}
+            id={habit._id}
+          />
         )}
       </Boxes>
     </Container>
