@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Navigation, NavigationLink } from './navigation'
-import { Link } from 'react-router-dom'
-import Cookies from 'js-cookie'
+import React from "react"
+import styled from "styled-components"
+import { Navigation, NavigationLink } from "./navigation"
+import { Link } from "react-router-dom"
+import Cookies from "js-cookie"
 
 const Nav = styled.nav`
   background: #CB6A6A;
@@ -54,7 +54,7 @@ function Wrapper ({ setUser, children }) {
 
   function handleClick () {
     setUser(false)
-    Cookies.remove('token')
+    Cookies.remove("token")
   }
 
   return (

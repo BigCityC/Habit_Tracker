@@ -1,6 +1,6 @@
-import React from 'react'
-import { createGlobalStyle } from 'styled-components'
-import Routes from './Routes'
+import React from "react"
+import { createGlobalStyle } from "styled-components"
+import Routes from "./Routes"
 
 const GlobalStyle = createGlobalStyle`
   html,

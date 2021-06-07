@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import Box from './Box'
 import { GithubPicker } from 'react-color'
-import { MdColorLens } from "react-icons/md"
+import { MdColorLens } from 'react-icons/md'
+import { updateHabit } from './API'
 
 const Container = styled.div`
   display: flex;
@@ -14,14 +15,18 @@ const Icon = styled.div`
   display: none;
 `
 const Name = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 2;
-  background-color: rgba(86, 114, 204, 0.64);
-  padding: 30px 10px;
+  background-color: #538CB0;
+  padding: 0 10px;
   text-align: center;
+  height: 82px;
   max-width: 200px;
 
-  :hover ${Icon}{ 
-    display:inline-block;
+  :hover ${Icon} {
+    display: inline-block;
   }
 `
 const Boxes = styled.div`
@@ -33,42 +38,35 @@ const ColorWrapper = styled.div`
   z-index: 2;
 `
 
-function useOuterClick(callback) {
-  const callbackRef = useRef(); // initialize mutable callback ref
-  const innerRef = useRef(); // returned to client, who sets the "border" element
+//sets a click event listener on the color picker
+function useOuterClick (callback) {
+  const callbackRef = useRef() // initialize mutable callback ref
+  const innerRef = useRef() // returned to client, who sets the "border" element
 
   // update callback on each render, so second useEffect has most recent callback
-  useEffect(() => { callbackRef.current = callback; });
+  useEffect(() => { callbackRef.current = callback })
   useEffect(() => {
-    document.addEventListener("click", handleClick);
+    document.addEventListener('click', handleClick)
 
-    function handleClick(e) {
+    function handleClick (e) {
       if (innerRef.current && callbackRef.current &&
         !innerRef.current.contains(e.target)
-      ) callbackRef.current(e);
+      ) callbackRef.current(e)
     }
 
-    return () => document.removeEventListener("click", handleClick);
-  }, []); // no dependencies -> stable click listener
+    return () => document.removeEventListener('click', handleClick)
+  }, []) // no dependencies -> stable click listener
 
-  return innerRef; // convenience for client (doesn't need to init ref himself)
+  return innerRef // convenience for client (doesn't need to init ref himself)
 }
 
+const preset_colors = ['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#FF9E9E', '#1273DE', '#004DCF', '#5300EB']
 
-const preset_colors = ['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#006B76', '#1273DE', '#004DCF', '#5300EB']
-
-const Row = ({ habit, result }) => {
-  const [color, setColor] = useState('lightgrey')
+const Row = ({ habit, formattedDateArray, updateDateCompleted }) => {
+  const [color, setColor] = useState(habit.color)
   const [colorPicker, setColorPicker] = useState(false)
 
-  const innerRef = useOuterClick(() => {setColorPicker(false)});
-
-  useEffect(() => {
-    //when color changes from color picker, re render the row with existing completed to update to the color
-    if (color === 'lightgrey') {
-      setColor("red")
-    } else {setColor(color)}
-  }, [color])
+  const innerRef = useOuterClick(() => {setColorPicker(false)})
 
   //displays the color picker
   function toggleColorPicker () {
@@ -77,6 +75,9 @@ const Row = ({ habit, result }) => {
 
   //changes color for row
   function handleChange (color) {
+    updateHabit({ data: color.hex, id: habit._id, action: 'update-color' })
+      .then((res) => console.log(res.data))
+      .catch(console.log)
     setColor(color.hex)
   }
 
@@ -84,7 +85,7 @@ const Row = ({ habit, result }) => {
     <Container>
       <Name>
         <Icon ref={innerRef}>
-          <MdColorLens onClick={toggleColorPicker} color={color} />
+          <MdColorLens onClick={toggleColorPicker} color={color}/>
         </Icon>
         {colorPicker &&
         <ColorWrapper>
@@ -98,8 +99,15 @@ const Row = ({ habit, result }) => {
       </Name>
 
       <Boxes>
-        {result.map((date, index) =>
-          <Box key={index} date={date} color={color} habit={habit}/>
+        {formattedDateArray.map((date, index) =>
+          <Box
+            key={index}
+            date={date}
+            color={color}
+            completed_dates={habit.completed_dates}
+            id={habit._id}
+            updateDateCompleted={updateDateCompleted}
+          />
         )}
       </Boxes>
     </Container>

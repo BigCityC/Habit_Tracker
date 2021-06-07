@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-import Checkbox from './Checkbox'
-import React from 'react'
+import styled from "styled-components"
+import Checkbox from "./Checkbox"
+import React from "react"
 
 const HabitLi = styled.li`
   position: relative;
@@ -13,6 +13,7 @@ const HabitLi = styled.li`
 `
 const Habit = styled.label`
   flex: 1;
+  display: flex;
 `
 
 const MenuDetail = styled.p`

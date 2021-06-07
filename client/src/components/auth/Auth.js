@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import clock from './images/clock-head.jpg'
-import { Link } from 'react-router-dom'
-import { login, signUp } from '../API'
-import Cookies from 'js-cookie'
+import React, { useState } from "react"
+import styled from "styled-components"
+import clock from "./images/clock-head.jpg"
+import { Link } from "react-router-dom"
+import { login, signUp } from "../API"
+import Cookies from "js-cookie"
 
-const referenceLink = 'https://unsplash.com/@rodolfobarreto?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText'
+const referenceLink = "https://unsplash.com/@rodolfobarreto?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
 
 //css
 const StyledH1 = styled.h1`
@@ -108,9 +108,9 @@ const StyledSpan = styled.span`
 `
 
 let initCredentials = {
-  name: '',
-  email: '',
-  password: ''
+  name: "",
+  email: "",
+  password: ""
 }
 
 function Auth ({ newUser, setUser }) {
@@ -136,7 +136,7 @@ function Auth ({ newUser, setUser }) {
       })
         .then(res => {
           setUser(res.data)
-          Cookies.set('token',  res.data.token, {expires: inHalfDay})
+          Cookies.set("token",  res.data.token, {expires: inHalfDay})
         })
         .catch(error => {
           alert(error.response.data)
@@ -150,7 +150,7 @@ function Auth ({ newUser, setUser }) {
         .then(res => {
           //user is set and cookie is set
           setUser(res.data)
-          Cookies.set('token', res.data.token, {expires: inHalfDay})
+          Cookies.set("token", res.data.token, {expires: inHalfDay})
         })
         .catch(error => {alert(error.response.data)})
     }
@@ -180,12 +180,12 @@ function Auth ({ newUser, setUser }) {
 
         {!newUser && <PasswordLink>Forget your password?</PasswordLink>}
 
-        <StyledButton type="submit">{newUser ? 'Register' : 'Login'}</StyledButton>
+        <StyledButton type="submit">{newUser ? "Register" : "Login"}</StyledButton>
       </Container>
 
       {!newUser ?
         <AuthLink>
-          <StyledSpan>Don't have an account? Register <Link to="/register">HERE</Link></StyledSpan>
+          <StyledSpan>Don"t have an account? Register <Link to="/register">HERE</Link></StyledSpan>
         </AuthLink> :
         <AuthLink>
           <StyledSpan>Already have an account? Login <Link to="/login">HERE</Link></StyledSpan>
