@@ -21,7 +21,8 @@ const StyledCheckbox = styled.div`
 `
 
 const CheckboxContainer = styled.div`
-  display: inline-block;
+  display: flex;
+  align-items: center;
   vertical-align: middle;
   padding-right: 7px;
 `

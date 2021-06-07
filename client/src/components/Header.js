@@ -13,6 +13,7 @@ const HabitLi = styled.li`
 `
 const Habit = styled.label`
   flex: 1;
+  display: flex;
 `
 
 const MenuDetail = styled.p`

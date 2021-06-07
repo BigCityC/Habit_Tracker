@@ -10,13 +10,13 @@ const Container = styled.div`
 `
 
 const Header = styled.div`
-  background-color: rgb(78, 96, 152);
+  background-color: #3C6580;
   display: flex;
   align-items: center;
 `
 const Name = styled.div`
   flex: 2;
-  background-color: rgba(86, 114, 204, 0.64);
+  background-color: #3C6580;
   padding: 35px;
   margin: 1px;
   text-align: center;
@@ -64,17 +64,33 @@ function Tracker () {
       const res = await getHabitList()
       //removes neutral habits
       const habits = res.data.filter(item => item.category !== 'neutral')
-      console.log(habits)
       setHabits(habits)
     }
 
     getHabits()
   }, [])
 
-//add a function here that is similar to the updateHabitAPI call that you can
-//prop drill to box so that  not only the server updates when a date is added to
-//completed_dates, but also there is a local update because we need to see the change without
-// having to re render the page.
+  function updateDateCompleted (id, date, action) {
+    const updatedList = habits.map((habit => {
+      let { completed_dates } = habit
+      if (action === 'add') {
+        completed_dates.push(date)
+      } else {
+        completed_dates = completed_dates.filter(d => d !== date)
+      }
+
+      if (habit._id === id) {
+        return {
+          ...habit,
+          completed_dates
+        }
+      } else {
+        return habit
+      }
+    }))
+    console.log(updatedList)
+    setHabits(updatedList)
+  }
 
   if (habits.length <= 0) return <h5>no habits yet.</h5>
   return (
@@ -99,6 +115,7 @@ function Tracker () {
           key={index}
           habit={habit}
           formattedDateArray={formattedDateArray}
+          updateDateCompleted={updateDateCompleted}
         />
       )}
     </Container>

@@ -5,7 +5,7 @@ import { updateHabit } from './API'
 const Card = styled.div`
   height: 80px;
   width: 90px;
-  margin: 0 3px;
+  margin: 3px;
   background-color: ${({ color }) => color && color};
 
   :hover {
@@ -13,34 +13,38 @@ const Card = styled.div`
   }
 `
 
-const Box = ({ children, color, date, completed_dates, id }) => {
+const Box = ({ children, color, date, completed_dates, id, updateDateCompleted }) => {
   const [cardColor, setCardColor] = useState(color)
   const [completed, setCompleted] = useState(false)
 
   //when color updates, update any existing boxes in the row that are already complete.
   useEffect(() => {
-
-      if (completed_dates.includes(date)) {
-        setCompleted(true)
-        setCardColor(color)
-      }
-      else {
-        console.log(completed_dates, date)
-        setCardColor('lightgrey')
-      }
-    },
-    [color])
+    if (completed_dates.includes(date)) {
+      setCompleted(true)
+      setCardColor(color)
+    } else {
+      setCardColor('lightgrey')
+    }
+  }, [color])
 
   function handleClick () {
     if (!completed) {
       setCardColor(color)
-      updateHabit({ data: date, id: id, action: 'add-date' })
-        .then((res) => console.log(res.data))
+      //update locally
+      updateDateCompleted(id, date, 'add')
+      //update on database
+      updateHabit({ data: date, id, action: 'add-date' })
+        .then((res) => console.log)
+        .catch(console.log)
 
     } else {
       setCardColor('lightgrey')
-      updateHabit({ data: date, id: id, action: 'remove-date' })
-        .then((res) => console.log(res.data))
+      //update locally
+      updateDateCompleted(id, date, 'remove')
+      //update on database
+      updateHabit({ data: date, id, action: 'remove-date' })
+        .then((res) => console.log)
+        .catch(console.log)
     }
 
     setCompleted(!completed)

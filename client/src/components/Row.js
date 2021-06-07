@@ -15,10 +15,14 @@ const Icon = styled.div`
   display: none;
 `
 const Name = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 2;
-  background-color: rgba(86, 114, 204, 0.64);
-  padding: 30px 10px;
+  background-color: #538CB0;
+  padding: 0 10px;
   text-align: center;
+  height: 82px;
   max-width: 200px;
 
   :hover ${Icon} {
@@ -56,31 +60,13 @@ function useOuterClick (callback) {
   return innerRef // convenience for client (doesn't need to init ref himself)
 }
 
-const preset_colors = ['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#006B76', '#1273DE', '#004DCF', '#5300EB']
+const preset_colors = ['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#FF9E9E', '#1273DE', '#004DCF', '#5300EB']
 
-const Row = ({ habit, formattedDateArray }) => {
+const Row = ({ habit, formattedDateArray, updateDateCompleted }) => {
   const [color, setColor] = useState(habit.color)
   const [colorPicker, setColorPicker] = useState(false)
-  // const [loading, setLoading] = useState(true)
-
 
   const innerRef = useOuterClick(() => {setColorPicker(false)})
-  console.log(habit.completed_dates)
-  // useEffect(() => {
-  //   //when color changes from color picker, re render the row with existing completed to update to the color
-  //   if (color === 'red') {
-  //     setColor(habit.color)
-  //   } else {setColor(color)}
-  // }, [color])
-  // if (habit.completed_dates.length > 0) {
-  //   setLoading(false)
-  // }
-
-  // useEffect(() => {
-  //   if (habit.completed_dates.length > 0) {
-  //       setLoading(false)
-  //     }
-  // },[])
 
   //displays the color picker
   function toggleColorPicker () {
@@ -94,7 +80,7 @@ const Row = ({ habit, formattedDateArray }) => {
       .catch(console.log)
     setColor(color.hex)
   }
-  // if (loading) return <h1>loaaaafing</h1>
+
   return (
     <Container>
       <Name>
@@ -120,6 +106,7 @@ const Row = ({ habit, formattedDateArray }) => {
             color={color}
             completed_dates={habit.completed_dates}
             id={habit._id}
+            updateDateCompleted={updateDateCompleted}
           />
         )}
       </Boxes>
