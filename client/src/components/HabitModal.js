@@ -1,24 +1,24 @@
-import React, { useState } from "react"
-import { addHabit } from "./API"
-import Message from "./Message"
-import { handleColor } from "./ListItem"
-import Modal from "react-modal"
-import { MdAddCircle, MdCheck } from "react-icons/md"
-import styled from "styled-components"
+import React, { useState } from 'react'
+import { addHabit } from './API'
+import Message from './Message'
+import { handleColor } from './ListItem'
+import Modal from 'react-modal'
+import { MdAddCircle, MdCheck } from 'react-icons/md'
+import styled from 'styled-components'
 
 const customStyles = {
   overlay: {
-    backgroundColor: "rgba(96,96,96,0.75)"
+    backgroundColor: 'rgba(96,96,96,0.75)'
   },
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    background: "#182b66",
-    border: "none",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    background: '#182b66',
+    border: 'none',
   }
 }
 
@@ -65,7 +65,7 @@ const Buttons = styled.div`
   padding: 2px;
 `
 
-const CategoryBtn = styled.input.attrs({ type: "button" })`
+const CategoryBtn = styled.input.attrs({ type: 'button' })`
   border-radius: 10px;
   background: transparent;
   padding: 5px;
@@ -83,7 +83,7 @@ const SubmitDiv = styled.div`
   align-items: center;
   justify-content: flex-end;
 `
-const Submit = styled.button.attrs({ type: "submit" })`
+const Submit = styled.button.attrs({ type: 'submit' })`
   background-color: #CB6A6A;
   color: white;
   padding: 5px 7px;
@@ -97,9 +97,9 @@ const Submit = styled.button.attrs({ type: "submit" })`
 `
 
 const initHabitForm = {
-  name: "",
-  category: "",
-  color: "red",
+  name: '',
+  category: '',
+  color: '#B80000',
   date_added: new Date(),
   completed_dates: [],
 }
@@ -126,11 +126,10 @@ function HabitModal ({ setHabits }) {
   function handleSubmit (event) {
     event.preventDefault()
     //habit form cant be empty
-    if (habitForm.name === "") {
-      alert("No habit seen")
-    }
-    else if (habitForm.category === "") {
-      alert("You must enter a category")
+    if (habitForm.name === '') {
+      alert('No habit seen')
+    } else if (habitForm.category === '') {
+      alert('You must enter a category')
     } else {
       addHabit(habitForm)
         .then((res) => {
@@ -170,7 +169,7 @@ function HabitModal ({ setHabits }) {
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Add a Habit"
-        appElement={document.getElementById("root")}
+        appElement={document.getElementById('root')}
       >
 
         <Container>

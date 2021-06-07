@@ -74,7 +74,7 @@ function Tracker () {
     const updatedList = habits.map((habit => {
       let { completed_dates } = habit
       if (action === 'add') {
-        completed_dates.push(date)
+        completed_dates = [...completed_dates, date]
       } else {
         completed_dates = completed_dates.filter(d => d !== date)
       }
