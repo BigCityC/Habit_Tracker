@@ -1,7 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import Checkbox from "./Checkbox"
-
+import React from 'react'
+import styled from 'styled-components'
+import Checkbox from './Checkbox'
 
 const HabitLi = styled.li`
   position: relative;
@@ -13,14 +12,14 @@ const HabitLi = styled.li`
   align-items: center;
 
   :hover {
-    background-color: ${({ header }) => header ? "white" : "#eeecec"};
+    background-color: ${({ header }) => header ? 'white' : '#eeecec'};
   }
-
 `
 const Habit = styled.label`
   flex: 1;
   display: flex;
-  color: ${({ header }) => header ? "black" : "#3C4C80"};
+  word-break: break-word;
+  color: ${({ header }) => header ? 'black' : '#3C4C80'};
 `
 
 const Category = styled.p`
@@ -37,14 +36,14 @@ const Days = styled.p`
 
 function handleColor (category) {
   switch (category) {
-    case ("good"):
-      return "green"
-    case ("bad"):
-      return "red"
-    case ("neutral"):
-      return "#cbbf10"
+    case ('good'):
+      return 'green'
+    case ('bad'):
+      return 'red'
+    case ('neutral'):
+      return '#cbbf10'
     default:
-      return "black"
+      return 'black'
   }
 }
 

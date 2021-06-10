@@ -5,25 +5,34 @@ import Row from '../components/Row'
 import { add, eachDayOfInterval, format } from 'date-fns'
 
 const Container = styled.div`
-  flex-direction: column;
+  max-width: 1200px;
   margin: 0 auto;
 `
 
 const Header = styled.div`
   background-color: #3C6580;
   display: flex;
-  align-items: center;
+  height: 85px;
+  width: 100%;
 `
 const Name = styled.div`
-  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 14px;
   background-color: #3C6580;
-  padding: 35px;
-  margin: 1px;
+  flex: 0 0 145px;
   text-align: center;
+
+  @media screen and (max-width: 420px) {
+    font-size: 12px;
+    flex: 0 0 125px;
+  }
 `
 const Boxes = styled.div`
   display: flex;
   align-items: center;
+  flex: 1;
 `
 
 const Date = styled.div`
@@ -40,23 +49,42 @@ const Num = styled.p`
   font-weight: bold;
 `
 const Card = styled.div`
-{
-  height: 80px;
-  width: 90px;
-  margin: 0 3px;
+  height: auto;
+  flex: 1 0 auto;
+  margin: 3px;
   background-color: white;
-}
+
+  &:before {
+    content: '';
+    display: block;
+  }
 `
-//initializing date array of current week
-let dateArray = eachDayOfInterval({
-  start: add(new window.Date(), { days: -7 }),
-  end: new window.Date()
-})
-const formattedDateArray = dateArray.map(item => item.toISOString())
 
 function Tracker () {
-
   const [habits, setHabits] = useState([])
+  const [deviceSize, setDeviceSize] = useState(onWindowResize())
+
+  function onWindowResize () {
+    if (window.innerWidth <= 480) {
+      return "mobile"
+    }
+    else if (window.innerWidth >= 481 && window.innerWidth <= 768) {
+      return "tablet"
+    }
+    else if (window.innerWidth >= 769 && window.innerWidth <= 1100) {
+      return "small-screen"
+    }
+    else if (window.innerWidth >= 1200 ) {
+      return "large-screen"
+    }
+  }
+
+  useEffect(() => {
+    console.log(deviceSize, window.innerWidth)
+    window.addEventListener('resize', onWindowResize)
+
+    return () => window.removeEventListener('resize', onWindowResize)
+  }, [deviceSize])
 
   useEffect(() => {
     const getHabits = async () => {
@@ -70,13 +98,33 @@ function Tracker () {
     getHabits()
   }, [])
 
+  function showItems(size){
+    switch (size) {
+      case ('mobile'):
+        return -2
+      case ('tablet'):
+        return -4
+      case ('small-screen'):
+        return -6
+      default:
+        return -7
+    }
+  }
+  //initializing date array of current week
+  let dateArray = eachDayOfInterval({
+    start: add(new window.Date(), { days: showItems(deviceSize) }),
+    end: new window.Date()
+  })
+
+  const formattedDateArray = dateArray.map(item => item.toISOString())
+
   function updateDateCompleted (id, date, action) {
     const updatedList = habits.map((habit => {
       let { completed_dates } = habit
       if (action === 'add') {
         completed_dates = [...completed_dates, date]
       } else {
-        completed_dates = completed_dates.filter(d => d !== date)
+        completed_dates = completed_dates.filter(completedDate => completedDate !== date)
       }
 
       if (habit._id === id) {
@@ -84,9 +132,9 @@ function Tracker () {
           ...habit,
           completed_dates
         }
-      } else {
-        return habit
       }
+
+      return habit
     }))
     console.log(updatedList)
     setHabits(updatedList)
@@ -99,7 +147,7 @@ function Tracker () {
         <Name>Habits</Name>
         <Boxes>
           {dateArray.map((day, index) =>
-            <Card key={index}>
+            <Card deviceSize={deviceSize} key={index}>
               <Date>
                 <Day>{format(day, 'LLL')}</Day>
                 <Num>{format(day, 'dd')}</Num>

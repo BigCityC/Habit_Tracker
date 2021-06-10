@@ -3,23 +3,44 @@ import styled from 'styled-components'
 import { updateHabit } from './API'
 
 const Card = styled.div`
-  height: 80px;
-  width: 90px;
+  height: auto;
+  flex: 1 0 auto;
   margin: 3px;
   background-color: ${({ color }) => color && color};
+
+  &:before {
+    content: '';
+    display: block;
+    //padding-top: 80%;
+  }
 
   :hover {
     cursor: pointer;
   }
 `
 
-const Box = ({ children, color, date, completed_dates, id, updateDateCompleted }) => {
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+const Day = styled.p`
+  margin: 0;
+  color: transparent;
+
+`
+const Num = styled.p`
+  margin: 0;
+  color: transparent;
+`
+
+const Box = ({ children, color, date, completedDates, id, updateDateCompleted }) => {
   const [cardColor, setCardColor] = useState(color)
   const [completed, setCompleted] = useState(false)
 
   //when color updates, update any existing boxes in the row that are already complete.
   useEffect(() => {
-    if (completed_dates.includes(date)) {
+    if (completedDates.includes(date)) {
       setCompleted(true)
       setCardColor(color)
     } else {
@@ -52,7 +73,12 @@ const Box = ({ children, color, date, completed_dates, id, updateDateCompleted }
 
   return (
     <Card color={cardColor} onClick={handleClick}>
-      {children}
+      <Content>
+        <Day>JUN</Day>
+        <Num>'  '</Num>
+        <Day>MON</Day>
+      </Content>
+
     </Card>
 
   )

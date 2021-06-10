@@ -4,6 +4,7 @@ import { Navigation, NavigationLink } from "./navigation"
 import { Link } from "react-router-dom"
 import Cookies from "js-cookie"
 
+
 const Nav = styled.nav`
   background: #CB6A6A;
   align-items: center;
@@ -12,11 +13,6 @@ const Nav = styled.nav`
   -webkit-font-smoothing: antialiased;
   height: 56px;
   padding: 10px 10px;
-`
-
-const Main = styled.div`
-  display: flex;
-  justify-content: center;
 `
 
 const MainNavigationLogoLink = styled.div`
@@ -74,9 +70,7 @@ function Wrapper ({ setUser, children }) {
           </Navigation>
         </Nav>
       </header>
-      <Main>
         {children}
-      </Main>
     </div>
   )
 }

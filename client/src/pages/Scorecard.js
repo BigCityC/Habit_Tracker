@@ -6,7 +6,11 @@ import { getHabitList } from '../components/API'
 
 
 const Container = styled.div`
-  width: 90%
+  @media screen and (min-device-width: 481px) {
+    /* styles for browsers larger than 481px; */
+    width: 90%;
+    margin: 0 auto;
+  }
 `
 const TopSection = styled.div`
   display: flex;
