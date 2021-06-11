@@ -4,14 +4,14 @@ import { updateHabit } from './API'
 
 const Card = styled.div`
   height: auto;
-  flex: 1 0 auto;
+  flex: 1;
   margin: 3px;
   background-color: ${({ color }) => color && color};
 
   &:before {
     content: '';
     display: block;
-    //padding-top: 80%;
+    padding-top: 80%;
   }
 
   :hover {
@@ -23,15 +23,6 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
-const Day = styled.p`
-  margin: 0;
-  color: transparent;
-
-`
-const Num = styled.p`
-  margin: 0;
-  color: transparent;
 `
 
 const Box = ({ children, color, date, completedDates, id, updateDateCompleted }) => {
@@ -74,11 +65,8 @@ const Box = ({ children, color, date, completedDates, id, updateDateCompleted })
   return (
     <Card color={cardColor} onClick={handleClick}>
       <Content>
-        <Day>JUN</Day>
-        <Num>'  '</Num>
-        <Day>MON</Day>
+        {children}
       </Content>
-
     </Card>
 
   )

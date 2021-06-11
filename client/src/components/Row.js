@@ -8,7 +8,6 @@ import { updateHabit } from './API'
 const Container = styled.div`
   display: flex;
   position: relative;
-  //height:85px;
 `
 
 const Icon = styled.div`
@@ -40,7 +39,6 @@ const Name = styled.div`
 const Boxes = styled.div`
   display: flex;
   align-items: center;
-  //height: 85px;
   flex: 1;
 `
 const ColorWrapper = styled.div`

@@ -12,12 +12,12 @@ const Container = styled.div`
 const Header = styled.div`
   background-color: #3C6580;
   display: flex;
-  height: 85px;
+
   width: 100%;
 `
 const Name = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
   font-size: 14px;
   background-color: #3C6580;
@@ -50,7 +50,7 @@ const Num = styled.p`
 `
 const Card = styled.div`
   height: auto;
-  flex: 1 0 auto;
+  flex: 1;
   margin: 3px;
   background-color: white;
 
@@ -62,29 +62,32 @@ const Card = styled.div`
 
 function Tracker () {
   const [habits, setHabits] = useState([])
-  const [deviceSize, setDeviceSize] = useState(onWindowResize())
+  const [deviceSize, setDeviceSize] = useState(onWindowResize(window.innerWidth))
+  const [deviceWidth, setDeviceWidth] = useState(window.innerWidth)
 
-  function onWindowResize () {
-    if (window.innerWidth <= 480) {
-      return "mobile"
-    }
-    else if (window.innerWidth >= 481 && window.innerWidth <= 768) {
-      return "tablet"
-    }
-    else if (window.innerWidth >= 769 && window.innerWidth <= 1100) {
-      return "small-screen"
-    }
-    else if (window.innerWidth >= 1200 ) {
-      return "large-screen"
+  function onWindowResize (unit) {
+    if (unit <= 480) {
+      return 'mobile'
+    } else if (unit >= 481 && unit <= 768) {
+      return 'tablet'
+    } else if (unit >= 769 && unit <= 1100) {
+      return 'small-screen'
+    } else if (unit >= 1200) {
+      return 'large-screen'
     }
   }
 
   useEffect(() => {
-    console.log(deviceSize, window.innerWidth)
-    window.addEventListener('resize', onWindowResize)
+
+    function reportWindowSize () {
+      setDeviceWidth(window.innerWidth)
+      setDeviceSize(onWindowResize(deviceWidth))
+    }
+
+    window.addEventListener('resize', reportWindowSize)
 
     return () => window.removeEventListener('resize', onWindowResize)
-  }, [deviceSize])
+  }, [deviceWidth])
 
   useEffect(() => {
     const getHabits = async () => {
@@ -98,7 +101,7 @@ function Tracker () {
     getHabits()
   }, [])
 
-  function showItems(size){
+  function showItems (size) {
     switch (size) {
       case ('mobile'):
         return -2
@@ -110,6 +113,7 @@ function Tracker () {
         return -7
     }
   }
+
   //initializing date array of current week
   let dateArray = eachDayOfInterval({
     start: add(new window.Date(), { days: showItems(deviceSize) }),
