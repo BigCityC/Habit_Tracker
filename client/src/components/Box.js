@@ -29,7 +29,7 @@ const Box = ({ children, color, date, completedDates, id, updateDateCompleted })
   const [cardColor, setCardColor] = useState(color)
   const [completed, setCompleted] = useState(false)
 
-  //when color updates, update any existing boxes in the row that are already complete.
+  //when color or date updates, update any existing boxes in the row that are already complete.
   useEffect(() => {
     if (completedDates.includes(date)) {
       setCompleted(true)
@@ -37,7 +37,7 @@ const Box = ({ children, color, date, completedDates, id, updateDateCompleted })
     } else {
       setCardColor('lightgrey')
     }
-  }, [color])
+  }, [color, date])
 
   function handleClick () {
     if (!completed) {

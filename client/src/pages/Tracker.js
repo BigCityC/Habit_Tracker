@@ -120,6 +120,7 @@ function Tracker () {
     end: new window.Date()
   })
 
+  //format date array to match database format
   const formattedDateArray = dateArray.map(item => item.toISOString())
 
   function updateDateCompleted (id, date, action) {
@@ -140,7 +141,6 @@ function Tracker () {
 
       return habit
     }))
-    console.log(updatedList)
     setHabits(updatedList)
   }
 
@@ -162,9 +162,9 @@ function Tracker () {
         </Boxes>
       </Header>
 
-      {habits.map((habit, index) =>
+      {habits.map((habit) =>
         <Row
-          key={index}
+          key={habit._id}
           habit={habit}
           formattedDateArray={formattedDateArray}
           updateDateCompleted={updateDateCompleted}

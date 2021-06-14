@@ -73,7 +73,6 @@ const presetColors = ['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#FF9E9E', '#1
 const Row = ({ habit, formattedDateArray, updateDateCompleted }) => {
   const [color, setColor] = useState(habit.color)
   const [colorPicker, setColorPicker] = useState(false)
-
   const innerRef = useOuterClick(() => {setColorPicker(false)})
 
   //displays the color picker
