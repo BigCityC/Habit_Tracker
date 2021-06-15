@@ -33,7 +33,8 @@ router.post('/register', async (req, res) => {
 
   try {
     await user.save()
-    res.json({ name: name, email:email })
+    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+    res.json({ name: name, email:email, token })
 
   } catch (err) {
     res.status(400).send(err)
