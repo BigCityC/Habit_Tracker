@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-d
 import Wrapper from "./Wrapper"
 import Auth from "./auth/Auth"
 import { validate } from "./API"
+import Landing from '../pages/Landing'
 
 const privatePages = [
   {
@@ -58,13 +59,16 @@ export default function Routes () {
           </Route>
         ))}
         <Route exact path="/">
-          {user ? <Redirect to="/tracker"/> : <Auth setUser={setUser}/>}
+          <Landing/>
         </Route>
         <Route path="/login">
           {user ? <Redirect to="/tracker"/> : <Auth setUser={setUser}/>}
         </Route>
         <Route path="/register">
           {user ? <Redirect to="/tracker"/> : <Auth setUser={setUser} newUser/>}
+        </Route>
+        <Route path='*'>
+          <h1>NOT FOUND</h1>
         </Route>
 
       </Switch>
