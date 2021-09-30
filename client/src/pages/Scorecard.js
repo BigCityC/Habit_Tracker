@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import HabitList from '../components/HabitList'
 import HabitModal from '../components/HabitModal'
 import { getHabitList } from '../components/API'
+import { Guest } from '../helpers/context'
 
 
 const Container = styled.div`
@@ -87,12 +88,33 @@ function Scorecard () {
   const [habits, setHabits] = useState([])
   const [inputValue, setInputValue] = useState('')
 
+  const { guest } = React.useContext(Guest)
+
+  useEffect(() => {
+  const habits = (localStorage.getItem('tracker.habits'))
+  const storedHabits = JSON.parse(habits)
+  console.log('f' + storedHabits)
+  if (storedHabits) {
+    setHabits(storedHabits)
+  }
+  }, [])
+
+  useEffect(() => {
+    if (habits) {
+      localStorage.setItem('tracker.habits', JSON.stringify(habits))
+    }
+  }, [habits])
+  console.log('guest ' + guest)
   useEffect(() => {
     async function getHabits () {
       try {
+        if (!guest) {
         //get habit list from server
         const res = await getHabitList()
         setHabits(res.data)
+      } else {
+          console.log('else')
+        }
       } catch (error) {
         console.log(error)
       }

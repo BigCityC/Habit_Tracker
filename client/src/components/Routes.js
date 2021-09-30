@@ -7,6 +7,7 @@ import Wrapper from "./Wrapper"
 import Auth from "./auth/Auth"
 import { validate } from "./API"
 import Landing from '../pages/Landing'
+import { Guest } from '../helpers/context'
 
 const privatePages = [
   {
@@ -26,6 +27,21 @@ export default function Routes () {
   const [user, setUser] = useState(null)
   const [authenticating, setAuthenticating] = useState(true)
 
+  const { guest, setGuest } = React.useContext(Guest)
+
+
+  useEffect(() => {
+   const data = localStorage.getItem('tracker.guest')
+    const localGuest = JSON.parse(data)
+    if (localGuest) {
+      setGuest(true)
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('tracker.guest', JSON.stringify(guest))
+  }, [guest])
+
   useEffect(() => {
     async function auth () {
       try {
@@ -41,6 +57,8 @@ export default function Routes () {
     auth()
   }, [])
 
+  console.log(guest)
+
   if (authenticating) return <h1>LOADING</h1>
 
   return (
@@ -50,7 +68,7 @@ export default function Routes () {
         {privatePages.map((page, index) => (
 
           <Route key={index} path={page.path}>
-            {user ?
+            {user || guest ?
               <Wrapper user={user} setUser={setUser}>
                 {page.component}
               </Wrapper> :
@@ -59,13 +77,13 @@ export default function Routes () {
           </Route>
         ))}
         <Route exact path="/">
-          <Landing/>
+          {guest ? <Redirect to="/scorecard"/> : <Landing/> }
         </Route>
         <Route path="/login">
           {user ? <Redirect to="/tracker"/> : <Auth setUser={setUser}/>}
         </Route>
         <Route path="/register">
-          {user ? <Redirect to="/tracker"/> : <Auth setUser={setUser} newUser/>}
+          {user ? <Redirect to="/scorecard"/> : <Auth setUser={setUser} newUser/>}
         </Route>
         <Route path='*'>
           <h1>NOT FOUND</h1>

@@ -92,7 +92,7 @@ let initCredentials = {
   password: ''
 }
 
-function Auth ({ newUser, setUser, guestOption }) {
+function Auth ({ newUser, setUser}) {
 
   const [credentials, setCredentials] = useState(initCredentials)
   const inHalfDay = 0.5

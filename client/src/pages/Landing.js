@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import ClockPicture from '../components/ClockPicture'
+import { Guest } from '../helpers/context'
 
 const StyledH1 = styled.h1`
   text-align: center;
@@ -30,12 +31,16 @@ const StyledButton = styled.button`
 `
 
 function Landing () {
-
+  const { setGuest } = React.useContext(Guest)
   const history = useHistory()
 
   function gotoAuth () {
     let path = '/login'
     history.push(path)
+  }
+
+  function goAsGuest(){
+    setGuest(true)
   }
 
   return (
@@ -44,7 +49,7 @@ function Landing () {
       <ClockPicture/>
       <ButtonDiv>
         <StyledButton onClick={gotoAuth}>Login as User</StyledButton>
-        <StyledButton>Login as Guest</StyledButton>
+        <StyledButton onClick={goAsGuest}>Login as Guest</StyledButton>
       </ButtonDiv>
     </>
   )
