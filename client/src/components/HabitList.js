@@ -101,7 +101,7 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
   function itemChecked (item) {
     //updates habit list and UI for if an item is checked
     const updateChecked = filteredHabits.map(habit => {
-      if (item.name === habit.name) {
+      if (item._id === habit._id) {
         habit.checked = !habit.checked
       }
       return habit
@@ -126,23 +126,21 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
 
   async function deleteCheckedItems () {
     //returns an array of checked Ids
+    const itemsToDelete = filteredHabits
+      .filter(item => item.checked)
+      .map(item => item._id
+      )
+
     if (guest) {
-      const itemsToDelete = filteredHabits
-        .filter(item => item.checked)
-        .map(item => item.name
-        )
-      for (let name of itemsToDelete) {
+      for (let id of itemsToDelete) {
         const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
-        const _storedHabits = storedHabits.filter((habit)=> habit.name !== name)
+        const _storedHabits = storedHabits.filter((habit)=> habit._id !== id)
         localStorage.setItem('tracker.habits', JSON.stringify(_storedHabits))
+        setHabits(_storedHabits)
         setHabits(_storedHabits)
       }
       headerChecked && setHeaderChecked(false)
     } else {
-      const itemsToDelete = filteredHabits
-        .filter(item => item.checked)
-        .map(item => item._id
-        )
       deleteHabit(itemsToDelete)
         //after habits are deleted...
         .then((res) => {

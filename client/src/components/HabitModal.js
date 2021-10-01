@@ -5,6 +5,7 @@ import Modal from 'react-modal'
 import { MdAddCircle, MdCheck } from 'react-icons/md'
 import styled from 'styled-components'
 import { Guest } from '../helpers/context'
+import { v4 as uuidv4 } from 'uuid';
 
 const customStyles = {
   overlay: {
@@ -133,6 +134,7 @@ function HabitModal ({ setHabits }) {
       alert('You must enter a category')
     } else if (guest) {
       //add local habit
+      habitForm._id = uuidv4()
       setHabits(habits => [...habits, habitForm])
     }
     else {
