@@ -72,6 +72,7 @@ function Wrapper ({ setUser, children }) {
           <Navigation>
             <StyledUl>
               <NavigationLink url="/plan" label="Plan"/>
+              <NavigationLink url="/tracker" label="Tracker"/>
               <NavigationLink url="/scorecard" label="Scorecard"/>
               <NavigationLink isButton label="logout" callback={handleClick}/>
             </StyledUl>

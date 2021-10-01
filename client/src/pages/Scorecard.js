@@ -91,8 +91,7 @@ function Scorecard () {
 
   useEffect(() => {
     if (guest) {
-      const habits = (localStorage.getItem('tracker.habits'))
-      const storedHabits = JSON.parse(habits)
+      const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
       if (storedHabits) {
         setHabits(storedHabits)
       }
