@@ -72,7 +72,7 @@ export default function Routes () {
               <Wrapper user={user} setUser={setUser}>
                 {page.component}
               </Wrapper> :
-              <Redirect to="/login"/>
+              <Redirect to="/"/>
             }
           </Route>
         ))}

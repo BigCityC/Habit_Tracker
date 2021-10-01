@@ -5,7 +5,6 @@ import HabitModal from '../components/HabitModal'
 import { getHabitList } from '../components/API'
 import { Guest } from '../helpers/context'
 
-
 const Container = styled.div`
   @media screen and (min-device-width: 481px) {
     /* styles for browsers larger than 481px; */
@@ -91,37 +90,32 @@ function Scorecard () {
   const { guest } = React.useContext(Guest)
 
   useEffect(() => {
-  const habits = (localStorage.getItem('tracker.habits'))
-  const storedHabits = JSON.parse(habits)
-  console.log('f' + storedHabits)
-  if (storedHabits) {
-    setHabits(storedHabits)
-  }
+    if (guest) {
+      const habits = (localStorage.getItem('tracker.habits'))
+      const storedHabits = JSON.parse(habits)
+      if (storedHabits) {
+        setHabits(storedHabits)
+      }
+    } else {
+      async function getHabits () {
+        try {
+          //get habit list from server
+          const res = await getHabitList()
+          setHabits(res.data)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      getHabits()
+    }
   }, [])
 
   useEffect(() => {
-    if (habits) {
+    if (guest) {
       localStorage.setItem('tracker.habits', JSON.stringify(habits))
     }
   }, [habits])
-  console.log('guest ' + guest)
-  useEffect(() => {
-    async function getHabits () {
-      try {
-        if (!guest) {
-        //get habit list from server
-        const res = await getHabitList()
-        setHabits(res.data)
-      } else {
-          console.log('else')
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    getHabits()
-  }, [])
 
   //updates the active property for the menu option that is clicked
   const handleClick = (target) => {

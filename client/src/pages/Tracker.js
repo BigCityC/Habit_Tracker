@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { getHabitList } from '../components/API'
 import Row from '../components/Row'
 import { add, eachDayOfInterval, format } from 'date-fns'
+import { Guest } from '../helpers/context'
 
 const Container = styled.div`
   max-width: 1200px;
@@ -65,6 +66,8 @@ function Tracker () {
   const [deviceSize, setDeviceSize] = useState(onWindowResize(window.innerWidth))
   const [deviceWidth, setDeviceWidth] = useState(window.innerWidth)
 
+  const { guest } = React.useContext(Guest)
+
   function onWindowResize (unit) {
     if (unit <= 480) {
       return 'mobile'
@@ -90,15 +93,24 @@ function Tracker () {
   }, [deviceWidth])
 
   useEffect(() => {
-    const getHabits = async () => {
-      //get habit list from server
-      const res = await getHabitList()
-      //removes neutral habits
-      const habits = res.data.filter(item => item.category !== 'neutral')
-      setHabits(habits)
+    if (guest) {
+      const habits = (localStorage.getItem('tracker.habits'))
+      const storedHabits = JSON.parse(habits)
+      if (storedHabits) {
+        setHabits(storedHabits)
+      }
+    } else {
+      const getHabits = async () => {
+        //get habit list from server
+        const res = await getHabitList()
+        //removes neutral habits
+        const habits = res.data.filter(item => item.category !== 'neutral')
+        setHabits(habits)
+      }
+      getHabits()
+
     }
 
-    getHabits()
   }, [])
 
   function showItems (size) {

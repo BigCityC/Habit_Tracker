@@ -54,6 +54,7 @@ function Wrapper ({ setUser, children }) {
 
     if (guest) {
       setGuest(false)
+      localStorage.clear()
     } else {
       setUser(false)
       Cookies.remove("token")
