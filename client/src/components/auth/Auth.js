@@ -105,7 +105,6 @@ function Auth ({ newUser, setUser}) {
 
   function handleSubmit (event) {
     event.preventDefault()
-    // setLoading(true)
     if (newUser) {
       signUp({
         name: credentials.name,
@@ -118,7 +117,6 @@ function Auth ({ newUser, setUser}) {
         })
         .catch(error => {
           alert(error.response.data)
-          // setLoading(false)
         })
     } else {
       login({

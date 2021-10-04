@@ -72,6 +72,7 @@ const CategoryBtn = styled.input.attrs({ type: 'button' })`
   padding: 5px;
   border: 2px solid ${({ value }) => handleColor(value)};
   color: white;
+  cursor: pointer;
 
   :focus {
     background: #DEDEDE;
