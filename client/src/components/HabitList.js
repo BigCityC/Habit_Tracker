@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react"
-import { ListItem } from "./ListItem"
-import Header from "./Header"
-import { HiTrash } from "react-icons/hi"
-import { deleteHabit } from "./API"
-import styled from "styled-components"
+import React, { useState, useEffect } from 'react'
+import { ListItem } from './ListItem'
+import Header from './Header'
+import { HiTrash } from 'react-icons/hi'
+import { deleteHabit } from './API'
+import styled from 'styled-components'
+import { Guest } from '../helpers/context'
 
 const HabitUl = styled.ul`
   position: relative;
@@ -34,6 +35,8 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
   const [filteredHabits, setFilteredHabits] = useState([])
   const [headerChecked, setHeaderChecked] = useState(false)
 
+  const { guest } = React.useContext(Guest)
+
   //copy the original habit list to filteredHabits and add checked property
   useEffect(() => {
     if (habits.length) {
@@ -54,7 +57,7 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
     //filters out any item that does not have the correct category
     const updated = habits
       .filter((item) => {
-        if (activeMenu.name === "all") {return true} else {return item.category === activeMenu.name && item}
+        if (activeMenu.name === 'all') {return true} else {return item.category === activeMenu.name && item}
       })
       //filters out any item that does not contain characters in the inputValue state
       .filter((habit) => habit.name.toLowerCase().includes(inputValue.toLowerCase()))
@@ -66,7 +69,7 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
 
   //filters the habit list to only show habits based on the menu (good,bad,neutral)
   useEffect(() => {
-    if (activeMenu.name === "all") {
+    if (activeMenu.name === 'all') {
       setFilteredHabits(habits)
     } else {
       const updatedList = habits.filter((item) => item.category === activeMenu.name && item)
@@ -77,7 +80,7 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
   function handleChecked (boolean, func) {
     //make array of checked property
     const arrayOfChecked = filteredHabits.map((item) => item.checked)
-    if (func === "some") {
+    if (func === 'some') {
       return arrayOfChecked.some(item => item === boolean)
     } else {
       return arrayOfChecked.every(item => item === boolean)
@@ -87,7 +90,7 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
   function updateHeader () {
     if (filteredHabits.length === 0) return
     //if any are false, uncheck the header
-    if (handleChecked(false, "some")) {
+    if (handleChecked(false, 'some')) {
       setHeaderChecked(false)
       //if they are all true, header should be checked
     } else if (handleChecked(true,)) {
@@ -128,22 +131,34 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
       .map(item => item._id
       )
 
-    deleteHabit(itemsToDelete)
-      //after habits are deleted...
-      .then((res) => {
-          //toggle header UI
-          headerChecked && setHeaderChecked(false)
-          //refresh the UI after deletion
-          setHabits(res.data)
-        }
-      )
+    if (guest) {
+      for (let id of itemsToDelete) {
+        const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
+        const _storedHabits = storedHabits.filter((habit)=> habit._id !== id)
+        localStorage.setItem('tracker.habits', JSON.stringify(_storedHabits))
+        setHabits(_storedHabits)
+        setHabits(_storedHabits)
+      }
+      headerChecked && setHeaderChecked(false)
+    } else {
+      deleteHabit(itemsToDelete)
+        //after habits are deleted...
+        .then((res) => {
+            //toggle header UI
+            headerChecked && setHeaderChecked(false)
+            //refresh the UI after deletion
+            setHabits(res.data)
+          }
+        )
+    }
+
   }
 
   return (
     <HabitUl>
       <DeleteButton>
         {/*if any item"s checked property is true, show the trash can*/}
-        {handleChecked(true, "some") && <HiTrash size={20} onClick={deleteCheckedItems}/>}
+        {handleChecked(true, 'some') && <HiTrash size={20} onClick={deleteCheckedItems}/>}
       </DeleteButton>
 
       <Header

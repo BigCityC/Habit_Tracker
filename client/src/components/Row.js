@@ -4,6 +4,7 @@ import Box from './Box'
 import { GithubPicker } from 'react-color'
 import { MdColorLens } from 'react-icons/md'
 import { updateHabit } from './API'
+import { Guest } from '../helpers/context'
 
 const Container = styled.div`
   display: flex;
@@ -70,22 +71,33 @@ function useOuterClick (callback) {
 
 const presetColors = ['#B80000', '#DB3E00', '#FCCB00', '#008B02', '#FF9E9E', '#1273DE', '#004DCF', '#5300EB']
 
-const Row = ({ habit, formattedDateArray, updateDateCompleted }) => {
+const Row = ({ habit, formattedDateArray, updateDateCompleted, updateLocalColor }) => {
   const [color, setColor] = useState(habit.color)
   const [colorPicker, setColorPicker] = useState(false)
   const innerRef = useOuterClick(() => {setColorPicker(false)})
+
+  const { guest } = React.useContext(Guest)
 
   //displays the color picker
   function toggleColorPicker () {
     setColorPicker(!colorPicker)
   }
 
+
+
   //changes color for row
   function handleChange (color) {
-    updateHabit({ data: color.hex, id: habit._id, action: 'update-color' })
-      .then((res) => console.log)
-      .catch(console.log)
     setColor(color.hex)
+    //update locally
+    if (guest) {
+      updateLocalColor(color.hex, habit._id)
+    }
+    else{
+      //update on database
+      updateHabit({ data: color.hex, id: habit._id, action: 'update-color' })
+        .then((res) => console.log)
+        .catch(console.log)
+    }
   }
 
   return (

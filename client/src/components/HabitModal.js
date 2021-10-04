@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { addHabit } from './API'
-import Message from './Message'
 import { handleColor } from './ListItem'
 import Modal from 'react-modal'
 import { MdAddCircle, MdCheck } from 'react-icons/md'
 import styled from 'styled-components'
+import { Guest } from '../helpers/context'
+import { v4 as uuidv4 } from 'uuid';
 
 const customStyles = {
   overlay: {
@@ -71,6 +72,7 @@ const CategoryBtn = styled.input.attrs({ type: 'button' })`
   padding: 5px;
   border: 2px solid ${({ value }) => handleColor(value)};
   color: white;
+  cursor: pointer;
 
   :focus {
     background: #DEDEDE;
@@ -108,7 +110,8 @@ function HabitModal ({ setHabits }) {
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [habitForm, setHabitForm] = useState(initHabitForm)
-  const [confirmation, setConfirmation] = useState(false)
+
+  const { guest } = React.useContext(Guest)
 
   function openModal () {
     setIsOpen(true)
@@ -130,10 +133,14 @@ function HabitModal ({ setHabits }) {
       alert('No habit seen')
     } else if (habitForm.category === '') {
       alert('You must enter a category')
-    } else {
+    } else if (guest) {
+      //add local habit
+      habitForm._id = uuidv4()
+      setHabits(habits => [...habits, habitForm])
+    }
+    else {
       addHabit(habitForm)
         .then((res) => {
-          setConfirmation(true)
           //adds habit with added checked property
           const _habits = res.data.map(habit => {
             habit.checked = false
@@ -145,10 +152,9 @@ function HabitModal ({ setHabits }) {
         .catch(error => {
           alert(error.response.data)
         })
-        .finally(() => {
-          setHabitForm(initHabitForm)
-        })
     }
+    setHabitForm(initHabitForm)
+    closeModal()
   }
 
   function handleFormUpdate (event) {
@@ -187,8 +193,6 @@ function HabitModal ({ setHabits }) {
               <Submit type="submit"><MdCheck size={20}/></Submit>
             </SubmitDiv>
           </form>
-
-          {confirmation && <Message setConfirmation={setConfirmation}/>}
 
         </Container>
 

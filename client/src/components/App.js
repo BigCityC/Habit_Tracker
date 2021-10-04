@@ -1,6 +1,7 @@
-import React from "react"
-import { createGlobalStyle } from "styled-components"
-import Routes from "./Routes"
+import React, { useState } from 'react'
+import { createGlobalStyle } from 'styled-components'
+import Routes from './Routes'
+import { Guest } from '../helpers/context'
 
 const GlobalStyle = createGlobalStyle`
   html,
@@ -15,14 +16,15 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-function App () {
+export default function App () {
+
+  const [guest, setGuest] = useState(null)
+
 
   return (
-    <>
+    <Guest.Provider value={{ guest, setGuest }}>
       <GlobalStyle/>
-      <Routes/>
-    </>
+        <Routes/>
+      </Guest.Provider>
   )
 }
-
-export default App

@@ -25,7 +25,7 @@ function validate(){
   return api.get("/validate", { headers: getConfig() })
 }
 
-//user"s habit routes
+//user's habit routes
 function addHabit(newHabit){
   return api.post("/habits/add-habit", { newHabit }, { headers: getConfig() })
 }

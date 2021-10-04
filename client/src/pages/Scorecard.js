@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import HabitList from '../components/HabitList'
 import HabitModal from '../components/HabitModal'
 import { getHabitList } from '../components/API'
-
+import { Guest } from '../helpers/context'
 
 const Container = styled.div`
   @media screen and (min-device-width: 481px) {
@@ -87,19 +87,34 @@ function Scorecard () {
   const [habits, setHabits] = useState([])
   const [inputValue, setInputValue] = useState('')
 
-  useEffect(() => {
-    async function getHabits () {
-      try {
-        //get habit list from server
-        const res = await getHabitList()
-        setHabits(res.data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
+  const { guest } = React.useContext(Guest)
 
-    getHabits()
+  useEffect(() => {
+    if (guest) {
+      const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
+      if (storedHabits) {
+        setHabits(storedHabits)
+      }
+    } else {
+      async function getHabits () {
+        try {
+          //get habit list from server
+          const res = await getHabitList()
+          setHabits(res.data)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      getHabits()
+    }
   }, [])
+
+  useEffect(() => {
+    if (guest) {
+      localStorage.setItem('tracker.habits', JSON.stringify(habits))
+    }
+  }, [habits])
 
   //updates the active property for the menu option that is clicked
   const handleClick = (target) => {

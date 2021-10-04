@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { Navigation, NavigationLink } from "./navigation"
 import { Link } from "react-router-dom"
 import Cookies from "js-cookie"
+import { Guest } from '../helpers/context'
 
 
 const Nav = styled.nav`
@@ -47,11 +48,18 @@ const StyledUl = styled.ul`
 `
 
 function Wrapper ({ setUser, children }) {
+  const { guest, setGuest } = React.useContext(Guest)
 
   function handleClick () {
-    setUser(false)
-    Cookies.remove("token")
-  }
+
+    if (guest) {
+      setGuest(false)
+      localStorage.clear()
+    } else {
+      setUser(false)
+      Cookies.remove("token")
+    }
+    }
 
   return (
     <div>
@@ -64,6 +72,7 @@ function Wrapper ({ setUser, children }) {
           <Navigation>
             <StyledUl>
               <NavigationLink url="/plan" label="Plan"/>
+              <NavigationLink url="/tracker" label="Tracker"/>
               <NavigationLink url="/scorecard" label="Scorecard"/>
               <NavigationLink isButton label="logout" callback={handleClick}/>
             </StyledUl>

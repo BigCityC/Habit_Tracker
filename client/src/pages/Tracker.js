@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { getHabitList } from '../components/API'
 import Row from '../components/Row'
 import { add, eachDayOfInterval, format } from 'date-fns'
+import { Guest } from '../helpers/context'
 
 const Container = styled.div`
   max-width: 1200px;
@@ -65,6 +66,8 @@ function Tracker () {
   const [deviceSize, setDeviceSize] = useState(onWindowResize(window.innerWidth))
   const [deviceWidth, setDeviceWidth] = useState(window.innerWidth)
 
+  const { guest } = React.useContext(Guest)
+
   function onWindowResize (unit) {
     if (unit <= 480) {
       return 'mobile'
@@ -90,15 +93,23 @@ function Tracker () {
   }, [deviceWidth])
 
   useEffect(() => {
-    const getHabits = async () => {
-      //get habit list from server
-      const res = await getHabitList()
-      //removes neutral habits
-      const habits = res.data.filter(item => item.category !== 'neutral')
-      setHabits(habits)
+    if (guest) {
+      const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
+      if (storedHabits) {
+        setHabits(storedHabits)
+      }
+    } else {
+      const getHabits = async () => {
+        //get habit list from server
+        const res = await getHabitList()
+        //removes neutral habits
+        const habits = res.data.filter(item => item.category !== 'neutral')
+        setHabits(habits)
+      }
+      getHabits()
+
     }
 
-    getHabits()
   }, [])
 
   function showItems (size) {
@@ -126,7 +137,7 @@ function Tracker () {
   function updateDateCompleted (id, date, action) {
     const updatedList = habits.map((habit => {
       let { completed_dates } = habit
-      if (action === 'add') {
+      if (action === 'add-date') {
         completed_dates = [...completed_dates, date]
       } else {
         completed_dates = completed_dates.filter(completedDate => completedDate !== date)
@@ -142,6 +153,24 @@ function Tracker () {
       return habit
     }))
     setHabits(updatedList)
+    if (guest) {
+      localStorage.setItem('tracker.habits', JSON.stringify(updatedList))
+    }
+  }
+
+  function updateLocalColor(color, id) {
+    const updatedList = habits.map((habit => {
+      if (id === habit._id) {
+        return {
+          ...habit,
+          color
+        }
+
+      }
+      return habit
+    }))
+    setHabits(updatedList)
+    localStorage.setItem('tracker.habits', JSON.stringify(updatedList))
   }
 
   if (habits.length <= 0) return <h5>no habits yet.</h5>
@@ -168,6 +197,7 @@ function Tracker () {
           habit={habit}
           formattedDateArray={formattedDateArray}
           updateDateCompleted={updateDateCompleted}
+          updateLocalColor={updateLocalColor}
         />
       )}
     </Container>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { updateHabit } from './API'
+import { Guest } from '../helpers/context'
 
 const Card = styled.div`
   height: auto;
@@ -29,6 +30,8 @@ const Box = ({ children, color, date, completedDates, id, updateDateCompleted })
   const [cardColor, setCardColor] = useState(color)
   const [completed, setCompleted] = useState(false)
 
+  const { guest } = React.useContext(Guest)
+
   //when color or date updates, update any existing boxes in the row that are already complete.
   useEffect(() => {
     if (completedDates.includes(date)) {
@@ -39,24 +42,23 @@ const Box = ({ children, color, date, completedDates, id, updateDateCompleted })
     }
   }, [color, date])
 
+  function updateDaysCompleted (code) {
+    //update locally
+    updateDateCompleted(id, date, code)
+    if (!guest) {
+      //update on database
+      updateHabit({ data: date, id, action: code })
+        .catch(console.log)
+    }
+  }
+
   function handleClick () {
     if (!completed) {
       setCardColor(color)
-      //update locally
-      updateDateCompleted(id, date, 'add')
-      //update on database
-      updateHabit({ data: date, id, action: 'add-date' })
-        .then((res) => console.log)
-        .catch(console.log)
-
+      updateDaysCompleted('add-date')
     } else {
       setCardColor('lightgrey')
-      //update locally
-      updateDateCompleted(id, date, 'remove')
-      //update on database
-      updateHabit({ data: date, id, action: 'remove-date' })
-        .then((res) => console.log)
-        .catch(console.log)
+      updateDaysCompleted('remove-date')
     }
 
     setCompleted(!completed)
