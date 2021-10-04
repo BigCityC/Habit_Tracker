@@ -137,7 +137,7 @@ function Tracker () {
   function updateDateCompleted (id, date, action) {
     const updatedList = habits.map((habit => {
       let { completed_dates } = habit
-      if (action === 'add') {
+      if (action === 'add-date') {
         completed_dates = [...completed_dates, date]
       } else {
         completed_dates = completed_dates.filter(completedDate => completedDate !== date)
@@ -156,6 +156,21 @@ function Tracker () {
     if (guest) {
       localStorage.setItem('tracker.habits', JSON.stringify(updatedList))
     }
+  }
+
+  function updateLocalColor(color, id) {
+    const updatedList = habits.map((habit => {
+      if (id === habit._id) {
+        return {
+          ...habit,
+          color
+        }
+
+      }
+      return habit
+    }))
+    setHabits(updatedList)
+    localStorage.setItem('tracker.habits', JSON.stringify(updatedList))
   }
 
   if (habits.length <= 0) return <h5>no habits yet.</h5>
@@ -182,6 +197,7 @@ function Tracker () {
           habit={habit}
           formattedDateArray={formattedDateArray}
           updateDateCompleted={updateDateCompleted}
+          updateLocalColor={updateLocalColor}
         />
       )}
     </Container>
