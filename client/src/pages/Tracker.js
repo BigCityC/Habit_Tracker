@@ -153,6 +153,9 @@ function Tracker () {
       return habit
     }))
     setHabits(updatedList)
+    if (guest) {
+      localStorage.setItem('tracker.habits', JSON.stringify(updatedList))
+    }
   }
 
   if (habits.length <= 0) return <h5>no habits yet.</h5>

@@ -56,7 +56,6 @@ export default function Routes () {
     auth()
   }, [])
 
-  console.log(guest)
 
   if (authenticating) return <h1>LOADING</h1>
 
