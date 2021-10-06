@@ -81,17 +81,41 @@ let initMenu = [{
   active: false,
 }]
 
+const sampleData = [
+  {
+    name: 'habit1',
+    category: 'good',
+    color: '#B80000',
+    _id: 1,
+    date_added: new Date(),
+    completed_dates: [],
+  },
+  {
+    name: 'habit2',
+    category: 'bad',
+    color: '#B80000',
+    _id: 2,
+    date_added: new Date(),
+    completed_dates: [],
+  }
+]
+
 function Scorecard () {
 
   const [menu, setMenu,] = useState(initMenu)
   const [habits, setHabits] = useState([])
   const [inputValue, setInputValue] = useState('')
 
+  console.log(habits)
+
   const { guest } = React.useContext(Guest)
 
   useEffect(() => {
+    const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
     if (guest) {
-      const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
+      if (!habits.length) {
+        setHabits(sampleData)
+      }
       if (storedHabits) {
         setHabits(storedHabits)
       }

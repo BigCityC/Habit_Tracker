@@ -8,6 +8,7 @@ import Auth from "./auth/Auth"
 import { validate } from "./API"
 import Landing from '../pages/Landing'
 import { Guest } from '../helpers/context'
+import Loader from './Loader'
 
 const privatePages = [
   {
@@ -57,7 +58,7 @@ export default function Routes () {
   }, [])
 
 
-  if (authenticating) return <h1>LOADING</h1>
+  if (authenticating) return <Loader />
 
   return (
     <Router>

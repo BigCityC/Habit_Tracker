@@ -35,7 +35,7 @@ const StyledButton = styled.button`
   background-color: #4CAF50;
   color: white;
   padding: 14px 20px;
-  margin: 8px 0;
+  margin: 10px 0;
   border: none;
   cursor: pointer;
   width: 100%;
@@ -43,18 +43,6 @@ const StyledButton = styled.button`
 
   :hover {
     opacity: 0.8;
-  }
-`
-
-const PasswordLink = styled.p`
-  color: lightgray;
-  font-size: 10px;
-  text-align: center;
-  margin: 0;
-  display: block;
-
-  a {
-    text-decoration: none;
   }
 `
 
@@ -151,8 +139,6 @@ function Auth ({ newUser, setUser}) {
           <label htmlFor="password"><b>Password</b></label>
           <StyledInput type="password" placeholder="Enter Password" name="password" value={credentials.password}
                        onChange={handleFormInput} required/>
-
-          {!newUser && <PasswordLink>Forget your password?</PasswordLink>}
 
           <StyledButton type="submit">{newUser ? 'Register' : 'Login'}</StyledButton>
         </Container>

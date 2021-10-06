@@ -180,7 +180,7 @@ function HabitModal ({ setHabits }) {
 
         <Container>
 
-          <H2>Habit</H2>
+          <H2>Add habit</H2>
 
           <form onSubmit={handleSubmit}>
             <Input name="name" value={habitForm.name} onChange={handleFormUpdate}/>
