@@ -4,6 +4,7 @@ import { getHabitList } from '../components/API'
 import Row from '../components/Row'
 import { add, eachDayOfInterval, format } from 'date-fns'
 import { Guest } from '../helpers/context'
+import Loader from '../components/Loader'
 
 const Container = styled.div`
   max-width: 1200px;
@@ -62,7 +63,7 @@ const Card = styled.div`
 `
 
 function Tracker () {
-  const [habits, setHabits] = useState([])
+  const [habits, setHabits] = useState(null)
   const [deviceSize, setDeviceSize] = useState(onWindowResize(window.innerWidth))
   const [deviceWidth, setDeviceWidth] = useState(window.innerWidth)
 
@@ -173,7 +174,7 @@ function Tracker () {
     localStorage.setItem('tracker.habits', JSON.stringify(updatedList))
   }
 
-  if (habits.length <= 0) return <h5>no habits yet.</h5>
+  if (!habits) return <Loader />
   return (
     <Container>
       <Header>

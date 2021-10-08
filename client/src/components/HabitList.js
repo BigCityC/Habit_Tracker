@@ -137,7 +137,6 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
         const _storedHabits = storedHabits.filter((habit)=> habit._id !== id)
         localStorage.setItem('tracker.habits', JSON.stringify(_storedHabits))
         setHabits(_storedHabits)
-        setHabits(_storedHabits)
       }
       headerChecked && setHeaderChecked(false)
     } else {
