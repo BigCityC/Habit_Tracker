@@ -27,7 +27,7 @@ const Content = styled.div`
 `
 
 const Box = ({ children, color, date, completedDates, id, updateDateCompleted }) => {
-  const [cardColor, setCardColor] = useState(color)
+  const [cardColor, setCardColor] = useState('lightgrey')
   const [completed, setCompleted] = useState(false)
 
   const { guest } = React.useContext(Guest)
