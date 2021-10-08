@@ -106,8 +106,6 @@ function Scorecard () {
   const [habits, setHabits] = useState([])
   const [inputValue, setInputValue] = useState('')
 
-  console.log(habits)
-
   const { guest } = React.useContext(Guest)
 
   useEffect(() => {
