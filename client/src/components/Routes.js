@@ -32,8 +32,8 @@ export default function Routes () {
 
 
   useEffect(() => {
-   const localGuest = JSON.parse(localStorage.getItem('tracker.guest'))
-    if (localGuest) {
+   const isGuest = JSON.parse(localStorage.getItem('tracker.guest'))
+    if (isGuest) {
       setGuest(true)
     }
   }, [])
