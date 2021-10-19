@@ -27,7 +27,6 @@ const privatePages = [
 export default function Routes () {
   const {user, setUser} = React.useContext(User)
   const [authenticating, setAuthenticating] = useState(true)
-  console.log(user)
 
   useEffect(() => {
     async function auth () {

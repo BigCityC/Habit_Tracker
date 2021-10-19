@@ -6,6 +6,7 @@ import { login } from '../components/API'
 import { User } from '../helpers/context'
 import Cookies from 'js-cookie'
 
+
 const StyledH1 = styled.h1`
   text-align: center;
 `
@@ -44,8 +45,8 @@ function Landing () {
   function goAsGuest(){
     //login as a guest
     login({
-      email: "guest@guest.com",
-      password: "6=M5_pW8uMPS2eUW"
+      email: process.env.REACT_APP_GUEST_EMAIL,
+      password: process.env.REACT_APP_GUEST_PASSWORD
     })
       .then(res => {
       //user is set and cookie is set

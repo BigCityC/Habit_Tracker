@@ -4,6 +4,7 @@ import { getHabitList } from '../components/API'
 import Row from '../components/Row'
 import { add, eachDayOfInterval, format } from 'date-fns'
 import Loader from '../components/Loader'
+import { User } from '../helpers/context'
 
 const Container = styled.div`
   max-width: 1200px;
@@ -65,6 +66,7 @@ function Tracker () {
   const [habits, setHabits] = useState(null)
   const [deviceSize, setDeviceSize] = useState(onWindowResize(window.innerWidth))
   const [deviceWidth, setDeviceWidth] = useState(window.innerWidth)
+  const { user } = React.useContext(User)
 
   function onWindowResize (unit) {
     if (unit <= 480) {
@@ -91,12 +93,12 @@ function Tracker () {
   }, [deviceWidth])
 
   useEffect(() => {
-    // if (guest) {
-    //   const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
-    //   if (storedHabits) {
-    //     setHabits(storedHabits)
-    //   }
-    // } else {
+    if (user.type === 'guest') {
+      const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
+      if (storedHabits) {
+        setHabits(storedHabits)
+      }
+    } else {
     const getHabits = async () => {
       //get habit list from server
       const res = await getHabitList()
@@ -105,8 +107,7 @@ function Tracker () {
       setHabits(habits)
     }
     getHabits()
-  // }
-
+  }
   }, [])
 
   function showItems (size) {
@@ -150,9 +151,9 @@ function Tracker () {
       return habit
     }))
     setHabits(updatedList)
-    // if (guest) {
-    //   localStorage.setItem('tracker.habits', JSON.stringify(updatedList))
-    // }
+    if (user.type === 'guest') {
+      localStorage.setItem('tracker.habits', JSON.stringify(updatedList))
+    }
   }
 
   function updateLocalColor(color, id) {

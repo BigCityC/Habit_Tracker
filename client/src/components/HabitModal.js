@@ -5,6 +5,7 @@ import Modal from 'react-modal'
 import { MdAddCircle, MdCheck } from 'react-icons/md'
 import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid';
+import { User } from '../helpers/context'
 
 const customStyles = {
   overlay: {
@@ -109,6 +110,7 @@ function HabitModal ({ setHabits }) {
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [habitForm, setHabitForm] = useState(initHabitForm)
+  const { user } = React.useContext(User)
 
   function openModal () {
     setIsOpen(true)
@@ -131,11 +133,11 @@ function HabitModal ({ setHabits }) {
     } else if (habitForm.category === '') {
       alert('You must enter a category')
     }
-    // else if (guest) {
-    //   //add local habit
-    //   habitForm._id = uuidv4()
-    //   setHabits(habits => [...habits, habitForm])
-    // }
+    else if (user.type === "guest") {
+      //add local habit
+      habitForm._id = uuidv4()
+      setHabits(habits => [...habits, habitForm])
+    }
     else {
       addHabit(habitForm)
         .then((res) => {
