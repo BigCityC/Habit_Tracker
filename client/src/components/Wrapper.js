@@ -47,8 +47,8 @@ const StyledUl = styled.ul`
   }
 `
 
-function Wrapper ({ setUser, children }) {
-  const { user } = React.useContext(User)
+function Wrapper ({ children }) {
+  const { user, setUser } = React.useContext(User)
 
   function handleClick () {
       if (user.type === "guest") {

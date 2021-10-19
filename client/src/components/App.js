@@ -22,7 +22,7 @@ export default function App () {
   return (
     <User.Provider value={{ user, setUser }}>
       <GlobalStyle/>
-        <Routes/>
+      <Routes/>
     </User.Provider>
   )
 }

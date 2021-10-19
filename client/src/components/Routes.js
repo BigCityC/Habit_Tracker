@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react"
-import Scorecard from "../pages/Scorecard"
-import Plan from "../pages/Plan"
-import Tracker from "../pages/Tracker"
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom"
-import Wrapper from "./Wrapper"
-import Auth from "./auth/Auth"
-import { validate } from "./API"
+import React, { useState, useEffect } from 'react'
+import Scorecard from '../pages/Scorecard'
+import Plan from '../pages/Plan'
+import Tracker from '../pages/Tracker'
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import Wrapper from './Wrapper'
+import Auth from './auth/Auth'
+import { validate } from './API'
 import Landing from '../pages/Landing'
 import Loader from './Loader'
 import { User } from '../helpers/context'
 
 const privatePages = [
   {
-    path: "/scorecard",
+    path: '/scorecard',
     component: <Scorecard/>
   }, {
-    path: "/plan",
+    path: '/plan',
     component: <Plan/>
   },
   {
-    path: "/tracker",
+    path: '/tracker',
     component: <Tracker/>
   }
 ]
 
 export default function Routes () {
-  const {user, setUser} = React.useContext(User)
+  const { user, setUser } = React.useContext(User)
   const [authenticating, setAuthenticating] = useState(true)
 
   useEffect(() => {
@@ -43,8 +43,7 @@ export default function Routes () {
     auth()
   }, [])
 
-
-  if (authenticating) return <Loader />
+  if (authenticating) return <Loader/>
 
   return (
     <Router>
@@ -54,7 +53,7 @@ export default function Routes () {
 
           <Route key={index} path={page.path}>
             {user ?
-              <Wrapper user={user} setUser={setUser}>
+              <Wrapper>
                 {page.component}
               </Wrapper> :
               <Redirect to="/"/>
@@ -62,15 +61,15 @@ export default function Routes () {
           </Route>
         ))}
         <Route exact path="/">
-          {user ? <Redirect to="/scorecard"/> : <Landing/> }
+          {user ? <Redirect to="/scorecard"/> : <Landing/>}
         </Route>
         <Route path="/login">
-          {user ? <Redirect to="/tracker"/> : <Auth setUser={setUser}/>}
+          {user ? <Redirect to="/tracker"/> : <Auth/>}
         </Route>
         <Route path="/register">
-          {user ? <Redirect to="/scorecard"/> : <Auth setUser={setUser} newUser/>}
+          {user ? <Redirect to="/scorecard"/> : <Auth newUser/>}
         </Route>
-        <Route path='*'>
+        <Route path="*">
           <h1>NOT FOUND</h1>
         </Route>
 

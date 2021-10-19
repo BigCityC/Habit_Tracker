@@ -44,7 +44,7 @@ const Box = ({ children, color, date, completedDates, id, updateDateCompleted })
   function updateDaysCompleted (code) {
     //update locally
     updateDateCompleted(id, date, code)
-    if (user.type === "registered") {
+    if (user.type === 'registered') {
       //update on database
       updateHabit({ data: date, id, action: code })
         .catch(console.log)

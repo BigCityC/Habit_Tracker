@@ -99,15 +99,15 @@ function Tracker () {
         setHabits(storedHabits)
       }
     } else {
-    const getHabits = async () => {
-      //get habit list from server
-      const res = await getHabitList()
-      //removes neutral habits
-      const habits = res.data.filter(item => item.category !== 'neutral')
-      setHabits(habits)
+      const getHabits = async () => {
+        //get habit list from server
+        const res = await getHabitList()
+        //removes neutral habits
+        const habits = res.data.filter(item => item.category !== 'neutral')
+        setHabits(habits)
+      }
+      getHabits()
     }
-    getHabits()
-  }
   }, [])
 
   function showItems (size) {
@@ -156,7 +156,7 @@ function Tracker () {
     }
   }
 
-  function updateLocalColor(color, id) {
+  function updateLocalColor (color, id) {
     const updatedList = habits.map((habit => {
       if (id === habit._id) {
         return {
@@ -171,7 +171,7 @@ function Tracker () {
     localStorage.setItem('tracker.habits', JSON.stringify(updatedList))
   }
 
-  if (!habits) return <Loader />
+  if (!habits) return <Loader/>
   return (
     <Container>
       <Header>

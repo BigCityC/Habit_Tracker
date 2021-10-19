@@ -109,7 +109,7 @@ function Scorecard () {
 
   useEffect(() => {
     const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
-    if (user.type === "guest") {
+    if (user.type === 'guest') {
       if (!habits.length) {
         setHabits(sampleData)
       }
@@ -132,7 +132,7 @@ function Scorecard () {
   }, [])
 
   useEffect(() => {
-    if (user.type === "guest") {
+    if (user.type === 'guest') {
       localStorage.setItem('tracker.habits', JSON.stringify(habits))
     }
   }, [habits])

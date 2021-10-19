@@ -4,7 +4,7 @@ import { handleColor } from './ListItem'
 import Modal from 'react-modal'
 import { MdAddCircle, MdCheck } from 'react-icons/md'
 import styled from 'styled-components'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 import { User } from '../helpers/context'
 
 const customStyles = {
@@ -132,13 +132,11 @@ function HabitModal ({ setHabits }) {
       alert('No habit seen')
     } else if (habitForm.category === '') {
       alert('You must enter a category')
-    }
-    else if (user.type === "guest") {
+    } else if (user.type === 'guest') {
       //add local habit
       habitForm._id = uuidv4()
       setHabits(habits => [...habits, habitForm])
-    }
-    else {
+    } else {
       addHabit(habitForm)
         .then((res) => {
           //adds habit with added checked property
@@ -186,8 +184,8 @@ function HabitModal ({ setHabits }) {
             <Input name="name" value={habitForm.name} onChange={handleFormUpdate}/>
             <Buttons>
               <CategoryBtn category="button" name="category" value="good" onClick={handleFormUpdate}/>
-              <CategoryBtn category="button" name="category" value='bad' onClick={handleFormUpdate}/>
-              <CategoryBtn category="button" name="category" value='neutral' onClick={handleFormUpdate}/>
+              <CategoryBtn category="button" name="category" value="bad" onClick={handleFormUpdate}/>
+              <CategoryBtn category="button" name="category" value="neutral" onClick={handleFormUpdate}/>
             </Buttons>
             <SubmitDiv>
               <Submit type="submit"><MdCheck size={20}/></Submit>
