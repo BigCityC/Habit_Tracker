@@ -7,7 +7,6 @@ import Wrapper from "./Wrapper"
 import Auth from "./auth/Auth"
 import { validate } from "./API"
 import Landing from '../pages/Landing'
-import { Guest } from '../helpers/context'
 import Loader from './Loader'
 
 const privatePages = [
@@ -28,19 +27,6 @@ export default function Routes () {
   const [user, setUser] = useState(null)
   const [authenticating, setAuthenticating] = useState(true)
 
-  const { guest, setGuest } = React.useContext(Guest)
-
-
-  useEffect(() => {
-   const isGuest = JSON.parse(localStorage.getItem('tracker.guest'))
-    if (isGuest) {
-      setGuest(true)
-    }
-  }, [])
-
-  useEffect(() => {
-    localStorage.setItem('tracker.guest', JSON.stringify(guest))
-  }, [guest])
 
   useEffect(() => {
     async function auth () {
@@ -67,7 +53,7 @@ export default function Routes () {
         {privatePages.map((page, index) => (
 
           <Route key={index} path={page.path}>
-            {user || guest ?
+            {user ?
               <Wrapper user={user} setUser={setUser}>
                 {page.component}
               </Wrapper> :
@@ -76,7 +62,7 @@ export default function Routes () {
           </Route>
         ))}
         <Route exact path="/">
-          {guest ? <Redirect to="/scorecard"/> : <Landing/> }
+          {user ? <Redirect to="/scorecard"/> : <Landing/> }
         </Route>
         <Route path="/login">
           {user ? <Redirect to="/tracker"/> : <Auth setUser={setUser}/>}

@@ -4,7 +4,6 @@ import { handleColor } from './ListItem'
 import Modal from 'react-modal'
 import { MdAddCircle, MdCheck } from 'react-icons/md'
 import styled from 'styled-components'
-import { Guest } from '../helpers/context'
 import { v4 as uuidv4 } from 'uuid';
 
 const customStyles = {
@@ -111,8 +110,6 @@ function HabitModal ({ setHabits }) {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [habitForm, setHabitForm] = useState(initHabitForm)
 
-  const { guest } = React.useContext(Guest)
-
   function openModal () {
     setIsOpen(true)
   }
@@ -133,11 +130,12 @@ function HabitModal ({ setHabits }) {
       alert('No habit seen')
     } else if (habitForm.category === '') {
       alert('You must enter a category')
-    } else if (guest) {
-      //add local habit
-      habitForm._id = uuidv4()
-      setHabits(habits => [...habits, habitForm])
     }
+    // else if (guest) {
+    //   //add local habit
+    //   habitForm._id = uuidv4()
+    //   setHabits(habits => [...habits, habitForm])
+    // }
     else {
       addHabit(habitForm)
         .then((res) => {

@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import ClockPicture from '../components/ClockPicture'
-import { Guest } from '../helpers/context'
 
 const StyledH1 = styled.h1`
   text-align: center;
@@ -31,7 +30,6 @@ const StyledButton = styled.button`
 `
 
 function Landing () {
-  const { setGuest } = React.useContext(Guest)
   const history = useHistory()
 
   function gotoAuth () {
@@ -40,7 +38,7 @@ function Landing () {
   }
 
   function goAsGuest(){
-    setGuest(true)
+    //login as a guest
   }
 
   return (

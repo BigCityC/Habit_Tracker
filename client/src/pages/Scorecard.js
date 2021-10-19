@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import HabitList from '../components/HabitList'
 import HabitModal from '../components/HabitModal'
 import { getHabitList } from '../components/API'
-import { Guest } from '../helpers/context'
 
 const Container = styled.div`
   @media screen and (min-device-width: 481px) {
@@ -106,18 +105,16 @@ function Scorecard () {
   const [habits, setHabits] = useState([])
   const [inputValue, setInputValue] = useState('')
 
-  const { guest } = React.useContext(Guest)
-
   useEffect(() => {
-    const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
-    if (guest) {
-      if (!habits.length) {
-        setHabits(sampleData)
-      }
-      if (storedHabits) {
-        setHabits(storedHabits)
-      }
-    } else {
+    // const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
+    // if (guest) {
+    //   if (!habits.length) {
+    //     setHabits(sampleData)
+    //   }
+    //   if (storedHabits) {
+    //     setHabits(storedHabits)
+    //   }
+    // } else {
       async function getHabits () {
         try {
           //get habit list from server
@@ -129,14 +126,14 @@ function Scorecard () {
       }
 
       getHabits()
-    }
+    // }
   }, [])
 
-  useEffect(() => {
-    if (guest) {
-      localStorage.setItem('tracker.habits', JSON.stringify(habits))
-    }
-  }, [habits])
+  // useEffect(() => {
+  //   if (guest) {
+  //     localStorage.setItem('tracker.habits', JSON.stringify(habits))
+  //   }
+  // }, [habits])
 
   //updates the active property for the menu option that is clicked
   const handleClick = (target) => {

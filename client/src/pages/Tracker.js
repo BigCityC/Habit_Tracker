@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { getHabitList } from '../components/API'
 import Row from '../components/Row'
 import { add, eachDayOfInterval, format } from 'date-fns'
-import { Guest } from '../helpers/context'
 import Loader from '../components/Loader'
 
 const Container = styled.div`
@@ -67,8 +66,6 @@ function Tracker () {
   const [deviceSize, setDeviceSize] = useState(onWindowResize(window.innerWidth))
   const [deviceWidth, setDeviceWidth] = useState(window.innerWidth)
 
-  const { guest } = React.useContext(Guest)
-
   function onWindowResize (unit) {
     if (unit <= 480) {
       return 'mobile'
@@ -94,22 +91,21 @@ function Tracker () {
   }, [deviceWidth])
 
   useEffect(() => {
-    if (guest) {
-      const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
-      if (storedHabits) {
-        setHabits(storedHabits)
-      }
-    } else {
-      const getHabits = async () => {
-        //get habit list from server
-        const res = await getHabitList()
-        //removes neutral habits
-        const habits = res.data.filter(item => item.category !== 'neutral')
-        setHabits(habits)
-      }
-      getHabits()
-
+    // if (guest) {
+    //   const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
+    //   if (storedHabits) {
+    //     setHabits(storedHabits)
+    //   }
+    // } else {
+    const getHabits = async () => {
+      //get habit list from server
+      const res = await getHabitList()
+      //removes neutral habits
+      const habits = res.data.filter(item => item.category !== 'neutral')
+      setHabits(habits)
     }
+    getHabits()
+  // }
 
   }, [])
 
@@ -154,9 +150,9 @@ function Tracker () {
       return habit
     }))
     setHabits(updatedList)
-    if (guest) {
-      localStorage.setItem('tracker.habits', JSON.stringify(updatedList))
-    }
+    // if (guest) {
+    //   localStorage.setItem('tracker.habits', JSON.stringify(updatedList))
+    // }
   }
 
   function updateLocalColor(color, id) {
