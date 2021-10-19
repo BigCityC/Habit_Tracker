@@ -2,6 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import ClockPicture from '../components/ClockPicture'
+import { login } from '../components/API'
+import { User } from '../helpers/context'
+import Cookies from 'js-cookie'
 
 const StyledH1 = styled.h1`
   text-align: center;
@@ -30,6 +33,7 @@ const StyledButton = styled.button`
 `
 
 function Landing () {
+  const { setUser } = React.useContext(User)
   const history = useHistory()
 
   function gotoAuth () {
@@ -39,6 +43,16 @@ function Landing () {
 
   function goAsGuest(){
     //login as a guest
+    login({
+      email: "guest@guest.com",
+      password: "6=M5_pW8uMPS2eUW"
+    })
+      .then(res => {
+      //user is set and cookie is set
+      setUser(res.data)
+      Cookies.set('token', res.data.token, { expires: 0.5 })
+    })
+      .catch(error => {alert(error.response.data)})
   }
 
   return (

@@ -48,28 +48,28 @@ router.post('/login',  async (req, res) => {
   if (error) return res.status(400).json(error.details[0].message)
 
   const { email, password } = req.body.currentUser
+    //check if email already exists
+    const user = await User.findOne({ email: email })
+    if (!user) return res.status(400).send('Email or password is incorrect')
 
-  //check if email already exists
-  const user = await User.findOne({ email: email })
-  if (!user) return res.status(400).send('Email or password is incorrect')
+    //check is password is correct
+    const validPass = await bcrypt.compare(password, user.password)
+    if (!validPass) return res.status(400).send('Invalid email or password')
 
-  //check is password is correct
-  const validPass = await bcrypt.compare(password, user.password)
-  if (!validPass) return res.status(400).send('Invalid email or password')
+    //create and assign a token
+    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
 
-  //create and assign a token
-  const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-
-  //all checks are passed, login
-  res.json({ _id: user._id, name: user.name, email:user.email, token})
+    //all checks are passed, login
+    res.json({ _id: user._id, type: user.type, name: user.name, email:user.email, token})
+  // }
 })
 
 router.get('/validate',validate, async (req, res) => {
 
-  // Get user from email stored in the JWT
+  // Get user from _id stored in the JWT
   const user = await User.findById(req.user._id)
-
   // response with user data
+  console.log(user)
   res.json(user)
 })
 

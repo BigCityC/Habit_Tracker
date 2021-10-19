@@ -98,6 +98,7 @@ function Auth ({ newUser, setUser}) {
         name: credentials.name,
         email: credentials.email,
         password: credentials.password,
+        type: "registered",
       })
         .then(res => {
           setUser(res.data)

@@ -8,6 +8,7 @@ import Auth from "./auth/Auth"
 import { validate } from "./API"
 import Landing from '../pages/Landing'
 import Loader from './Loader'
+import { User } from '../helpers/context'
 
 const privatePages = [
   {
@@ -24,9 +25,9 @@ const privatePages = [
 ]
 
 export default function Routes () {
-  const [user, setUser] = useState(null)
+  const {user, setUser} = React.useContext(User)
   const [authenticating, setAuthenticating] = useState(true)
-
+  console.log(user)
 
   useEffect(() => {
     async function auth () {
