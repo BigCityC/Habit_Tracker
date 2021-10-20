@@ -4,6 +4,7 @@ import HabitList from '../components/HabitList'
 import HabitModal from '../components/HabitModal'
 import { getHabitList } from '../components/API'
 import { User } from '../helpers/context'
+import Loader from '../components/Loader'
 
 const Container = styled.div`
   @media screen and (min-device-width: 481px) {
@@ -185,13 +186,13 @@ function Scorecard () {
             >{item.name} habits</MenuLi>
           ))}
         </MenuUl>
-
-        <HabitList
-          habits={habits}
-          setHabits={setHabits}
-          inputValue={inputValue}
-          menu={menu}/>
-
+        {!habits.length ? <Loader/> :
+          <HabitList
+            habits={habits}
+            setHabits={setHabits}
+            inputValue={inputValue}
+            menu={menu}/>
+        }
       </Main>
     </Container>
   )

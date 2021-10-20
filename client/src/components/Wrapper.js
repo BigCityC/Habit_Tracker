@@ -66,7 +66,7 @@ function Wrapper ({ children }) {
       <header>
         <Nav>
           <MainNavigationLogoLink>
-            <Link to="/tracker">Habit Tracker</Link>
+            <Link to="/scorecard">Habit Tracker</Link>
           </MainNavigationLogoLink>
 
           <Navigation>

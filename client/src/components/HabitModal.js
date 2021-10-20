@@ -129,9 +129,9 @@ function HabitModal ({ setHabits }) {
     event.preventDefault()
     //habit form cant be empty
     if (habitForm.name === '') {
-      alert('No habit seen')
+      alert('habit text is required, please try again.')
     } else if (habitForm.category === '') {
-      alert('You must enter a category')
+      alert('habit category required, please select a category.')
     } else if (user.type === 'guest') {
       //add local habit
       habitForm._id = uuidv4()
@@ -139,13 +139,7 @@ function HabitModal ({ setHabits }) {
     } else {
       addHabit(habitForm)
         .then((res) => {
-          //adds habit with added checked property
-          const _habits = res.data.map(habit => {
-            habit.checked = false
-            return habit
-          })
-
-          setHabits(_habits)
+          setHabits(res.data)
         })
         .catch(error => {
           alert(error.response.data)

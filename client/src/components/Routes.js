@@ -29,7 +29,7 @@ export default function Routes () {
   const [authenticating, setAuthenticating] = useState(true)
 
   useEffect(() => {
-    async function auth () {
+    async function authorizeUser () {
       try {
         const res = await validate()
         setUser(res.data)
@@ -40,7 +40,7 @@ export default function Routes () {
       }
     }
 
-    auth()
+    authorizeUser()
   }, [])
 
   if (authenticating) return <Loader/>
