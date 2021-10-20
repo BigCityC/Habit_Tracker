@@ -4,7 +4,7 @@ import Header from './Header'
 import { HiTrash } from 'react-icons/hi'
 import { deleteHabit } from './API'
 import styled from 'styled-components'
-import { Guest } from '../helpers/context'
+import { User } from '../helpers/context'
 
 const HabitUl = styled.ul`
   position: relative;
@@ -34,8 +34,7 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
   const activeMenu = menu.find((item) => item.active)
   const [filteredHabits, setFilteredHabits] = useState([])
   const [headerChecked, setHeaderChecked] = useState(false)
-
-  const { guest } = React.useContext(Guest)
+  const { user } = React.useContext(User)
 
   //copy the original habit list to filteredHabits and add checked property
   useEffect(() => {
@@ -131,7 +130,7 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
       .map(item => item._id
       )
 
-    if (guest) {
+    if (user.type === "guest") {
       for (let id of itemsToDelete) {
         const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
         const _storedHabits = storedHabits.filter((habit)=> habit._id !== id)
@@ -139,7 +138,8 @@ const HabitList = ({ habits, setHabits, inputValue, menu }) => {
         setHabits(_storedHabits)
       }
       headerChecked && setHeaderChecked(false)
-    } else {
+    }
+    else {
       deleteHabit(itemsToDelete)
         //after habits are deleted...
         .then((res) => {

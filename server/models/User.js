@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
     max: 1024,
     min: 8,
   },
+  type: {
+    type: String,
+    required: true,
+  },
   habits: [habitSchema]
 })
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { createGlobalStyle } from 'styled-components'
 import Routes from './Routes'
-import { Guest } from '../helpers/context'
+import { User } from '../helpers/context'
 
 const GlobalStyle = createGlobalStyle`
   html,
@@ -17,14 +17,12 @@ const GlobalStyle = createGlobalStyle`
 `
 
 export default function App () {
-
-  const [guest, setGuest] = useState(null)
-
+  const [user, setUser] = useState(null)
 
   return (
-    <Guest.Provider value={{ guest, setGuest }}>
+    <User.Provider value={{ user, setUser }}>
       <GlobalStyle/>
-        <Routes/>
-      </Guest.Provider>
+      <Routes/>
+    </User.Provider>
   )
 }

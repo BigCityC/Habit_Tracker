@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { login, signUp } from '../API'
 import Cookies from 'js-cookie'
 import ClockPicture from '../ClockPicture'
+import { User } from '../../helpers/context'
 
 //css
 const StyledH1 = styled.h1`
@@ -80,8 +81,9 @@ let initCredentials = {
   password: ''
 }
 
-function Auth ({ newUser, setUser}) {
+function Auth ({ newUser }) {
 
+  const { setUser } = React.useContext(User)
   const [credentials, setCredentials] = useState(initCredentials)
   const inHalfDay = 0.5
 
@@ -98,6 +100,7 @@ function Auth ({ newUser, setUser}) {
         name: credentials.name,
         email: credentials.email,
         password: credentials.password,
+        type: "registered",
       })
         .then(res => {
           setUser(res.data)

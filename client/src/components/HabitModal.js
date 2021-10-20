@@ -4,8 +4,8 @@ import { handleColor } from './ListItem'
 import Modal from 'react-modal'
 import { MdAddCircle, MdCheck } from 'react-icons/md'
 import styled from 'styled-components'
-import { Guest } from '../helpers/context'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
+import { User } from '../helpers/context'
 
 const customStyles = {
   overlay: {
@@ -110,8 +110,7 @@ function HabitModal ({ setHabits }) {
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [habitForm, setHabitForm] = useState(initHabitForm)
-
-  const { guest } = React.useContext(Guest)
+  const { user } = React.useContext(User)
 
   function openModal () {
     setIsOpen(true)
@@ -130,24 +129,17 @@ function HabitModal ({ setHabits }) {
     event.preventDefault()
     //habit form cant be empty
     if (habitForm.name === '') {
-      alert('No habit seen')
+      alert('habit text is required, please try again.')
     } else if (habitForm.category === '') {
-      alert('You must enter a category')
-    } else if (guest) {
+      alert('habit category required, please select a category.')
+    } else if (user.type === 'guest') {
       //add local habit
       habitForm._id = uuidv4()
       setHabits(habits => [...habits, habitForm])
-    }
-    else {
+    } else {
       addHabit(habitForm)
         .then((res) => {
-          //adds habit with added checked property
-          const _habits = res.data.map(habit => {
-            habit.checked = false
-            return habit
-          })
-
-          setHabits(_habits)
+          setHabits(res.data)
         })
         .catch(error => {
           alert(error.response.data)
@@ -186,8 +178,8 @@ function HabitModal ({ setHabits }) {
             <Input name="name" value={habitForm.name} onChange={handleFormUpdate}/>
             <Buttons>
               <CategoryBtn category="button" name="category" value="good" onClick={handleFormUpdate}/>
-              <CategoryBtn category="button" name="category" value='bad' onClick={handleFormUpdate}/>
-              <CategoryBtn category="button" name="category" value='neutral' onClick={handleFormUpdate}/>
+              <CategoryBtn category="button" name="category" value="bad" onClick={handleFormUpdate}/>
+              <CategoryBtn category="button" name="category" value="neutral" onClick={handleFormUpdate}/>
             </Buttons>
             <SubmitDiv>
               <Submit type="submit"><MdCheck size={20}/></Submit>

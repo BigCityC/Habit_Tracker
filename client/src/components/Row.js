@@ -4,7 +4,7 @@ import Box from './Box'
 import { GithubPicker } from 'react-color'
 import { MdColorLens } from 'react-icons/md'
 import { updateHabit } from './API'
-import { Guest } from '../helpers/context'
+import { User } from '../helpers/context'
 
 const Container = styled.div`
   display: flex;
@@ -24,11 +24,11 @@ const Name = styled.div`
   font-size: 14px;
   background-color: #538CB0;
   flex: 0 0 145px;
-  max-width:145px;
+  max-width: 145px;
   text-align: center;
   word-break: break-word;
-  
-  @media screen and (max-width: 420px){
+
+  @media screen and (max-width: 420px) {
     font-size: 12px;
     flex: 0 0 125px;
   }
@@ -75,27 +75,23 @@ const Row = ({ habit, formattedDateArray, updateDateCompleted, updateLocalColor 
   const [color, setColor] = useState(habit.color)
   const [colorPicker, setColorPicker] = useState(false)
   const innerRef = useOuterClick(() => {setColorPicker(false)})
-
-  const { guest } = React.useContext(Guest)
+  const { user } = React.useContext(User)
 
   //displays the color picker
   function toggleColorPicker () {
     setColorPicker(!colorPicker)
   }
 
-
-
   //changes color for row
   function handleChange (color) {
     setColor(color.hex)
     //update locally
-    if (guest) {
+    if (user.type === 'guest') {
       updateLocalColor(color.hex, habit._id)
-    }
-    else{
+    } else {
       //update on database
       updateHabit({ data: color.hex, id: habit._id, action: 'update-color' })
-        .then((res) => console.log)
+        .then((res) => console.log(res))
         .catch(console.log)
     }
   }

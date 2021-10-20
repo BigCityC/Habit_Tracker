@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { getHabitList } from '../components/API'
 import Row from '../components/Row'
 import { add, eachDayOfInterval, format } from 'date-fns'
-import { Guest } from '../helpers/context'
 import Loader from '../components/Loader'
+import { User } from '../helpers/context'
 
 const Container = styled.div`
   max-width: 1200px;
@@ -66,8 +66,7 @@ function Tracker () {
   const [habits, setHabits] = useState(null)
   const [deviceSize, setDeviceSize] = useState(onWindowResize(window.innerWidth))
   const [deviceWidth, setDeviceWidth] = useState(window.innerWidth)
-
-  const { guest } = React.useContext(Guest)
+  const { user } = React.useContext(User)
 
   function onWindowResize (unit) {
     if (unit <= 480) {
@@ -94,7 +93,7 @@ function Tracker () {
   }, [deviceWidth])
 
   useEffect(() => {
-    if (guest) {
+    if (user.type === 'guest') {
       const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
       if (storedHabits) {
         setHabits(storedHabits)
@@ -108,9 +107,7 @@ function Tracker () {
         setHabits(habits)
       }
       getHabits()
-
     }
-
   }, [])
 
   function showItems (size) {
@@ -154,12 +151,12 @@ function Tracker () {
       return habit
     }))
     setHabits(updatedList)
-    if (guest) {
+    if (user.type === 'guest') {
       localStorage.setItem('tracker.habits', JSON.stringify(updatedList))
     }
   }
 
-  function updateLocalColor(color, id) {
+  function updateLocalColor (color, id) {
     const updatedList = habits.map((habit => {
       if (id === habit._id) {
         return {
@@ -174,7 +171,7 @@ function Tracker () {
     localStorage.setItem('tracker.habits', JSON.stringify(updatedList))
   }
 
-  if (!habits) return <Loader />
+  if (!habits) return <Loader/>
   return (
     <Container>
       <Header>

@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import HabitList from '../components/HabitList'
 import HabitModal from '../components/HabitModal'
 import { getHabitList } from '../components/API'
-import { Guest } from '../helpers/context'
+import { User } from '../helpers/context'
+import Loader from '../components/Loader'
 
 const Container = styled.div`
   @media screen and (min-device-width: 481px) {
@@ -105,12 +106,11 @@ function Scorecard () {
   const [menu, setMenu,] = useState(initMenu)
   const [habits, setHabits] = useState([])
   const [inputValue, setInputValue] = useState('')
-
-  const { guest } = React.useContext(Guest)
+  const { user } = React.useContext(User)
 
   useEffect(() => {
     const storedHabits = JSON.parse(localStorage.getItem('tracker.habits'))
-    if (guest) {
+    if (user.type === 'guest') {
       if (!habits.length) {
         setHabits(sampleData)
       }
@@ -133,7 +133,7 @@ function Scorecard () {
   }, [])
 
   useEffect(() => {
-    if (guest) {
+    if (user.type === 'guest') {
       localStorage.setItem('tracker.habits', JSON.stringify(habits))
     }
   }, [habits])
@@ -186,13 +186,13 @@ function Scorecard () {
             >{item.name} habits</MenuLi>
           ))}
         </MenuUl>
-
-        <HabitList
-          habits={habits}
-          setHabits={setHabits}
-          inputValue={inputValue}
-          menu={menu}/>
-
+        {!habits.length ? <Loader/> :
+          <HabitList
+            habits={habits}
+            setHabits={setHabits}
+            inputValue={inputValue}
+            menu={menu}/>
+        }
       </Main>
     </Container>
   )
